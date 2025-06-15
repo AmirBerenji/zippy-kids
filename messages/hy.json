@@ -1,7 +1,9 @@
-
 {
-  "HomePage": {
-    "title": "Բարեւ",
-    "about": "Go to the about page"
+  "MenuPage": {
+    "home": "Գլխավոր",
+    "aboutus": "Մեր մասին",
+    "products": "Ապրանքներ",
+    "blog": "Բլոգ",
+    "contact": "Կապ"
   }
 }
