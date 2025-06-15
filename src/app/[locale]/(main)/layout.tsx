@@ -1,5 +1,6 @@
-import ContactTopSide from "../component/nav/ContactTopSide";
-import NavbarTopSide from "../component/nav/NavbarTopSide";
+import ContactTopSide from "@/app/component/nav/ContactTopSide";
+import NavbarTopSide from "@/app/component/nav/NavbarTopSide";
+
 
 export default function RootLayout({
     children,
