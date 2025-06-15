@@ -1,6 +1,9 @@
 {
-  "HomePage": {
-    "title": "Hello world!",
-    "about": "Go to the about page"
+  "MenuPage": {
+    "home": "Home",
+    "aboutus": "About Us",
+    "products": "Products",
+    "blog": "Blog",
+    "contact": "Contact"
   }
 }
