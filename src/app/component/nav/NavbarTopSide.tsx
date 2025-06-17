@@ -8,13 +8,13 @@ export default function NavbarTopSide() {
       <header className="relative bg-[#e6f0f6] pt-6 pb-10 px-4 sm:px-10">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between">
           <div className="flex items-center space-x-2">
-            <img
+            {/* <img
               alt="BubaKids logo with colorful letters B O O B A"
               className="w-10 h-10"
               height="40"
               src="https://storage.googleapis.com/a1aa/image/75da4383-60c7-4ded-f9a0-adc73db40a0c.jpg"
               width="40"
-            />
+            /> */}
             <span className="font-bold text-2xl text-[#2f3e4e] tracking-wide">
               Zippy
             </span>
