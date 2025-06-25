@@ -50,8 +50,6 @@ export default function ContactTopSide() {
           </button>
         </div>
       </div>
-      <header className="relative bg-[#e6f0f6] pt-6 pb-10 px-4 sm:px-10"></header>
-
     </>
   )
 }
