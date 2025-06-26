@@ -50,7 +50,7 @@ export default function BannerMainPage() {
         </div>
         <div className="lg:w-1/2 relative max-w-lg">
           <div className="rounded-[50%_50%_50%_50%/40%_40%_60%_60%] border-8 border-[#c6d9e3] overflow-hidden">
-            <img alt="Child wearing aviator hat playing with wooden toy plane on carpet in a bright room with bookshelf and globe" className="w-full h-auto object-cover" height="400" src="https://storage.googleapis.com/a1aa/image/cc301b4b-e038-4573-5720-460f1c714ab7.jpg" width="600" />
+            <img alt="Child wearing aviator hat playing with wooden toy plane on carpet in a bright room with bookshelf and globe" className="w-full h-auto object-cover" height="400" src="/assets/images/banner.jpg"  width="600" />
           </div>
           </div>
       </section>
