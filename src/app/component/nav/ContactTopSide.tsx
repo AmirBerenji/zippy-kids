@@ -1,5 +1,6 @@
 import React from 'react'
 import LocalSwitcher from '../LocalSwitcher'
+import Link from 'next/link'
 
 export default function ContactTopSide() {
   return (
@@ -31,27 +32,29 @@ export default function ContactTopSide() {
         </div>
         <div className="flex space-x-4 text-gray-400 text-lg">
           <LocalSwitcher/>
-          <button aria-label="Search" className="hover:text-gray-600">
+          <button aria-label="Search" className="hover:text-orange-400">
             <i className="fas fa-search">
             </i>
           </button>
-          <button aria-label="User Account" className="hover:text-gray-600">
+
+          <Link href={"/user/login"}>
+            <button aria-label="User Account" className="hover:text-orange-400">
             <i className="fas fa-user">
             </i>
           </button>
-          <button aria-label="Shopping Cart" className="hover:text-gray-600 relative">
+          </Link>
+          
+          <button aria-label="Shopping Cart" className="hover:text-orange-400 relative">
             <i className="fas fa-shopping-cart">
             </i>
             
                 
-            <span className="absolute -top-1 -right-2 bg-orange-400 text-white text-[10px] font-bold rounded-full px-[5px]">
+            <span className="absolute top-0 -right-2 bg-orange-400 text-white text-[10px] font-bold rounded-full px-[5px]">
               0
             </span>
           </button>
         </div>
       </div>
-      <header className="relative bg-[#e6f0f6] pt-6 pb-10 px-4 sm:px-10"></header>
-
     </>
   )
 }
