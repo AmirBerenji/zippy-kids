@@ -16,7 +16,7 @@ export default function LocalSwitcher() {
     });
   };
   return (
-    <label className="border-0 rounded p-0 text-xs -mt-2">
+    <label className="border-0 rounded p-0 text-[15px]  ">
       <p className="sr-only">change language</p>
       <select
         defaultValue={localActive}
