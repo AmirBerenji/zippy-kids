@@ -7,37 +7,48 @@ export default function AboutUspage() {
 
 
 
-  <section className="relative bg-[#e6f0f6] py-16 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
-   <h1 className="text-4xl sm:text-5xl font-extrabold text-orange-700 max-w-4xl mx-auto leading-tight">
-    About Zippy Kids
-   </h1>
-   <p className="mt-4 text-lg sm:text-xl text-orange-600 max-w-3xl mx-auto">
+  <section className="py-16 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
+  <h1 className="text-3xl sm:text-5xl font-extrabold text-[#2f3e4e] max-w-4xl mx-auto leading-tight">
+    About <span className="text-[#ff9a5a]">Zippy Kids</span>
+  </h1>
+  <p className="mt-4 text-lg sm:text-lg text-gray-600 max-w-3xl mx-auto">
     Empowering children through creativity, learning, and fun.
-   </p>
-   <img alt="Children playing and learning in a colorful classNameroom with bright decorations and toys" className="mx-auto mt-10 rounded-lg shadow-lg w-full max-w-4xl object-cover" height="300" loading="lazy" src="https://storage.googleapis.com/a1aa/image/59e497de-e762-429b-fb7d-f59eefbdaa88.jpg" width="600"/>
-  </section>
+  </p>
+  <div className="flex items-center justify-center max-w-2xl mx-auto mt-8">
+    <div className="rounded-[50%_50%_50%_50%/40%_40%_60%_60%] border-8 border-[#c6d9e3] overflow-hidden">
+      <img
+        alt="Children playing and learning in a colorful classroom with bright decorations and toys"
+        className="rounded-lg shadow-lg w-full max-w-4xl object-cover"
+        height="300"
+        loading="lazy"
+        src="https://storage.googleapis.com/a1aa/image/59e497de-e762-429b-fb7d-f59eefbdaa88.jpg"
+        width="600"
+      />
+    </div>
+  </div>
+</section>
 
-  <section className="max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-32 py-16">
-   <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+  <section className=" mx-auto px-6 sm:px-12 md:px-20 lg:px-32 py-16 bg-[#e6f0f6]">
+   <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-7xl">
     <img alt="Teacher engaging with children in an interactive learning session with colorful educational materials" className="rounded-lg shadow-lg w-full object-cover" height="400" loading="lazy" src="https://storage.googleapis.com/a1aa/image/f0649893-4aba-4ee0-3895-95c63c008f65.jpg" width="500"/>
     <div>
-     <h2 className="text-3xl font-bold text-orange-700 mb-4">
+     <h2 className="text-3xl font-bold text-[#2f3e4e] mb-4">
       Our Mission
      </h2>
-     <p className="text-lg text-gray-700 leading-relaxed">
+     <p className="text-lg text-gray-600 leading-relaxed">
       At Zippy Kids, our mission is to nurture the creativity and curiosity of every child. We provide a safe, inspiring environment where children can explore, learn, and grow through play and innovative educational programs.
      </p>
     </div>
    </div>
   </section>
 
-  <section className="bg-[#e6f0f6] py-16 px-6 sm:px-12 md:px-20 lg:px-32">
+  <section className=" py-16 px-6 sm:px-12 md:px-20 lg:px-32">
    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
     <div>
-     <h2 className="text-3xl font-bold text-orange-700 mb-4">
+     <h2 className="text-3xl font-bold text-[#2f3e4e] mb-4">
       Our Vision
      </h2>
-     <p className="text-lg text-gray-700 leading-relaxed">
+     <p className="text-lg text-gray-600 leading-relaxed">
       We envision a world where every child has access to quality education and joyful experiences that build confidence, kindness, and a lifelong love of learning.
      </p>
     </div>
@@ -45,8 +56,8 @@ export default function AboutUspage() {
    </div>
   </section>
 
-  <section className="max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-32 py-16">
-   <h2 className="text-3xl font-bold text-orange-700 mb-12 text-center">
+  <section className=" mx-auto px-6 sm:px-12 md:px-20 lg:px-32 py-16 bg-[#e6f0f6]">
+   <h2 className="  text-3xl font-bold text-[#2f3e4e] mb-12 text-center">
     Our Core Values
    </h2>
    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
@@ -93,8 +104,8 @@ export default function AboutUspage() {
    </div>
   </section>
 
-  <section className="bg-[#e6f0f6] py-16 px-6 sm:px-12 md:px-20 lg:px-32">
-   <h2 className="text-3xl font-bold text-orange-700 mb-12 text-center">
+  <section className=" py-16 px-6 sm:px-12 md:px-20 lg:px-32">
+   <h2 className="text-3xl font-bold text-[#2f3e4e] mb-12 text-center">
     Meet Our Team
    </h2>
    <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
@@ -149,43 +160,19 @@ export default function AboutUspage() {
    </div>
   </section>
 
-  <section className="bg-orange-700 text-white py-16 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
-   <h2 className="text-3xl font-extrabold mb-4">
+  <section className="bg-[#e6f0f6] text-white py-16 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
+   <h2 className="text-3xl font-extrabold mb-4 text-[#2f3e4e]">
     Join the Zippy Kids Family
    </h2>
-   <p className="mb-8 max-w-3xl mx-auto text-lg">
+   <p className="mb-8 max-w-3xl mx-auto text-lg text-gray-600">
     Whether you're a parent, educator, or community member, we welcome you to be part of our journey to empower children everywhere.
    </p>
-   <a className="inline-block bg-white text-orange-700 font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-orange-100 transition" href="/en/contact">
+   <a className="inline-block bg-orange-400 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-orange-100 transition" href="/en/contact">
     Contact Us
    </a>
   </section>
 
-  <footer className="bg-gray-100 py-8 px-6 sm:px-12 md:px-20 lg:px-32 text-gray-600 text-sm">
-   <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-    <p>
-     © 2024 Zippy Kids. All rights reserved.
-    </p>
-    <div className="flex space-x-6">
-     <a aria-label="Facebook" className="hover:text-orange-500 transition" href="#">
-      <i className="fab fa-facebook-f">
-      </i>
-     </a>
-     <a aria-label="Twitter" className="hover:text-orange-500 transition" href="#">
-      <i className="fab fa-twitter">
-      </i>
-     </a>
-     <a aria-label="Instagram" className="hover:text-orange-500 transition" href="#">
-      <i className="fab fa-instagram">
-      </i>
-     </a>
-     <a aria-label="LinkedIn" className="hover:text-orange-500 transition" href="#">
-      <i className="fab fa-linkedin-in">
-      </i>
-     </a>
-    </div>
-   </div>
-  </footer>
+ 
 
     </>
   )
