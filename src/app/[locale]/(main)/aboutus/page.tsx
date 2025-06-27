@@ -1,15 +1,14 @@
+import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 import React from 'react'
 
 export default function AboutUspage() {
+  const t = useTranslations("AboutUs");
   return (
     <>
-
-
-
-
   <section className="py-16 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
   <h1 className="text-3xl sm:text-5xl font-extrabold text-[#2f3e4e] max-w-4xl mx-auto leading-tight">
-    About <span className="text-[#ff9a5a]">Zippy Kids</span>
+     {t('header')} <span className="text-[#ff9a5a]">Zippy Kids</span>
   </h1>
   <p className="mt-4 text-lg sm:text-lg text-gray-600 max-w-3xl mx-auto">
     Empowering children through creativity, learning, and fun.
@@ -62,9 +61,9 @@ export default function AboutUspage() {
    </h2>
    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-     <i className="fas fa-heart text-orange-600 text-5xl mb-4">
+     <i className="fas fa-heart text-[#ff9a5a] text-5xl mb-4">
      </i>
-     <h3 className="text-xl font-semibold mb-2">
+     <h3 className="text-xl font-semibold mb-2 text-[#2f3e4e]">
       Compassion
      </h3>
      <p className="text-gray-600">
@@ -72,9 +71,9 @@ export default function AboutUspage() {
      </p>
     </div>
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-     <i className="fas fa-lightbulb text-orange-600 text-5xl mb-4">
+     <i className="fas fa-lightbulb text-[#ff9a5a] text-5xl mb-4">
      </i>
-     <h3 className="text-xl font-semibold mb-2">
+     <h3 className="text-xl font-semibold mb-2 text-[#2f3e4e]">
       Creativity
      </h3>
      <p className="text-gray-600">
@@ -82,9 +81,9 @@ export default function AboutUspage() {
      </p>
     </div>
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-     <i className="fas fa-users text-orange-600 text-5xl mb-4">
+     <i className="fas fa-users text-[#ff9a5a] text-5xl mb-4">
      </i>
-     <h3 className="text-xl font-semibold mb-2">
+     <h3 className="text-xl font-semibold mb-2 text-[#2f3e4e]">
       Community
      </h3>
      <p className="text-gray-600">
@@ -92,9 +91,9 @@ export default function AboutUspage() {
      </p>
     </div>
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-     <i className="fas fa-book-open text-orange-600 text-5xl mb-4">
+     <i className="fas fa-book-open text-[#ff9a5a] text-5xl mb-4">
      </i>
-     <h3 className="text-xl font-semibold mb-2">
+     <h3 className="text-xl font-semibold mb-2 text-[#2f3e4e]">
       Learning
      </h3>
      <p className="text-gray-600">
@@ -111,7 +110,7 @@ export default function AboutUspage() {
    <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
      <img alt="Jane Doe smiling female teacher with short brown hair wearing a blue blouse" className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" src="https://storage.googleapis.com/a1aa/image/5e959bc3-2b19-4b25-3cb9-523e9841d757.jpg" width="150"/>
-     <h3 className="text-xl font-semibold">
+     <h3 className="text-xl font-semibold text-[#2f3e4e]">
       Jane Doe
      </h3>
      <p className="text-orange-600 font-medium mb-2">
@@ -123,7 +122,7 @@ export default function AboutUspage() {
     </div>
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
      <img alt="John Smith male teacher with glasses and beard wearing a green shirt" className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" src="https://storage.googleapis.com/a1aa/image/40a1afd7-8d2a-4053-a1e2-6fd018a46f88.jpg" width="150"/>
-     <h3 className="text-xl font-semibold">
+     <h3 className="text-xl font-semibold text-[#2f3e4e]">
       John Smith
      </h3>
      <p className="text-orange-600 font-medium mb-2">
@@ -135,7 +134,7 @@ export default function AboutUspage() {
     </div>
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
      <img alt="Emily Johnson female teacher with long blonde hair wearing a yellow cardigan" className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" src="https://storage.googleapis.com/a1aa/image/c697eebf-0584-4d2b-c2b8-8d8ef58bf2ab.jpg" width="150"/>
-     <h3 className="text-xl font-semibold">
+     <h3 className="text-xl font-semibold text-[#2f3e4e]">
       Emily Johnson
      </h3>
      <p className="text-orange-600 font-medium mb-2">
@@ -147,10 +146,10 @@ export default function AboutUspage() {
     </div>
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
      <img alt="Michael Lee male teacher with short black hair wearing a red polo shirt" className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" src="https://storage.googleapis.com/a1aa/image/04f273e9-5af5-439f-e227-ec8c75c85b0d.jpg" width="150"/>
-     <h3 className="text-xl font-semibold">
+     <h3 className="text-xl font-semibold text-[#2f3e4e]">
       Michael Lee
      </h3>
-     <p className="text-orange-600 font-medium mb-2">
+     <p className="text-orange-600 font-medium mb-2 ">
       Creative Director
      </p>
      <p className="text-gray-600 text-sm">
@@ -167,9 +166,11 @@ export default function AboutUspage() {
    <p className="mb-8 max-w-3xl mx-auto text-lg text-gray-600">
     Whether you're a parent, educator, or community member, we welcome you to be part of our journey to empower children everywhere.
    </p>
-   <a className="inline-block bg-orange-400 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-orange-100 transition" href="/en/contact">
-    Contact Us
-   </a>
+
+   <Link href={"/contact"} className="inline-block bg-orange-400 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-orange-600 transition" >
+      Contact Us
+   </Link>
+   
   </section>
 
  
