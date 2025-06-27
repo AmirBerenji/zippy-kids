@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import React from "react";
 
 export default function NavbarTopSide() {
@@ -21,16 +22,20 @@ export default function NavbarTopSide() {
             <span className="font-bold text-2xl text-[#ff9a5a]">Kids</span>
           </div>
           <nav className="mt-4 sm:mt-0 flex space-x-6 text-sm text-gray-600 font-semibold">
-            <a
-              className="relative text-[#ff9a5a] after:absolute after:-bottom-1 after:left-0 after:w-1.5 after:h-1.5 after:rounded-full after:bg-[#ff9a5a]"
-              href="#"
-            >
-              {t("home")}
-            </a>
-            <a href="#">{t("aboutus")}</a>
-            <a href="#">{t("products")}</a>
+            <Link href={"/"}  className="relative text-[#ff9a5a] after:absolute after:-bottom-1 after:left-0 after:w-1.5 after:h-1.5 after:rounded-full after:bg-[#ff9a5a]"
+             >
+             {t("home")}
+             </Link>
+            <Link href={"/aboutus"} >
+            {t("aboutus")}
+            </Link>
+            <Link href={"/services"} > 
+              {t("services")}
+            </Link>
             <a href="#">{t("blog")}</a>
-            <a href="#">{t("contact")}</a>
+             <Link href={"/contact"} > 
+              {t("contact")}
+            </Link>
           </nav>
           <button className="mt-4 sm:mt-0 bg-[#ff9a5a] text-white text-sm font-semibold rounded-full px-5 py-2 hover:bg-[#e07a3f] transition flex items-center space-x-1">
             <span>Enroll now</span>
