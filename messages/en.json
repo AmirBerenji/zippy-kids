@@ -13,6 +13,16 @@
     "bannerbtn" :"Start today"
   },
   "AboutUs":{
-    "header" : "About"
+    "header" : "About",
+    "body":"Empowering children through creativity, learning, and fun."
+  },
+  "OurMission":{
+    "header" : "Our Mission",
+    "body":"At Zippy Kids, our mission is to nurture the creativity and curiosity of every child. We provide a safe, inspiring environment where children can explore, learn, and grow through play and innovative educational programs."
+  },
+  "OurVision":{
+    "header" : "Our Vision",
+    "body":"We envision a world where every child has access to quality education and joyful experiences that build confidence, kindness, and a lifelong love of learning."
   }
+
 }

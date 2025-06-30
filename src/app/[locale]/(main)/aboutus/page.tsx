@@ -1,60 +1,19 @@
-import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react'
+import Aboutheader from './components/header';
+import AboutOurmission from './components/ourmission';
+import AboutOurvision from './components/ourvision';
 
 export default function AboutUspage() {
-  const t = useTranslations("AboutUs");
+
   return (
     <>
-  <section className="py-16 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
-  <h1 className="text-3xl sm:text-5xl font-extrabold text-[#2f3e4e] max-w-4xl mx-auto leading-tight">
-     {t('header')} <span className="text-[#ff9a5a]">Zippy Kids</span>
-  </h1>
-  <p className="mt-4 text-lg sm:text-lg text-gray-600 max-w-3xl mx-auto">
-    Empowering children through creativity, learning, and fun.
-  </p>
-  <div className="flex items-center justify-center max-w-2xl mx-auto mt-8">
-    <div className="rounded-[50%_50%_50%_50%/40%_40%_60%_60%] border-8 border-[#c6d9e3] overflow-hidden">
-      <img
-        alt="Children playing and learning in a colorful classroom with bright decorations and toys"
-        className="rounded-lg shadow-lg w-full max-w-4xl object-cover"
-        height="300"
-        loading="lazy"
-        src="https://storage.googleapis.com/a1aa/image/59e497de-e762-429b-fb7d-f59eefbdaa88.jpg"
-        width="600"
-      />
-    </div>
-  </div>
-</section>
+ 
+ <Aboutheader/>
 
-  <section className=" mx-auto px-6 sm:px-12 md:px-20 lg:px-32 py-16 bg-[#e6f0f6]">
-   <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-7xl">
-    <img alt="Teacher engaging with children in an interactive learning session with colorful educational materials" className="rounded-lg shadow-lg w-full object-cover" height="400" loading="lazy" src="https://storage.googleapis.com/a1aa/image/f0649893-4aba-4ee0-3895-95c63c008f65.jpg" width="500"/>
-    <div>
-     <h2 className="text-3xl font-bold text-[#2f3e4e] mb-4">
-      Our Mission
-     </h2>
-     <p className="text-lg text-gray-600 leading-relaxed">
-      At Zippy Kids, our mission is to nurture the creativity and curiosity of every child. We provide a safe, inspiring environment where children can explore, learn, and grow through play and innovative educational programs.
-     </p>
-    </div>
-   </div>
-  </section>
-
-  <section className=" py-16 px-6 sm:px-12 md:px-20 lg:px-32">
-   <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-    <div>
-     <h2 className="text-3xl font-bold text-[#2f3e4e] mb-4">
-      Our Vision
-     </h2>
-     <p className="text-lg text-gray-600 leading-relaxed">
-      We envision a world where every child has access to quality education and joyful experiences that build confidence, kindness, and a lifelong love of learning.
-     </p>
-    </div>
-    <img alt="Children dreaming and imagining with colorful balloons and clouds in a bright outdoor setting" className="rounded-lg shadow-lg w-full object-cover" height="400" loading="lazy" src="https://storage.googleapis.com/a1aa/image/8afc5844-a2fc-40e0-73d5-1aa279ea997a.jpg" width="500"/>
-   </div>
-  </section>
-
+  <AboutOurmission/>
+  
+<AboutOurvision/>
   <section className=" mx-auto px-6 sm:px-12 md:px-20 lg:px-32 py-16 bg-[#e6f0f6]">
    <h2 className="  text-3xl font-bold text-[#2f3e4e] mb-12 text-center">
     Our Core Values
@@ -109,7 +68,9 @@ export default function AboutUspage() {
    </h2>
    <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-     <img alt="Jane Doe smiling female teacher with short brown hair wearing a blue blouse" className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" src="https://storage.googleapis.com/a1aa/image/5e959bc3-2b19-4b25-3cb9-523e9841d757.jpg" width="150"/>
+     <img alt="Jane Doe smiling female teacher with short brown hair wearing a blue blouse" 
+     className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" 
+     src="/assets/images/aboutus/team4.jpg" width="150"/>
      <h3 className="text-xl font-semibold text-[#2f3e4e]">
       Jane Doe
      </h3>
@@ -121,7 +82,8 @@ export default function AboutUspage() {
      </p>
     </div>
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-     <img alt="John Smith male teacher with glasses and beard wearing a green shirt" className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" src="https://storage.googleapis.com/a1aa/image/40a1afd7-8d2a-4053-a1e2-6fd018a46f88.jpg" width="150"/>
+     <img alt="John Smith male teacher with glasses and beard wearing a green shirt" className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" 
+     src="/assets/images/aboutus/team1.jpg" width="150"/>
      <h3 className="text-xl font-semibold text-[#2f3e4e]">
       John Smith
      </h3>
@@ -133,7 +95,8 @@ export default function AboutUspage() {
      </p>
     </div>
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-     <img alt="Emily Johnson female teacher with long blonde hair wearing a yellow cardigan" className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" src="https://storage.googleapis.com/a1aa/image/c697eebf-0584-4d2b-c2b8-8d8ef58bf2ab.jpg" width="150"/>
+     <img alt="Emily Johnson female teacher with long blonde hair wearing a yellow cardigan" className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" 
+     src="/assets/images/aboutus/team2.jpg" width="150"/>
      <h3 className="text-xl font-semibold text-[#2f3e4e]">
       Emily Johnson
      </h3>
@@ -145,7 +108,8 @@ export default function AboutUspage() {
      </p>
     </div>
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-     <img alt="Michael Lee male teacher with short black hair wearing a red polo shirt" className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" src="https://storage.googleapis.com/a1aa/image/04f273e9-5af5-439f-e227-ec8c75c85b0d.jpg" width="150"/>
+     <img alt="Michael Lee male teacher with short black hair wearing a red polo shirt" className="rounded-full mb-4 w-36 h-36 object-cover" height="150" loading="lazy" 
+     src="/assets/images/aboutus/team3.jpg" width="150"/>
      <h3 className="text-xl font-semibold text-[#2f3e4e]">
       Michael Lee
      </h3>
