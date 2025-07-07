@@ -37,7 +37,7 @@ export default function NavbarTopSide() {
           </Link> */}
 
           <Link
-            href="/"
+            href={`/${locale}/`}
             className={`relative ${
               isActive("/") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"
             }`}
@@ -46,7 +46,7 @@ export default function NavbarTopSide() {
           </Link>
 
           <Link
-            href="/aboutus"
+            href={`/${locale}/aboutus`}
             className={`relative ${
               isActive("/aboutus") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"
             }`}
@@ -55,24 +55,17 @@ export default function NavbarTopSide() {
           </Link>
 
           <Link
-            href="/services"
+            href={`/${locale}/services`}
             className={`relative ${
               isActive("/services") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"
             }`}
           >
             {t("services")}
           </Link>
-          <Link
-            href="/blog"
-            className={`relative ${
-              isActive("/blog") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"
-            }`}
-          >
-            {t("blog")}
-          </Link>
+         
 
           <Link
-            href="/contact"
+            href={`/${locale}/contact`}
             className={`relative ${
               isActive("/contact") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"
             }`}
