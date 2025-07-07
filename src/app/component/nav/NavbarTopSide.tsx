@@ -11,18 +11,21 @@ export default function NavbarTopSide() {
   const locale = useLocale(); // e.g. en
 
   // Remove locale prefix and trailing slash
-  const normalizedPath = pathname
-    .replace(`/${locale}`, "") // remove locale
-    .replace(/\/$/, "") || "/"; // remove trailing slash (except root)
+  const normalizedPath =
+    pathname
+      .replace(`/${locale}`, "") // remove locale
+      .replace(/\/$/, "") || "/"; // remove trailing slash (except root)
 
   const isActive = (path: string) => normalizedPath === path;
 
   return (
     <header className="relative bg-[#e6f0f6] pt-6 pb-10 px-4 sm:px-10">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <span className="font-bold text-2xl text-[#2f3e4e] tracking-wide">Zippy</span>
-          <span className="font-bold text-2xl text-[#ff9a5a]">Kids</span>
+        <div className="flex items-center ">
+          <span className="font-bold text-2xl text-[#ff9a5a]">Kidoo</span>
+          <span className="font-bold text-2xl text-[#2f3e4e] tracking-wide">
+            Hub
+          </span>
         </div>
 
         <nav className="mt-4 sm:mt-0 flex space-x-6 text-sm text-gray-600 font-semibold">
@@ -33,39 +36,46 @@ export default function NavbarTopSide() {
             {t("home")}
           </Link> */}
 
-
           <Link
             href="/"
-            className={`relative ${isActive("/") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"}`}
+            className={`relative ${
+              isActive("/") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"
+            }`}
           >
             {t("home")}
           </Link>
 
-
-
           <Link
             href="/aboutus"
-            className={`relative ${isActive("/aboutus") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"}`}
+            className={`relative ${
+              isActive("/aboutus") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"
+            }`}
           >
             {t("aboutus")}
           </Link>
 
           <Link
             href="/services"
-            className={`relative ${isActive("/services") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"}`}
+            className={`relative ${
+              isActive("/services") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"
+            }`}
           >
             {t("services")}
           </Link>
           <Link
             href="/blog"
-            className={`relative ${isActive("/blog") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"}`}
+            className={`relative ${
+              isActive("/blog") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"
+            }`}
           >
             {t("blog")}
           </Link>
 
           <Link
             href="/contact"
-            className={`relative ${isActive("/contact") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"}`}
+            className={`relative ${
+              isActive("/contact") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"
+            }`}
           >
             {t("contact")}
           </Link>
