@@ -1,10 +1,11 @@
 {
   "MenuPage": {
     "home": "Главная",
-    "aboutus": "О нас",
+    "aboutus": "Услуги",
     "services": "Русский",
     "blog": "Блог",
-    "contact": "Контакты"
+    "contact": "Контакты",
+    "enroll":"Записаться сейчас"
   },
   "BannerMainPage": {
     "joinus": "Присоединяйтесь к нашей дружной ",

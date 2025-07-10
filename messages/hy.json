@@ -1,10 +1,11 @@
 {
   "MenuPage": {
     "home": "Գլխավոր",
-    "aboutus": "Մեր մասին",
+    "aboutus": "Ծառայություններ",
     "services": "Հայերեն",
     "blog": "Բլոգ",
-    "contact": "Կապ"
+    "contact": "Կապ",
+    "enroll":"Գրանցվել հիմա"
   },
   "BannerMainPage": {
     "joinus": "Միացիր մեր ջերմ ",
