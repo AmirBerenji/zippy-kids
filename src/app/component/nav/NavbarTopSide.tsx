@@ -74,20 +74,11 @@ export default function NavbarTopSide() {
           </Link>
         </nav>
 
-        <button className="mt-4 sm:mt-0 bg-[#ff9a5a] text-white text-sm font-semibold rounded-full px-5 py-2 hover:bg-[#e07a3f] transition flex items-center space-x-1">
-          <span>Enroll now</span>
+        <Link  href={`/${locale}/user/signup`} className="mt-4 sm:mt-0 bg-[#ff9a5a] text-white text-sm font-semibold rounded-full px-5 py-2 hover:bg-[#e07a3f] transition flex items-center space-x-1">
+          <span>{t("enroll")}</span>
           <i className="fas fa-chevron-down text-xs"></i>
-        </button>
+        </Link>
       </div>
-
-      <img
-        alt="Decorative wave"
-        className="absolute top-0 left-0 w-full h-10 object-cover pointer-events-none select-none"
-        height="40"
-        src="https://storage.googleapis.com/a1aa/image/603796a3-4bbc-4068-60e2-0e270529f7ce.jpg"
-        style={{ zIndex: "-1" }}
-        width="1920"
-      />
     </header>
   );
 }
