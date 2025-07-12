@@ -1,7 +1,8 @@
 import CookieConfig from "@/lib/cookieconfig";
+import { Profile, Register } from "@/model/auth";
 import axios, { AxiosResponse } from "axios";
 
-axios.defaults.baseURL = "https://petetco.maralamirkian.com/api/";
+axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
 
 axios.interceptors.request.use(
   (config) => {
@@ -45,3 +46,17 @@ const requests = {
       .then(responseBody)
       .catch((error) => error.response?.data),
 };
+
+
+const Account = {
+  //login: (user: Login) => requests.post<Profile>("/login", user),
+  register: (register: Register) => requests.post<Profile>("/register", register),
+  //getProfile: () => requests.get<Profile>("/profile"),
+};
+
+
+const agent = {
+  Account
+};
+
+export default agent;
