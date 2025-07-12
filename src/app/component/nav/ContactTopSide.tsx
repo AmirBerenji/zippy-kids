@@ -9,7 +9,7 @@ export default function ContactTopSide() {
         <div className="hidden sm:flex space-x-6">
           <div className="flex items-center space-x-1">
             <i className="fas fa-envelope"></i>
-            <span>info@bubakids.edu.com</span>
+            <span>kidoohubarmenia@gmail.com</span>
           </div>
           {/* <div className="flex items-center space-x-1">
             <i className="fas fa-map-marker-alt"></i>
@@ -17,7 +17,7 @@ export default function ContactTopSide() {
           </div> */}
           <div className="flex items-center space-x-1">
             <i className="fas fa-phone-alt"></i>
-            <span>+1 800 770 000</span>
+            <span>+374 96 882655 | +374 55 882658clear </span>
           </div>
         </div>
         <div className="flex space-x-4 text-gray-400 text-lg">
