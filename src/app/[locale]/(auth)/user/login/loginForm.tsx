@@ -1,8 +1,13 @@
 "use client";
 import { login } from "@/action/apiAction";
+import ErrorMessage from "@/app/component/general/ErrorMessage";
+import { useLocale, useTranslations } from "next-intl";
 import React, { useState } from "react";
 
 export default function LoginForm() {
+  const t = useTranslations("SignIn");
+  const locale = useLocale();
+
   const [message, setMessage] = useState("");
   const [isLoading, setLoading] = useState(false);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -12,12 +17,12 @@ export default function LoginForm() {
     const formData = new FormData(event.currentTarget);
     const result = await login(formData);
 
-    // if (result.error) {
-    //   setMessage(result.message);
-    // } else {
-    //   // ✅ Redirect or show success as needed
-    //   // e.g., router.push('/dashboard')
-    // }
+    if (result.error) {
+      setMessage(result.message);
+    } else {
+      // ✅ Redirect or show success as needed
+      // e.g., router.push('/dashboard')
+    }
 
     // setLoading(false);
   };
@@ -25,7 +30,7 @@ export default function LoginForm() {
     <form onSubmit={handleSubmit} className="space-y-6" method="POST">
       <div>
         <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
-          Email address
+          {t("email")}
         </label>
         <input
           autoComplete="email"
@@ -38,17 +43,18 @@ export default function LoginForm() {
       </div>
       <div>
         <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
-          Password
+          {t("password")}
         </label>
         <input
           autoComplete="current-password"
           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
           id="password"
           name="password"
-          placeholder="Enter your password"
+          placeholder={t("placeholder")}
           type="password"
         />
       </div>
+      <ErrorMessage message={message} />
       <div className="flex items-center justify-between">
         <label className="inline-flex items-center text-sm text-gray-400">
           <input
@@ -56,20 +62,20 @@ export default function LoginForm() {
             name="remember"
             type="checkbox"
           />
-          <span className="ml-2 text-[#4f5c69]">Remember me</span>
+          <span className="ml-2 text-[#4f5c69]">{t("rememberMe")}</span>
         </label>
         <a
           className="text-sm text-[#4f5c69] hover:underline"
-          href="/en/forgot-password"
+          href={`/${locale}/forgot-password`}
         >
-          Forgot password?
+          {t("forgotPassword")}
         </a>
       </div>
       <button
         className="w-full bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 rounded-xl transition"
         type="submit"
       >
-        Log In
+        {t("signinbtn")}
       </button>
     </form>
   );

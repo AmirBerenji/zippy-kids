@@ -1,6 +1,7 @@
 "use client";
 
 import { register } from "@/action/apiAction";
+import ErrorMessage from "@/app/component/general/ErrorMessage";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 
@@ -94,7 +95,7 @@ export default function RegisterForm() {
             type="password"
           />
         </div>
-
+        <ErrorMessage message={message} />
         <button
           className="w-full bg-[#ff9a5a] hover:bg-orange-500 text-white font-semibold py-3 rounded-xl transition"
           type="submit"
