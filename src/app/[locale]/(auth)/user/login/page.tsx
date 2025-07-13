@@ -1,7 +1,11 @@
 import Link from "next/link";
 import LoginForm from "./loginForm";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function Loginpage() {
+  const locale = useLocale();
+  const t = useTranslations("SignIn");
+
   return (
     <>
       <div className="bg-[#f2f9fd] min-h-screen flex flex-col  ">
@@ -17,16 +21,17 @@ export default function Loginpage() {
           </div>
           <div className="w-full md:w-1/2 bg-white rounded-r-3xl rounded-l-3xl md:rounded-l-none shadow-lg p-10 max-w-md mx-auto ">
             <h1 className="text-3xl font-bold text-[#2f3e4e] mb-6 text-center">
-              Welcome Back
+              {t("header")}
             </h1>
             <LoginForm />
             <p className="mt-6 text-center text-sm text-[#4f5c69]">
-              Don't have an account?
+              {t("dontHaveAccount")}
+
               <Link
-                href={"/user/signup"}
+                href={`/user/signup`}
                 className="text-[#2f3e4e] font-semibold hover:underline"
               >
-                Sign up
+                {t("signup")}
               </Link>
             </p>
           </div>

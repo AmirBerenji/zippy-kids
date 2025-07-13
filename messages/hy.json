@@ -40,5 +40,16 @@
     "placeholder": "Մուտքագրեք ձեր գաղտնաբառը",
     "signin": "Մուտք գործել",
     "alreadyHaveAccount": "Ունեք հաշիվ?"
+  },
+  "SignIn": {
+    "header": "Բարի վերադարձ",
+    "email": "Էլ․ հասցե",
+    "password": "Գաղտնաբառ",
+    "signinbtn": "Մուտք գործել",
+    "placeholder": "Մուտքագրեք ձեր գաղտնաբառը",
+    "signup": "Գրանցվել",
+    "dontHaveAccount": "Չունե՞ք հաշիվ:",
+    "forgotPassword": "Մոռացել եք գաղտնաբառը?",
+    "rememberMe": "Հիշել ինձ"
   }
 }

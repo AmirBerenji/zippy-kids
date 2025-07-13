@@ -40,5 +40,16 @@
     "placeholder": "Enter your password",
     "signin": "Sign In",
     "alreadyHaveAccount": "Already have an account?"
+  },
+  "SignIn": {
+    "header": "Welcome Back",
+    "email": "Email",
+    "password": "Password",
+    "signinbtn": "Sign In",
+    "placeholder": "Enter your password",
+    "signup": "Sign Up",
+    "dontHaveAccount": "Don't have an account?",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember Me"
   }
 }

@@ -40,5 +40,16 @@
     "placeholder": "Введите ваш пароль",
     "signin": "Войти",
     "alreadyHaveAccount": "Уже есть аккаунт?"
+  },
+  "SignIn": {
+    "header": "С возвращением",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "signinbtn": "Войти",
+    "placeholder": "Введите ваш пароль",
+    "signup": "Зарегистрироваться",
+    "dontHaveAccount": "Нет аккаунта?",
+    "forgotPassword": "Забыли пароль?",
+    "rememberMe": "Запомнить меня"
   }
 }
