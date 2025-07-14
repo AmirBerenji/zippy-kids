@@ -1,9 +1,10 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import React from "react";
 import RegisterForm from "./registerForm";
 
 export default function Signuppage() {
+  const locale = useLocale();
   const t = useTranslations("SignUp");
   return (
     <>
@@ -27,7 +28,7 @@ export default function Signuppage() {
               {t("alreadyHaveAccount")}
               <Link
                 className="text-[#2f3e4e] ml-1 font-semibold"
-                href="/user/login"
+                href={`/${locale}/user/login`}
               >
                 {t("signin")}
               </Link>

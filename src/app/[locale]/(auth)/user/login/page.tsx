@@ -28,7 +28,7 @@ export default function Loginpage() {
               {t("dontHaveAccount")}
 
               <Link
-                href={`/user/signup`}
+                href={`/${locale}/user/signup`}
                 className="text-[#2f3e4e] font-semibold hover:underline"
               >
                 {t("signup")}
