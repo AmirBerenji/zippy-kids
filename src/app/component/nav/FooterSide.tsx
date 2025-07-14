@@ -22,9 +22,10 @@ export default function FooterSide() {
               <i className="fab fa-twitter"></i>
             </a>
             <a
+              target="_blank"
               aria-label="Instagram"
               className="hover:text-[#ff9a5a] transition"
-              href="#"
+              href="https://www.instagram.com/kidoohub?igsh=eW1tMmJvOGZtdmJ6"
             >
               <i className="fab fa-instagram"></i>
             </a>

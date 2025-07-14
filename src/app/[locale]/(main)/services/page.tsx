@@ -7,8 +7,9 @@ export default function Servicepage() {
     <>
       <Serviceheader />
 
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-32 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+      <section className="w-full bg-slate-50" >
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-32 py-16 ">
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
           <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
             <img
               alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"
@@ -18,10 +19,10 @@ export default function Servicepage() {
               src="https://storage.googleapis.com/a1aa/image/13c74af1-c69f-4f8d-efcc-d82fa50fa6bb.jpg"
               width="400"
             />
-            <h3 className="text-xl font-semibold text-orange-600 mb-2">
+            <h3 className="text-xl font-semibold text-[#ff9a5a] mb-2">
               Nurse Care
             </h3>
-            <p className="text-gray-500">
+            <p className="text-[#2f3e4e]">
               Professional nursing support ensuring children's health and
               well-being.
             </p>
@@ -36,10 +37,10 @@ export default function Servicepage() {
               src="https://storage.googleapis.com/a1aa/image/3382207e-a75c-43db-a5fe-8002d315ef62.jpg"
               width="400"
             />
-            <h3 className="text-xl font-semibold text-orange-600 mb-2">
+            <h3 className="text-xl font-semibold text-[#ff9a5a] mb-2">
               Pediatric Doctor
             </h3>
-            <p className="text-gray-500">
+            <p className="text-[#2f3e4e]">
               Expert medical care tailored for children's unique needs.
             </p>
           </div>
@@ -53,10 +54,10 @@ export default function Servicepage() {
               src="https://storage.googleapis.com/a1aa/image/4f08f25a-6d2b-4226-787f-32533c41b88b.jpg"
               width="400"
             />
-            <h3 className="text-xl font-semibold text-orange-600 mb-2">
+            <h3 className="text-xl font-semibold text-[#ff9a5a] mb-2">
               Event Planning
             </h3>
-            <p className="text-gray-500">
+            <p className="text-[#2f3e4e]">
               Fun and engaging events designed to create joyful memories.
             </p>
           </div>
@@ -163,6 +164,8 @@ export default function Servicepage() {
             </p>
           </div> */}
         </div>
+        </div>
+        
       </section>
 
       <section className="bg-[#e6f0f6] text-white py-16 px-6 sm:px-12 md:px-20 lg:px-32 text-center">

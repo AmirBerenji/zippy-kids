@@ -73,3 +73,13 @@ export async function login(formdata: FormData) {
   }
   return { message: "Your email format is not true", error: true };
 }
+
+export async function getProfile() {
+  const req = await agent.Account.getProfile();
+  return req?.data;
+}
+
+export async function signOut() {
+  new CookieConfig().deleteCookie("jwt");
+}
+
