@@ -64,18 +64,19 @@ export async function login(formdata: FormData) {
   if (result) {
     const req = await agent.Account.login(login);
     console.log("result Login", req);
-    if (!!req.message) {
+    if (!req.success) {
       return { message: req.message, error: true };
     }
-    new CookieConfig().setToken("jwt", req.access_token);
+    new CookieConfig().setToken("jwt", req.data.token);
     redirect("/");
-    return { message: "", error: false };
   }
   return { message: "Your email format is not true", error: true };
 }
 
 export async function getProfile() {
+  console.log("getProfile");
   const req = await agent.Account.getProfile();
+  console.log("getProfile",req);
   return req?.data;
 }
 

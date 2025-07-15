@@ -7,7 +7,8 @@ import { getProfile } from "@/action/apiAction";
 
 async function getDataFromBarrer()
 {
-  const req = await getProfile()
+  const req = await getProfile();
+  return req;
 }
 
 export default async function ContactTopSide() {
@@ -35,7 +36,9 @@ export default async function ContactTopSide() {
             <i className="fas fa-search"></i>
           </button>
 
-           {userData == undefined ? (
+           {
+             
+           userData == undefined ? (
               <>
               <Link href={"/user/login"}>
                           <button aria-label="User Account" className="hover:text-orange-400">
@@ -45,7 +48,7 @@ export default async function ContactTopSide() {
               </>
 
            ) :(<>
-            <div>Hello</div>
+            <div className="text-[#ff9a5a] text-lg">{userData.name}</div>
            </>)} 
 
           {/* <button aria-label="Shopping Cart" className="hover:text-orange-400 relative">

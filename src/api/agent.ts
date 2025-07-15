@@ -6,12 +6,13 @@ axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
 //axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
-  (config) => {
+  async (config) => {
     const _cookieConfig = new CookieConfig();
-    const cookie = _cookieConfig.getToken("jwt");
+    const cookie = await _cookieConfig.getToken("jwt");
     //const commonStore = new CommonStore();  //localStorage.getItem('jwt');
     //commonStore.getToken();
     config.headers["Authorization"] = `Bearer ${cookie}`;
+    
     return config;
   },
   (error) => {

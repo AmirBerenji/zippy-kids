@@ -10,6 +10,7 @@ export default class CookieConfig {
     try {
       const cookiesList = await cookies();
       const hasCookie = cookiesList.has(cookieName);
+      
       if (hasCookie) {
         const cookieStore = await cookies();
         this.token = cookieStore.get(cookieName)?.value;

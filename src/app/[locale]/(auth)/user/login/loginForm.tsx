@@ -17,7 +17,7 @@ export default function LoginForm() {
     const formData = new FormData(event.currentTarget);
     const result = await login(formData);
 
-    if (result.error) {
+    if (result) {
       setMessage(result.message);
     } else {
       // ✅ Redirect or show success as needed
