@@ -1,18 +1,15 @@
-
 import React from "react";
 import LocalSwitcher from "../LocalSwitcher";
 import Link from "next/link";
 import { getProfile } from "@/action/apiAction";
 
-
-async function getDataFromBarrer()
-{
+async function getDataFromBarrer() {
   const req = await getProfile();
   return req;
 }
 
 export default async function ContactTopSide() {
-    const userData = await getDataFromBarrer();
+  const userData = await getDataFromBarrer();
   return (
     <>
       <div className="bg-[#e6f0f6] text-xs text-gray-600 flex justify-center sm:justify-between items-center px-4 sm:px-10 py-1 font-semibold">
@@ -27,29 +24,31 @@ export default async function ContactTopSide() {
           </div> */}
           <div className="flex items-center space-x-1">
             <i className="fas fa-phone-alt"></i>
-            <span>+374 96 882655 | +374 55 882658clear </span>
+            <span>+374 96 882655 | +374 55 882658 </span>
           </div>
         </div>
         <div className="flex space-x-4 text-gray-400 text-lg">
           <LocalSwitcher />
-          <button aria-label="Search" className="hover:text-orange-400">
+          <button aria-label="Search" className="hover:text-[#ff9a5a]">
             <i className="fas fa-search"></i>
           </button>
 
-           {
-             
-           userData == undefined ? (
-              <>
+          {userData == undefined ? (
+            <>
               <Link href={"/user/login"}>
-                          <button aria-label="User Account" className="hover:text-orange-400">
-                            <i className="fas fa-user"></i>
-                          </button>
-                        </Link>
-              </>
-
-           ) :(<>
-            <div className="text-[#ff9a5a] text-lg">{userData.name}</div>
-           </>)} 
+                <button
+                  aria-label="User Account"
+                  className="hover:text-[#ff9a5a]"
+                >
+                  <i className="fas fa-user"></i>
+                </button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <div className="text-[#ff9a5a] text-lg">{userData.name}</div>
+            </>
+          )}
 
           {/* <button aria-label="Shopping Cart" className="hover:text-orange-400 relative">
             <i className="fas fa-shopping-cart">

@@ -1,14 +1,12 @@
 "use client";
 
+import { getProfile } from "@/action/apiAction";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-
-
-
-export default function NavbarTopSide() {
+export default async function NavbarTopSide() {
   const t = useTranslations("MenuPage");
   const pathname = usePathname(); // e.g. /en/aboutus
   const locale = useLocale(); // e.g. en
@@ -66,7 +64,6 @@ export default function NavbarTopSide() {
           >
             {t("services")}
           </Link>
-         
 
           <Link
             href={`/${locale}/contact`}
@@ -78,7 +75,10 @@ export default function NavbarTopSide() {
           </Link>
         </nav>
 
-        <Link  href={`/${locale}/user/signup`} className="mt-4 sm:mt-0 bg-[#ff9a5a] text-white text-sm font-semibold rounded-full px-5 py-2 hover:bg-[#e07a3f] transition flex items-center space-x-1">
+        <Link
+          href={`/${locale}/user/signup`}
+          className="mt-4 sm:mt-0 bg-[#ff9a5a] text-white text-sm font-semibold rounded-full px-5 py-2 hover:bg-[#e07a3f] transition flex items-center space-x-1"
+        >
           <span>{t("enroll")}</span>
           <i className="fas fa-chevron-down text-xs"></i>
         </Link>
