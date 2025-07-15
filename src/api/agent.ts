@@ -52,7 +52,7 @@ const Account = {
   login: (user: Login) => requests.post<Profile>("user/login", user),
   register: (register: Register) =>
     requests.post<Profile>("user/register", register),
-  //getProfile: () => requests.get<Profile>("/profile"),
+  getProfile: () => requests.get<Profile>("user/profile"),
 };
 
 const agent = {

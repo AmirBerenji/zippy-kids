@@ -1,8 +1,17 @@
+
 import React from "react";
 import LocalSwitcher from "../LocalSwitcher";
 import Link from "next/link";
+import { getProfile } from "@/action/apiAction";
 
-export default function ContactTopSide() {
+
+async function getDataFromBarrer()
+{
+  const req = await getProfile()
+}
+
+export default async function ContactTopSide() {
+    const userData = await getDataFromBarrer();
   return (
     <>
       <div className="bg-[#e6f0f6] text-xs text-gray-600 flex justify-center sm:justify-between items-center px-4 sm:px-10 py-1 font-semibold">
@@ -26,11 +35,18 @@ export default function ContactTopSide() {
             <i className="fas fa-search"></i>
           </button>
 
-          <Link href={"/user/login"}>
-            <button aria-label="User Account" className="hover:text-orange-400">
-              <i className="fas fa-user"></i>
-            </button>
-          </Link>
+           {userData == undefined ? (
+              <>
+              <Link href={"/user/login"}>
+                          <button aria-label="User Account" className="hover:text-orange-400">
+                            <i className="fas fa-user"></i>
+                          </button>
+                        </Link>
+              </>
+
+           ) :(<>
+            <div>Hello</div>
+           </>)} 
 
           {/* <button aria-label="Shopping Cart" className="hover:text-orange-400 relative">
             <i className="fas fa-shopping-cart">
