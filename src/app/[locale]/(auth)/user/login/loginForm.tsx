@@ -1,6 +1,7 @@
 "use client";
 import { login } from "@/action/apiAction";
 import ErrorMessage from "@/app/component/general/ErrorMessage";
+import LoadingPage from "@/app/component/general/Loading";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useState } from "react";
 
@@ -24,10 +25,11 @@ export default function LoginForm() {
       // e.g., router.push('/dashboard')
     }
 
-    // setLoading(false);
+     setLoading(false);
   };
   return (
     <form onSubmit={handleSubmit} className="space-y-6" method="POST">
+      {isLoading ? <LoadingPage /> : <></>}
       <div>
         <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
           {t("email")}
