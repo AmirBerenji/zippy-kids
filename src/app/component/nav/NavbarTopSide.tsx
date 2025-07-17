@@ -26,7 +26,7 @@ export default function NavbarTopSide() {
       try {
         const profile = await getProfile(); // Call the API
         console.log("Profile data:", profile);
-        if (profile && profile.data) {
+        if (profile != null) {
           setIsAuthenticated(true); // user is logged in
         } else {
           setIsAuthenticated(false); // not logged in
@@ -96,7 +96,7 @@ export default function NavbarTopSide() {
           </Link>
         </nav>
 
-        {!isAuthenticated && (
+        {!isAuthenticated ? (
           <Link
             href={`/${locale}/user/signup`}
             className="mt-4 sm:mt-0 bg-[#ff9a5a] text-white text-sm font-semibold rounded-full px-5 py-2 hover:bg-[#e07a3f] transition flex items-center space-x-1"
@@ -104,6 +104,12 @@ export default function NavbarTopSide() {
             <span>{t("enroll")}</span>
             <i className="fas fa-chevron-down text-xs"></i>
           </Link>
+        ):(
+          <>
+          <div>
+            
+          </div>
+          </>
         )}
       </div>
     </header>

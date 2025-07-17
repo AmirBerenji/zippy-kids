@@ -17,8 +17,8 @@ export default function RegisterForm() {
 
     const formData = new FormData(event.currentTarget);
     const result = await register(formData);
-
-    if (result.error) {
+    console.log("result::",result);
+    if (!result.success) {
       setMessage(result.message);
     } else {
       // ✅ Redirect or show success as needed
