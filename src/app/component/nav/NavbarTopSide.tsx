@@ -6,10 +6,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-export default async function NavbarTopSide() {
+export default function NavbarTopSide() {
   const t = useTranslations("MenuPage");
   const pathname = usePathname(); // e.g. /en/aboutus
   const locale = useLocale(); // e.g. en
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Remove locale prefix and trailing slash
   const normalizedPath =
@@ -18,6 +20,25 @@ export default async function NavbarTopSide() {
       .replace(/\/$/, "") || "/"; // remove trailing slash (except root)
 
   const isActive = (path: string) => normalizedPath === path;
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const profile = await getProfile(); // Call the API
+        console.log("Profile data:", profile);
+        if (profile && profile.data) {
+          setIsAuthenticated(true); // user is logged in
+        } else {
+          setIsAuthenticated(false); // not logged in
+        }
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+        setIsAuthenticated(false);
+      }
+    }
+
+    fetchProfile();
+  }, []);
 
   return (
     <header className="relative bg-[#e6f0f6] pt-6 pb-10 px-4 sm:px-10">
@@ -75,13 +96,15 @@ export default async function NavbarTopSide() {
           </Link>
         </nav>
 
-        <Link
-          href={`/${locale}/user/signup`}
-          className="mt-4 sm:mt-0 bg-[#ff9a5a] text-white text-sm font-semibold rounded-full px-5 py-2 hover:bg-[#e07a3f] transition flex items-center space-x-1"
-        >
-          <span>{t("enroll")}</span>
-          <i className="fas fa-chevron-down text-xs"></i>
-        </Link>
+        {!isAuthenticated && (
+          <Link
+            href={`/${locale}/user/signup`}
+            className="mt-4 sm:mt-0 bg-[#ff9a5a] text-white text-sm font-semibold rounded-full px-5 py-2 hover:bg-[#e07a3f] transition flex items-center space-x-1"
+          >
+            <span>{t("enroll")}</span>
+            <i className="fas fa-chevron-down text-xs"></i>
+          </Link>
+        )}
       </div>
     </header>
   );

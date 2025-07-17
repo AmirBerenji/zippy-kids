@@ -74,13 +74,10 @@ export async function login(formdata: FormData) {
 }
 
 export async function getProfile() {
-  console.log("getProfile");
   const req = await agent.Account.getProfile();
-  console.log("getProfile",req);
   return req?.data;
 }
 
 export async function signOut() {
   new CookieConfig().deleteCookie("jwt");
 }
-
