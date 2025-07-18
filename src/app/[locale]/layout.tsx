@@ -63,7 +63,9 @@ export default async function LocaleLayout({
           ))}
       </head>
       <body>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <div className="min-h-[850px]" >
+        <NextIntlClientProvider >{children}</NextIntlClientProvider>
+        </div>
         <FooterSide />
       </body>
     </html>
