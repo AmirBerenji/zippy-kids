@@ -12,19 +12,27 @@ export default async function ContactTopSide() {
   const userData = await getDataFromBarrer();
   return (
     <>
-      <div className="bg-[#e6f0f6] text-xs text-gray-600 flex justify-center sm:justify-between items-center px-4 sm:px-10 py-1 font-semibold">
+      <div className="bg-[#e6f0f6] text-xs text-gray-400 flex justify-center sm:justify-between items-center px-4 sm:px-10 py-1 font-semibold">
         <div className="hidden sm:flex space-x-6">
           <div className="flex items-center space-x-1">
             <i className="fas fa-envelope"></i>
-            <span>kidoohubarmenia@gmail.com</span>
+            <a href="mailto:kidoohubarmenia@gmail.com" className="hover:underline">
+              kidoohubarmenia@gmail.com
+            </a>
           </div>
+
           {/* <div className="flex items-center space-x-1">
             <i className="fas fa-map-marker-alt"></i>
             <span>Address</span>
           </div> */}
+
           <div className="flex items-center space-x-1">
             <i className="fas fa-phone-alt"></i>
-            <span>+374 96 882655 | +374 55 882658 </span>
+            <div className="">
+              <a href="tel:+37496882655" className="hover:underline">+374 96 882655</a>
+              <span className="mx-1 " >|</span>
+              <a href="tel:+37455882658" className="hover:underline">+374 55 882658</a>
+            </div>
           </div>
         </div>
         <div className="flex space-x-4 text-gray-400 text-lg">
