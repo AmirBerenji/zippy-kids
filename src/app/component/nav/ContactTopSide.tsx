@@ -12,7 +12,7 @@ export default async function ContactTopSide() {
   const userData = await getDataFromBarrer();
   return (
     <>
-      <div className="bg-[#e6f0f6] text-xs text-gray-600 flex justify-center sm:justify-between items-center px-4 sm:px-10 py-1 font-semibold">
+      <div className="bg-[#e6f0f6] text-xs text-gray-400 flex justify-center sm:justify-between items-center px-4 sm:px-10 py-1 font-semibold">
         <div className="hidden sm:flex space-x-6">
           <div className="flex items-center space-x-1">
             <i className="fas fa-envelope"></i>
