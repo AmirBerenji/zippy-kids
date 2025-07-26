@@ -56,8 +56,12 @@ const Account = {
   getProfile: () => requests.get<Profile>("user/profile"),
 };
 
+const Location={
+  getLocations: () => requests.get<Location>("locations")
+};
 const agent = {
   Account,
+  Location
 };
 
 export default agent;
