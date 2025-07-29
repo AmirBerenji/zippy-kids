@@ -1,5 +1,7 @@
 import CookieConfig from "@/lib/cookieconfig";
 import { Login, Profile, Register } from "@/model/auth";
+import { Languages } from "@/model/language";
+
 import axios, { AxiosResponse } from "axios";
 
 axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
@@ -56,8 +58,17 @@ const Account = {
   getProfile: () => requests.get<Profile>("user/profile"),
 };
 
+const Location={
+  getLocations: () => requests.get<Location>("locations")
+};
+
+const Language = {
+  getLanguage: () => requests.get<Languages>("languages")
+};
 const agent = {
   Account,
+  Location,
+  Language
 };
 
 export default agent;
