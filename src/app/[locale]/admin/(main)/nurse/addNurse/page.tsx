@@ -29,6 +29,31 @@ export default function NurseAddpage() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 xl:grid-cols-3 gap-5">
       
+
+        <select
+        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+        id="language"
+        name="language"
+      >
+        <option value="">Select a Languages</option>
+        {listLanguages.map((lang) => (
+          <option key={lang.id} value={lang.id}>
+            {lang.name}
+          </option>
+        ))}
+      </select>
+
+
+        <input
+        autoComplete="fullname"
+        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+        id="fullname"
+        name="fullename"
+        placeholder="Full Name"
+        type="text"
+      />
+
+
       <select
         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
         id="location"
@@ -42,20 +67,6 @@ export default function NurseAddpage() {
         ))}
       </select>
 
-
-
-        <select
-        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
-        id="location"
-        name="location"
-      >
-        <option value="">Select a Languages</option>
-        {listLanguages.map((lang) => (
-          <option key={lang.id} value={lang.id}>
-            {lang.name}
-          </option>
-        ))}
-      </select>
 
       <input
         autoComplete="email"
