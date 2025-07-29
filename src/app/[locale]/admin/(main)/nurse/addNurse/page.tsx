@@ -1,10 +1,13 @@
 "use client";
-import { getLocation } from "@/action/nurseApiAction";
+import { getLanguages, getLocation } from "@/action/nurseApiAction";
+import { Languages } from "@/model/language";
 import { Location } from "@/model/location";
 import React, { useEffect, useState } from "react";
 
 export default function NurseAddpage() {
   const [listLocation, setLocation] = useState<Location[]>([]);
+  const [listLanguages, setLanguages] = useState<Languages[]>([]);
+
 
   const [isLoading, setLoading] = useState(true);
 
@@ -16,6 +19,8 @@ export default function NurseAddpage() {
     try {
       const locationns = await getLocation();
       setLocation(locationns || []);
+      const languages = await getLanguages();
+      setLanguages(languages||[]);
     } catch (error) {
       console.error("Error loading pets:", error);
     }
@@ -23,6 +28,7 @@ export default function NurseAddpage() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 xl:grid-cols-3 gap-5">
+      
       <select
         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
         id="location"
@@ -35,6 +41,22 @@ export default function NurseAddpage() {
           </option>
         ))}
       </select>
+
+
+
+        <select
+        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+        id="location"
+        name="location"
+      >
+        <option value="">Select a Languages</option>
+        {listLanguages.map((lang) => (
+          <option key={lang.id} value={lang.id}>
+            {lang.name}
+          </option>
+        ))}
+      </select>
+
       <input
         autoComplete="email"
         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"

@@ -8,4 +8,9 @@ export async function getLocation() {
   return req?.data;
 }
 
+export async function getLanguages(){
+  const req = await agent.Language.getLanguage()
+  return req?.data;
+}
+
 
