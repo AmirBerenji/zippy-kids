@@ -14,8 +14,8 @@ export default function BannerMainPage() {
             <span className="text-[#2f3e4e] tracking-wide">Hub</span>
             {t("family")}
           </h1>
-          <p className="text-xs text-gray-500 mb-6">{t("bannerdesc")}</p>
-          <div className="flex items-center space-x-6">
+          <p className="text-xs text-gray-500 mb-6">{t("bannerdesc") }</p>
+          {/* <div className="flex items-center space-x-6">
             <button className="bg-[#ff9a5a] text-white text-xs font-semibold rounded-full px-6 py-2 hover:bg-[#e07a3f] transition flex items-center space-x-2">
               <span>{t("bannerbtn")}</span>
               <i className="fas fa-arrow-right text-xs"></i>
@@ -26,7 +26,7 @@ export default function BannerMainPage() {
               </div>
               <span>+1 800 700 000</span>
             </div>
-          </div>
+          </div> */}
           <div className="flex space-x-2 mt-6 text-gray-300 text-xs font-semibold">
             <span className="cursor-pointer hover:text-[#ff9a5a]">●</span>
             <span className="cursor-pointer hover:text-[#ff9a5a]">●</span>
