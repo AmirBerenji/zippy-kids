@@ -1,6 +1,8 @@
+import { useTranslations } from 'next-intl';
 import React from 'react'
 
 export default function AboutUs() {
+    const t = useTranslations("MiddlePart");
   return (
       <section className="max-w-7xl mx-auto px-4 sm:px-10 mt-20 flex flex-col lg:flex-row items-center gap-10">
         <div className="relative lg:w-1/2 max-w-md">
