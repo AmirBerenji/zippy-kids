@@ -1,4 +1,5 @@
 import BannerMainPage from "@/app/component/banner/BannerMainPage";
+import MiddlePart from "@/app/component/firstPage/middlePart";
 import Image from "next/image";
 
 export default function Home() {
@@ -6,42 +7,8 @@ export default function Home() {
     <>
 
     <BannerMainPage/>
-      
-      <section className="max-w-4xl mx-auto mt-20 bg-[#f7efe6] rounded-3xl px-8 py-10 flex flex-col sm:flex-row justify-between text-center sm:text-left space-y-10 sm:space-y-0 sm:space-x-10 relative">
-        <div className="sm:border-r border-[#d9d9d9] sm:pr-10">
-          <h2 className="text-4xl font-bold text-[#7ea6b9] mb-2">
-            769
-          </h2>
-          <h3 className="font-semibold text-gray-700 mb-2">
-            Happy children
-          </h3>
-          <p className="text-xs text-gray-500 max-w-xs mx-auto sm:mx-0">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget elit et elit dignissim vehicula. Nullam et sodales sapien.
-          </p>
-        </div>
-        <div className="sm:border-r border-[#d9d9d9] sm:px-10">
-          <h2 className="text-4xl font-bold text-[#7ea6b9] mb-2">
-            32K
-          </h2>
-          <h3 className="font-semibold text-gray-700 mb-2">
-            Hours worked
-          </h3>
-          <p className="text-xs text-gray-500 max-w-xs mx-auto sm:mx-0">
-            Pellentesque vulputate nulla magna bibendum, vitae convallis lacus sodales. Aenean cursus eros. Vestibulum at tristique erat.
-          </p>
-        </div>
-        <div className="sm:pl-10">
-          <h2 className="text-4xl font-bold text-[#7ea6b9] mb-2">
-            184
-          </h2>
-          <h3 className="font-semibold text-gray-700 mb-2">
-            Awards received
-          </h3>
-          <p className="text-xs text-gray-500 max-w-xs mx-auto sm:mx-0">
-            Etiam porta velit eu bibendum rhoncus. Fusce sem metus, lacinia, laoreet aliquam fringilla nec blandit. Sed convallis eros, quis odio.
-          </p>
-        </div>
-      </section>
+    <MiddlePart/>
+     
       <section className="max-w-7xl mx-auto px-4 sm:px-10 mt-20 flex flex-col lg:flex-row items-center gap-10">
         <div className="relative lg:w-1/2 max-w-md">
           <img alt="Smiling child with orange rocket backpack pointing up, isolated on white background with light blue abstract shape behind" className="relative z-10 rounded-full" height="400" src="https://storage.googleapis.com/a1aa/image/481d26af-995f-44e9-112f-63520e8420c3.jpg" width="400" />

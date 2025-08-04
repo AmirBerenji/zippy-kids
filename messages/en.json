@@ -51,5 +51,19 @@
     "dontHaveAccount": "Don't have an account?",
     "forgotPassword": "Forgot Password?",
     "rememberMe": "Remember Me"
+  },
+  "MiddlePart":{
+    "FirstPart":{
+      "title":"Easy Search",
+      "body":"Quickly find nurses, doctors, or fun spots near you."
+    },
+    "SecondPart":{
+      "title":"Verified Listings",
+      "body":" We handpick every service to ensure quality and trust."
+    },
+    "ThiredPart":{
+      "title":"Book Anytime",
+      "body":"Use our platform to book care or plan activities – all from your phone."
+    }
   }
 }
