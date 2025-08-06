@@ -65,5 +65,29 @@
       "title":"Book Anytime",
       "body":"Use our platform to book care or plan activities – all from your phone."
     }
+  },
+  "Contact":
+  {
+    "header":"Contact",
+    "body":"We’d love to hear from you! Reach out with any questions, feedback, or to join our community.",
+    "GetInTouch":{
+      "getInTouch":"Get in Touch",
+      "description":"Whether you want to learn more about our programs, have questions, or want to collaborate, we’re here to help.",
+      "phone":"Phone",
+      "email":"Email",
+      "officeHours": "Office Hours",
+      "officeHourseValue":"Monday - Friday: 9:00 AM - 6:00 PM"
+    },
+    "SendUsMessage":{
+      "sendUsMessage":"Send Us a Message",
+      "fullName":"Full Name",
+      "fullNamePlaceholder" : "Your full name",
+      "emailAddress":"Email Address",
+      "subject":"Subject",
+      "subjectPlaceholder":"Subject of your message",
+      "message":"Message",
+      "messagePlaceholder":"Write your message here...",
+      "sendMessageBtn":"Send Message"
+    }
   }
 }
