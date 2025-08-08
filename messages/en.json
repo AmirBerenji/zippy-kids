@@ -89,5 +89,21 @@
       "messagePlaceholder":"Write your message here...",
       "sendMessageBtn":"Send Message"
     }
+  },
+  "MainPage":{
+    "AboutUs":{
+      "aboutUs" : "About Us",
+      "title":"What Makes KidooHub Special?",
+      "description" : " We’re not just a directory. We carefully select and partner with professionals and places that meet our high standards for safety, reliability, and child-friendliness. Whether you're a new parent or managing a busy schedule with school-age kids, we help you make confident choices with less time.",
+      "ourServicesInclude" : "Our Services Include:",
+      "nannyNurseSupport" : "Nanny & Nurse Support",
+      "nannyNurseSupportDescription" : " Home care and supervision from qualified caregivers, including after-school and short-term help.",
+      "doctorAppointments":"Doctor Appointments",
+      "doctorAppointmentsDesciption":"Find and book pediatricians and child health specialists easily.",
+      "entertainmentEvents": " Entertainment & Events",
+      "entertainmentEventsDescription":" Explore kid-friendly cafés, activity centers, weekend events, and places to celebrate birthdays.",
+      "afterSchoolPrograms":"After-School Programs",
+      "afterSchoolProgramsDescription":"Discover safe, educational, and fun after-school care tailored to your child’s age and needs"
+    }
   }
 }

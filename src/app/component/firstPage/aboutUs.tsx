@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import React from 'react'
 
 export default function AboutUs() {
-    const t = useTranslations("MiddlePart");
+    const t = useTranslations("MainPage.AboutUs");
   return (
       <section className="max-w-7xl mx-auto px-4 sm:px-10 mt-20 flex flex-col lg:flex-row items-center gap-10">
         <div className="relative lg:w-1/2 max-w-md">
@@ -15,17 +15,17 @@ export default function AboutUs() {
         </div>
         <div className="lg:w-1/2 max-w-lg">
           <h2 className="text-3xl font-semibold text-[#2f3e4e] mb-6">
-            About us
+            {t("aboutUs")}
           </h2>
           <p className='font-semibold text-gray-700 mb-1' >
-            What Makes KidooHub Special?
+           {t("title")}
           </p>
           <p className="text-xs text-gray-500 mb-8">
-           We’re not just a directory. We carefully select and partner with professionals and places that meet our high standards for safety, reliability, and child-friendliness. Whether you're a new parent or managing a busy schedule with school-age kids, we help you make confident choices with less time.
-           </p>
+          {t("description")}
+          </p>
 
            <p className='font-semibold text-gray-700 mb-1' >
-            Our Services Include:
+           {t("ourServicesInclude")} 
           </p>
           <div className="flex flex-col space-y-6 mb-8">
             <div className="flex items-start space-x-4">
@@ -35,11 +35,10 @@ export default function AboutUs() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-700 mb-1">
-                  Nanny & Nurse Support
+                 {t("nannyNurseSupport")} Nanny & Nurse Support
                 </h3>
                 <p className="text-xs text-gray-500">
-                 Home care and supervision from qualified caregivers, including after-school and short-term help.
-                </p>
+               {t("nannyNurseSupportDescription")}  </p>
               </div>
             </div>
             <div className="flex items-start space-x-4">
@@ -49,11 +48,11 @@ export default function AboutUs() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-700 mb-1">
-                  Doctor Appointments
+                {t("doctorAppointments")}  
                 </h3>
                 <p className="text-xs text-gray-500">
-                  Find and book pediatricians and child health specialists easily.
-                  </p>
+                {t("doctorAppointmentsDesciption")}  
+                 </p>
               </div>
             </div>
             <div className="flex items-start space-x-4">
@@ -63,11 +62,11 @@ export default function AboutUs() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-700 mb-1">
-                  Entertainment & Events
+               {t("entertainmentEvents")}   
                 </h3>
                 <p className="text-xs text-gray-500">
-                  Explore kid-friendly cafés, activity centers, weekend events, and places to celebrate birthdays.
-                  </p>
+               {t("entertainmentEventsDescription")} 
+               </p>
               </div>
             </div>
              <div className="flex items-start space-x-4">
@@ -77,11 +76,11 @@ export default function AboutUs() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-700 mb-1">
-                  After-School Programs
+               {t("afterSchoolPrograms")}  
                 </h3>
                 <p className="text-xs text-gray-500">
-                  Discover safe, educational, and fun after-school care tailored to your child’s age and needs
-                  </p>
+                {t("afterSchoolProgramsDescription")} 
+                 </p>
               </div>
             </div>
           </div>
