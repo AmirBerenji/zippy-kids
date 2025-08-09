@@ -52,58 +52,57 @@
     "forgotPassword": "Forgot Password?",
     "rememberMe": "Remember Me"
   },
-  "MiddlePart":{
-    "FirstPart":{
-      "title":"Easy Search",
-      "body":"Quickly find nurses, doctors, or fun spots near you."
+  "MiddlePart": {
+    "FirstPart": {
+      "title": "Easy Search",
+      "body": "Quickly find nurses, doctors, or fun spots near you."
     },
-    "SecondPart":{
-      "title":"Verified Listings",
-      "body":" We handpick every service to ensure quality and trust."
+    "SecondPart": {
+      "title": "Verified Listings",
+      "body": " We handpick every service to ensure quality and trust."
     },
-    "ThiredPart":{
-      "title":"Book Anytime",
-      "body":"Use our platform to book care or plan activities – all from your phone."
+    "ThiredPart": {
+      "title": "Book Anytime",
+      "body": "Use our platform to book care or plan activities – all from your phone."
     }
   },
-  "Contact":
-  {
-    "header":"Contact",
-    "body":"We’d love to hear from you! Reach out with any questions, feedback, or to join our community.",
-    "GetInTouch":{
-      "getInTouch":"Get in Touch",
-      "description":"Whether you want to learn more about our programs, have questions, or want to collaborate, we’re here to help.",
-      "phone":"Phone",
-      "email":"Email",
+  "Contact": {
+    "header": "Contact",
+    "body": "We’d love to hear from you! Reach out with any questions, feedback, or to join our community.",
+    "GetInTouch": {
+      "getInTouch": "Get in Touch",
+      "description": "Whether you want to learn more about our programs, have questions, or want to collaborate, we’re here to help.",
+      "phone": "Phone",
+      "email": "Email",
       "officeHours": "Office Hours",
-      "officeHourseValue":"Monday - Friday: 9:00 AM - 6:00 PM"
+      "officeHourseValue": "Monday - Friday: 9:00 AM - 6:00 PM"
     },
-    "SendUsMessage":{
-      "sendUsMessage":"Send Us a Message",
-      "fullName":"Full Name",
-      "fullNamePlaceholder" : "Your full name",
-      "emailAddress":"Email Address",
-      "subject":"Subject",
-      "subjectPlaceholder":"Subject of your message",
-      "message":"Message",
-      "messagePlaceholder":"Write your message here...",
-      "sendMessageBtn":"Send Message"
+    "SendUsMessage": {
+      "sendUsMessage": "Send Us a Message",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Your full name",
+      "emailAddress": "Email Address",
+      "subject": "Subject",
+      "subjectPlaceholder": "Subject of your message",
+      "message": "Message",
+      "messagePlaceholder": "Write your message here...",
+      "sendMessageBtn": "Send Message"
     }
   },
-  "MainPage":{
-    "AboutUs":{
-      "aboutUs" : "About Us",
-      "title":"What Makes KidooHub Special?",
-      "description" : " We’re not just a directory. We carefully select and partner with professionals and places that meet our high standards for safety, reliability, and child-friendliness. Whether you're a new parent or managing a busy schedule with school-age kids, we help you make confident choices with less time.",
-      "ourServicesInclude" : "Our Services Include:",
-      "nannyNurseSupport" : "Nanny & Nurse Support",
-      "nannyNurseSupportDescription" : " Home care and supervision from qualified caregivers, including after-school and short-term help.",
-      "doctorAppointments":"Doctor Appointments",
-      "doctorAppointmentsDesciption":"Find and book pediatricians and child health specialists easily.",
+  "MainPage": {
+    "AboutUs": {
+      "aboutUs": "About Us",
+      "title": "What Makes KidooHub Special?",
+      "description": " We’re not just a directory. We carefully select and partner with professionals and places that meet our high standards for safety, reliability, and child-friendliness. Whether you're a new parent or managing a busy schedule with school-age kids, we help you make confident choices with less time.",
+      "ourServicesInclude": "Our Services Include:",
+      "nannyNurseSupport": "Nanny & Nurse Support",
+      "nannyNurseSupportDescription": " Home care and supervision from qualified caregivers, including after-school and short-term help.",
+      "doctorAppointments": "Doctor Appointments",
+      "doctorAppointmentsDesciption": "Find and book pediatricians and child health specialists easily.",
       "entertainmentEvents": " Entertainment & Events",
-      "entertainmentEventsDescription":" Explore kid-friendly cafés, activity centers, weekend events, and places to celebrate birthdays.",
-      "afterSchoolPrograms":"After-School Programs",
-      "afterSchoolProgramsDescription":"Discover safe, educational, and fun after-school care tailored to your child’s age and needs"
+      "entertainmentEventsDescription": " Explore kid-friendly cafés, activity centers, weekend events, and places to celebrate birthdays.",
+      "afterSchoolPrograms": "After-School Programs",
+      "afterSchoolProgramsDescription": "Discover safe, educational, and fun after-school care tailored to your child’s age and needs"
     }
   }
 }
