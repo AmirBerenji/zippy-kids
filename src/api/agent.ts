@@ -4,8 +4,8 @@ import { Languages } from "@/model/language";
 
 import axios, { AxiosResponse } from "axios";
 
-axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
-//axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+//axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -14,7 +14,7 @@ axios.interceptors.request.use(
     //const commonStore = new CommonStore();  //localStorage.getItem('jwt');
     //commonStore.getToken();
     config.headers["Authorization"] = `Bearer ${cookie}`;
-    
+
     return config;
   },
   (error) => {
@@ -58,17 +58,17 @@ const Account = {
   getProfile: () => requests.get<Profile>("user/profile"),
 };
 
-const Location={
-  getLocations: () => requests.get<Location>("locations")
+const Location = {
+  getLocations: () => requests.get<Location>("locations"),
 };
 
 const Language = {
-  getLanguage: () => requests.get<Languages>("languages")
+  getLanguage: () => requests.get<Languages>("languages"),
 };
 const agent = {
   Account,
   Location,
-  Language
+  Language,
 };
 
 export default agent;
