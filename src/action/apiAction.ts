@@ -13,6 +13,7 @@ export async function register(formdata: FormData) {
     password_confirmation: formdata.get("confirmpassword") as string,
     name: formdata.get("fullname") as string,
     phone: formdata.get("phone") as string,
+    role: formdata.get("role") as string,
   };
 
   if (
@@ -36,6 +37,7 @@ export async function register(formdata: FormData) {
 
   if (result) {
     const req = await agent.Account.register(register);
+    console.log("Register Response:", req);
     if (req.success == false) {
       return { message: req.message, success: false };
     }
