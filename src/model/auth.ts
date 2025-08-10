@@ -4,14 +4,14 @@ export interface Register {
   password_confirmation: string;
   name: string;
   phone: string;
-  role: string[];
+  role: string;
 }
 
 export interface Profile {
   email: string;
   name: string;
   phone: string;
-  role: string[];
+  role: string;
 }
 
 export interface Login {
