@@ -11,7 +11,7 @@ export interface Profile {
   email: string;
   name: string;
   phone: string;
-  role: string;
+  roles: string;
 }
 
 export interface Login {
