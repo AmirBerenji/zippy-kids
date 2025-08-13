@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
 export default function Sidebar() {
@@ -7,14 +7,21 @@ export default function Sidebar() {
 
   return (
     <div className="flex">
-      {/* Mobile toggle button */}
-      <button
-        className="top-5 left-1 md:hidden fixed  z-50 rounded-full bg-amber-500  "
+      
+      {(isOpen)?<><button
+        className="top-5 -right-2 md:hidden fixed  z-50 rounded-full h-full bg-gray-50 "
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle menu"
-      >
-        <ArrowRight className="text-xs text-white" />
-      </button>
+      >  
+        <ChevronLeft className="text-2xl text-amber-500" />
+      </button></>:<><button
+        className="top-5 -left-2 md:hidden fixed  z-50 rounded-full h-full bg-gray-100 "
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Toggle menu"
+      >  
+        <ChevronRight className="text-2xl text-amber-500" />
+      </button></>}
+      
 
       {/* Sidebar */}
       <aside
@@ -23,7 +30,7 @@ export default function Sidebar() {
           md:translate-x-0 md:relative md:flex`}
       >
         {/* Navigation */}
-        <nav className="flex flex-col gap-6 w-full px-6 text-xs text-gray-400 ">
+        <nav className="flex flex-col gap-6 w-full px-6 text-xs text-gray-600 ">
           <a href="#" className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors">
             <i className="fas fa-circle-notch text-[10px]"></i> Dashboard
           </a>
@@ -40,7 +47,7 @@ export default function Sidebar() {
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-gray-300 bg-opacity-50 md:hidden z-30"
+          className="fixed inset-0 bg-gray-50  opacity-50 md:hidden z-30"
           onClick={() => setIsOpen(false)}
         />
       )}
