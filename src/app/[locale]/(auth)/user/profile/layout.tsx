@@ -8,6 +8,7 @@ import Sidebar from "./components/Sidebar";
 
 async function getDataFromBarrer() {
   const req = await getProfile();
+  console.log("getDataFromBarrer",req);
   return req;
 }
 

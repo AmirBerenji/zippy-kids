@@ -2,7 +2,8 @@ import { getProfile } from "@/action/apiAction";
 import React from "react";
 import LeftProfileSide from "./components/LeftProfileSide";
 import ProfileNavigation from "./components/ProfileNavigation";
-import AccountSeeting from "./components/AccountSeeting";
+import AccountSetting from "./components/AccountSetting";
+
 
 async function getDataFromBarrer() {
   const req = await getProfile();
@@ -19,7 +20,7 @@ export default async function ProfilePage() {
 
         <section className="flex-1 bg-white rounded-lg shadow-md p-6 min-w-0">
           <ProfileNavigation userInfo={userData} />
-          <AccountSeeting userInfo={userData}/>
+          <AccountSetting userInfo={userData}/>
         </section>
     </section>
 
