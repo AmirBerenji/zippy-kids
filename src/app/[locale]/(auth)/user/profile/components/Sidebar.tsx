@@ -7,21 +7,27 @@ export default function Sidebar() {
 
   return (
     <div className="flex">
-      
-      {(isOpen)?<><button
-        className="top-5 -right-2 md:hidden fixed  z-50 rounded-full h-full bg-gray-50 "
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle menu"
-      >  
-        <ChevronLeft className="text-2xl text-amber-500" />
-      </button></>:<><button
-        className="top-5 -left-2 md:hidden fixed  z-50 rounded-full h-full bg-gray-100 "
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle menu"
-      >  
-        <ChevronRight className="text-2xl text-amber-500" />
-      </button></>}
-      
+      {isOpen ? (
+        <>
+          <button
+            className=" right-2 md:hidden fixed  z-50  h-full bg-gray-50 opacity-60"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            <ChevronLeft className="text-2xl text-amber-500" />
+          </button>
+        </>
+      ) : (
+        <>
+          <button
+            className="  md:hidden fixed  z-50  h-full bg-gray-50 opacity-60  "
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            <ChevronRight className="text-2xl text-amber-500" />
+          </button>
+        </>
+      )}
 
       {/* Sidebar */}
       <aside
@@ -31,13 +37,22 @@ export default function Sidebar() {
       >
         {/* Navigation */}
         <nav className="flex flex-col gap-6 w-full px-6 text-xs text-gray-600 ">
-          <a href="#" className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors">
+          <a
+            href="#"
+            className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors"
+          >
             <i className="fas fa-circle-notch text-[10px]"></i> Dashboard
           </a>
-          <a href="#" className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors">
+          <a
+            href="#"
+            className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors"
+          >
             <i className="fas fa-briefcase"></i> Opportunities
           </a>
-          <a href="#" className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors">
+          <a
+            href="#"
+            className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors"
+          >
             <i className="fas fa-box"></i> Suppliers
           </a>
           {/* Add other links here */}

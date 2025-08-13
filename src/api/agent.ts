@@ -1,5 +1,5 @@
 import CookieConfig from "@/lib/cookieconfig";
-import { Login, Profile, Register } from "@/model/auth";
+import { Login, Profile, Register, UpdateProfile } from "@/model/auth";
 import { Languages } from "@/model/language";
 
 import axios, { AxiosResponse } from "axios";
@@ -49,6 +49,22 @@ const requests = {
       })
       .then(responseBody)
       .catch((error) => error.response?.data),
+
+  put: <T>(url: string, body: object) =>
+    axios
+      .put<T, AxiosResponse<T>>(url, body)
+      .then(responseBody)
+      .catch((error) => error.response?.data),
+
+  putForm: <T>(url: string, formData: FormData) =>
+    axios
+      .put<T, AxiosResponse<T>>(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(responseBody)
+      .catch((error) => error.response?.data),
 };
 
 const Account = {
@@ -56,6 +72,8 @@ const Account = {
   register: (register: Register) =>
     requests.post<Profile>("user/register", register),
   getProfile: () => requests.get<Profile>("user/profile"),
+  updateProfile: (profile: UpdateProfile) =>
+    requests.put<Profile>("user/update", profile),
 };
 
 const Location = {

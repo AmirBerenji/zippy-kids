@@ -3,7 +3,7 @@
 import agent from "@/api/agent";
 import CookieConfig from "@/lib/cookieconfig";
 import Validation from "@/lib/validation";
-import { Login, Register } from "@/model/auth";
+import { Login, Register, UpdateProfile } from "@/model/auth";
 import { redirect } from "next/navigation";
 
 export async function register(formdata: FormData) {
@@ -37,7 +37,6 @@ export async function register(formdata: FormData) {
 
   if (result) {
     const req = await agent.Account.register(register);
-    console.log("Register Response:", req);
     if (req.success == false) {
       return { message: req.message, success: false };
     }
@@ -80,4 +79,35 @@ export async function getProfile() {
 
 export async function signOut() {
   new CookieConfig().deleteCookie("jwt");
+}
+
+export async function updateProfile(formdata: FormData) {
+  const update: UpdateProfile = {
+    email: formdata.get("email") as string,
+    name: formdata.get("fullname") as string,
+    phone: formdata.get("phone") as string,
+  };
+
+  if (
+    (typeof update.email == "undefined" && !update.email) ||
+    (typeof update.name == "undefined" && !update.name)
+  ) {
+    return { message: "Please fill all data!!!", success: false };
+  }
+  if (typeof update.phone == "undefined" || update.phone == null) {
+    update.phone = "";
+  }
+
+  const result = new Validation().validateEmail(update.email);
+
+  if (result) {
+    console.log("Update Profile", update);
+    const req = await agent.Account.updateProfile(update);
+    console.log("Update Profile", req);
+    if (req.success == false) {
+      return { message: req.message, success: false };
+    }
+    return { message: "Profile updated successfully", success: true };
+  }
+  return { message: "Your email format is not true", success: false };
 }
