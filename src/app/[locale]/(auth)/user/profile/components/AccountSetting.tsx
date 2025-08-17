@@ -19,9 +19,9 @@ export default function AccountSetting({ userInfo }: Props) {
   // Initialize state from props when component mounts
   useEffect(() => {
     if (userInfo) {
-      setFullName(userInfo.name || "");
-      setPhone(userInfo.phone || "");
-      setEmail(userInfo.email || "");
+      setFullName(userInfo?.name || "");
+      setPhone(userInfo?.phone || "");
+      setEmail(userInfo?.email || "");
     }
   }, [userInfo]);
 
@@ -96,7 +96,7 @@ export default function AccountSetting({ userInfo }: Props) {
 
       <div className="md:col-span-2 pt-4">
         <button
-          className="bg-[#fdb68a] text-white text-xs font-semibold rounded px-5 py-2 hover:bg-orange-400 transition"
+          className="bg-orange-400 text-white text-xs font-semibold rounded px-5 py-2 hover:bg-orange-600 transition"
           type="submit"
         >
           Update
