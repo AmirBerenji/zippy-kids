@@ -3,38 +3,43 @@ import React from "react";
 
 interface Props {
   userInfo: Profile;
+  activeTab: string;
+  onChangeTab: (tab: string) => void;
 }
 
-export default function ProfileNavigation(prop: Props) {
+export default function ProfileNavigation({
+  userInfo,
+  activeTab,
+  onChangeTab,
+}: Props) {
+  const tabs =
+    userInfo?.roles == "parent"
+      ? [{ key: "account", label: "Account Settings" }]
+      : userInfo?.roles == "nurse"
+      ? [
+          { key: "account", label: "Wesite Account Setting" },
+          { key: "technicalInfo", label: "Nurse Information" },
+          // { key: "documents", label: "Documents" },
+          // { key: "billing", label: "Billing" },
+          // { key: "notifications", label: "Notifications" },
+        ]
+      : [];
+
   return (
-    <>
-      <nav className="flex flex-wrap border-b border-gray-200 text-xs text-gray-400 mb-6 select-none">
-        {prop.userInfo.roles == "parent" ? (
-          <>
-            <button className="border-b-2 border-[#3b5dd8] text-[#3b5dd8] font-semibold pb-2 mr-4 mb-2">
-              Account Settings
-            </button>
-          </>
-        ) : (
-          <>
-            <button className="border-b-2 border-[#3b5dd8] text-[#3b5dd8] font-semibold pb-2 mr-4 mb-2">
-              Account Settings
-            </button>
-            <button className="mr-4 mb-2 hover:text-[#3b5dd8] transition-colors">
-              Company Settings
-            </button>
-            <button className="mr-4 mb-2 hover:text-[#3b5dd8] transition-colors">
-              Documents
-            </button>
-            <button className="mr-4 mb-2 hover:text-[#3b5dd8] transition-colors">
-              Billing
-            </button>
-            <button className="mb-2 hover:text-[#3b5dd8] transition-colors">
-              Notifications
-            </button>
-          </>
-        )}
-      </nav>
-    </>
+    <nav className="flex flex-wrap border-b border-gray-200 text-xs text-gray-400 mb-6 select-none">
+      {tabs.map((tab) => (
+        <button
+          key={tab.key}
+          className={`mr-4 mb-2 pb-2 transition-colors ${
+            activeTab === tab.key
+              ? "border-b-2 text-[#ff9a5a] text-[#ff9a5a] font-semibold"
+              : "hover:text-[#ff9a5a]"
+          }`}
+          onClick={() => onChangeTab(tab.key)}
+        >
+          {tab.label}
+        </button>
+      ))}
+    </nav>
   );
 }

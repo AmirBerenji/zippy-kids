@@ -7,7 +7,7 @@ export default function Serviceheader() {
     <>
       <section className="py-16 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
         <h1 className="text-3xl sm:text-5xl font-extrabold text-[#2f3e4e] max-w-4xl mx-auto leading-tight">
-          {t("header")} <span className="text-[#ff9a5a]">Zippy Kids</span>
+          {t("header")} <span className="text-[#ff9a5a]">Kidoo</span>Hub
         </h1>
         <p className="mt-4 text-lg sm:text-lg text-gray-600 max-w-3xl mx-auto">
           {t("body")}
