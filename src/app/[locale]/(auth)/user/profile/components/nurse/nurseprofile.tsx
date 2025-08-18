@@ -60,6 +60,7 @@ export default function NurseProfile(prop: Props) {
     );
   };
 
+
   const removeLanguage = (langId: string | number) => {
     const stringId = String(langId);
     setSelectedLanguages(prev => prev.filter(lang => lang.id !== stringId));
