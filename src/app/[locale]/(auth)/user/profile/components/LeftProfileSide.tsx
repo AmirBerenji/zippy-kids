@@ -8,8 +8,12 @@ interface Props {
 export default function LeftProfileSide(prop: Props) {
   return (
     <>
-      <aside className="bg-white rounded-lg shadow-md w-full md:w-64 flex flex-col items-center pt-12 pb-6 px-6">
-        <div className="relative">
+      <aside >
+        <div className="bg-white rounded-lg shadow-md w-full md:w-64 flex flex-col items-center pt-12 pb-20 px-6" >
+
+
+
+ <div className="relative">
           <img
             alt="Profile picture of Nathaniel Poole"
             className="w-24 h-24 rounded-full object-cover border-4 border-white"
@@ -30,6 +34,12 @@ export default function LeftProfileSide(prop: Props) {
         <p className="text-xs text-gray-400 text-center mt-1">
           {prop.userInfo?.email}
         </p>
+
+
+
+
+        </div>
+       
 
         {/* <div className="mt-6 w-full space-y-3 text-xs text-gray-500">
       <div className="flex justify-between border-b border-gray-100 pb-1">
