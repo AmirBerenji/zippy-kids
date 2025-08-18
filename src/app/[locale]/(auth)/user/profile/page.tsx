@@ -5,7 +5,7 @@ import LeftProfileSide from "./components/LeftProfileSide";
 import ProfileNavigation from "./components/ProfileNavigation";
 import AccountSetting from "./components/AccountSetting";
 import { Profile } from "@/model/auth";
-import NurseProfile from "./components/nurse/NurseProfile";
+import NurseProfile from "./components/nurse/nurseprofile";
 
 
 
