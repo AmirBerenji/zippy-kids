@@ -32,7 +32,7 @@ export default function NurseProfile(prop: Props) {
   return (
     <>
       <div className="bg-white p-5  rounded-2xl shadow-xl  ">
-        <div className="grid grid-cols-1  ">
+        <div className="grid grid-cols-1 php  ">
           <div></div>
           <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 xl:grid-cols-3 gap-5  ">
             <select
@@ -82,51 +82,55 @@ export default function NurseProfile(prop: Props) {
             </select>
 
             <input
-              autoComplete="email"
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
-              id="email1"
-              name="email1"
-              placeholder="you@example.com"
-              type="email"
-            />
-            <input
-              autoComplete="off"
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
-              id="email2"
-              name="email2"
-              placeholder="you@example.com"
+              id="yearsExperience"
+              name="yearsExperience"
+              placeholder="Years Experience"
               type="text"
             />
             <input
-              autoComplete="off"
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
-              id="email3"
-              name="email3"
-              placeholder="you@example.com"
+              id="dayavailable"
+              name="dayavailable"
+              placeholder="Day Available"
               type="text"
             />
             <input
-              autoComplete="email"
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
-              id="email1"
-              name="email1"
-              placeholder="you@example.com"
-              type="email"
+              id="commitment_type"
+              name="commitment_type"
+              placeholder="commitment type"
+              type="text"
             />
+
             <input
-              autoComplete="off"
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
-              id="email2"
-              name="email2"
-              placeholder="you@example.com"
+              id="hourly_rate"
+              name="hourly_rate"
+              placeholder="hourly_rate"
               type="text"
             />
             <input
-              autoComplete="off"
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
-              id="email3"
-              name="email3"
-              placeholder="you@example.com"
+              id="booking_type"
+              name="booking_type"
+              placeholder="booking_type"
+              type="text"
+            />
+
+            <input
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+              id="photo"
+              name="photo"
+              placeholder="photo"
+              type="text"
+            />
+
+            <input
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+              id="fixed_package_description"
+              name="fixed_package_description"
+              placeholder="fixed_package_description"
               type="text"
             />
           </div>
