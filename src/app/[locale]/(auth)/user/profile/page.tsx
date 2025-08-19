@@ -7,8 +7,6 @@ import AccountSetting from "./components/AccountSetting";
 import { Profile } from "@/model/auth";
 import NurseProfile from "./components/nurse/nurseprofile";
 
-
-
 async function getDataFromBarrer() {
   const req = await getProfile();
   return req;
