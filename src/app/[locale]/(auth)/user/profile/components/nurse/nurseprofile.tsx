@@ -1,5 +1,9 @@
 "use client";
-import { getLanguages, getLocation } from "@/action/nurseApiAction";
+import {
+  addNuresProfile,
+  getLanguages,
+  getLocation,
+} from "@/action/nurseApiAction";
 import { Profile } from "@/model/auth";
 import { Languages } from "@/model/language";
 import { Location } from "@/model/location";
@@ -36,7 +40,9 @@ interface FormData {
 export default function NannyProfile(prop: Props) {
   const [listLocation, setLocation] = useState<Location[]>([]);
   const [listLanguages, setLanguages] = useState<Languages[]>([]);
-  const [selectedLanguages, setSelectedLanguages] = useState<SelectedLanguage[]>([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<
+    SelectedLanguage[]
+  >([]);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,17 +60,17 @@ export default function NannyProfile(prop: Props) {
     booking_type: "",
     fixed_package_description: "",
     video_intro_url: "",
-    resume_url: ""
+    resume_url: "",
   });
 
   const daysOfWeek = [
-    { id: 'monday', name: 'Monday', short: 'Mon' },
-    { id: 'tuesday', name: 'Tuesday', short: 'Tue' },
-    { id: 'wednesday', name: 'Wednesday', short: 'Wed' },
-    { id: 'thursday', name: 'Thursday', short: 'Thu' },
-    { id: 'friday', name: 'Friday', short: 'Fri' },
-    { id: 'saturday', name: 'Saturday', short: 'Sat' },
-    { id: 'sunday', name: 'Sunday', short: 'Sun' }
+    { id: "monday", name: "Monday", short: "Mon" },
+    { id: "tuesday", name: "Tuesday", short: "Tue" },
+    { id: "wednesday", name: "Wednesday", short: "Wed" },
+    { id: "thursday", name: "Thursday", short: "Thu" },
+    { id: "friday", name: "Friday", short: "Fri" },
+    { id: "saturday", name: "Saturday", short: "Sat" },
+    { id: "sunday", name: "Sunday", short: "Sun" },
   ];
 
   useEffect(() => {
@@ -84,40 +90,50 @@ export default function NannyProfile(prop: Props) {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleLanguageChange = (langId: string | number, langName: string, isChecked: boolean) => {
+  const handleLanguageChange = (
+    langId: string | number,
+    langName: string,
+    isChecked: boolean
+  ) => {
     const stringId = String(langId);
     if (isChecked) {
-      setSelectedLanguages(prev => [
+      setSelectedLanguages((prev) => [
         ...prev,
-        { 
-          id: stringId, 
-          name: langName, 
-          fullName: '',
-          specialization: '',
-          ageGroups: ''
-        }
+        {
+          id: stringId,
+          name: langName,
+          fullName: "",
+          specialization: "",
+          ageGroups: "",
+        },
       ]);
     } else {
-      setSelectedLanguages(prev => prev.filter(lang => lang.id !== stringId));
+      setSelectedLanguages((prev) =>
+        prev.filter((lang) => lang.id !== stringId)
+      );
     }
   };
 
   const handleLanguageDetailChange = (
-    langId: string | number, 
-    field: 'fullName' | 'specialization' | 'ageGroups', 
+    langId: string | number,
+    field: "fullName" | "specialization" | "ageGroups",
     value: string
   ) => {
     const stringId = String(langId);
-    setSelectedLanguages(prev =>
-      prev.map(lang =>
+    setSelectedLanguages((prev) =>
+      prev.map((lang) =>
         lang.id === stringId ? { ...lang, [field]: value } : lang
       )
     );
@@ -125,14 +141,14 @@ export default function NannyProfile(prop: Props) {
 
   const removeLanguage = (langId: string | number) => {
     const stringId = String(langId);
-    setSelectedLanguages(prev => prev.filter(lang => lang.id !== stringId));
+    setSelectedLanguages((prev) => prev.filter((lang) => lang.id !== stringId));
   };
 
   const handleDayChange = (dayId: string, isChecked: boolean) => {
     if (isChecked) {
-      setSelectedDays(prev => [...prev, dayId]);
+      setSelectedDays((prev) => [...prev, dayId]);
     } else {
-      setSelectedDays(prev => prev.filter(day => day !== dayId));
+      setSelectedDays((prev) => prev.filter((day) => day !== dayId));
     }
   };
 
@@ -144,13 +160,17 @@ export default function NannyProfile(prop: Props) {
     if (!formData.hourly_rate) return "Hourly rate is required";
     if (!formData.booking_type) return "Booking type is required";
     if (selectedDays.length === 0) return "At least one day must be selected";
-    if (selectedLanguages.length === 0) return "At least one language must be selected";
-    
+    if (selectedLanguages.length === 0)
+      return "At least one language must be selected";
+
     // Validate language translations
     for (const lang of selectedLanguages) {
-      if (!lang.fullName.trim()) return `Full name is required for ${lang.name}`;
-      if (!lang.specialization.trim()) return `Specialization is required for ${lang.name}`;
-      if (!lang.ageGroups.trim()) return `Age groups is required for ${lang.name}`;
+      if (!lang.fullName.trim())
+        return `Full name is required for ${lang.name}`;
+      if (!lang.specialization.trim())
+        return `Specialization is required for ${lang.name}`;
+      if (!lang.ageGroups.trim())
+        return `Age groups is required for ${lang.name}`;
     }
 
     return null;
@@ -158,12 +178,14 @@ export default function NannyProfile(prop: Props) {
 
   const mapFormDataToNannyModel = (): Nanny => {
     // Create nanny translations
-    const nannytranslation: NannyTranslation[] = selectedLanguages.map(lang => ({
-      language_code: lang.id,
-      full_name: lang.fullName.trim(),
-      specialization: lang.specialization.trim(),
-      age_groups: lang.ageGroups.trim()
-    }));
+    const nannytranslation: NannyTranslation[] = selectedLanguages.map(
+      (lang) => ({
+        language_code: lang.id,
+        full_name: lang.fullName.trim(),
+        specialization: lang.specialization.trim(),
+        age_groups: lang.ageGroups.trim(),
+      })
+    );
 
     // Map form data to Nanny model
     const nannyData: Nanny = {
@@ -171,7 +193,7 @@ export default function NannyProfile(prop: Props) {
       location_id: parseInt(formData.location_id),
       years_experience: parseInt(formData.years_experience),
       working_hours: formData.working_hours || "9:00-17:00", // Default or from form
-      days_available: selectedDays.join(','), // Convert array to comma-separated string
+      days_available: selectedDays.join(","), // Convert array to comma-separated string
       commitment_type: formData.commitment_type,
       hourly_rate: parseFloat(formData.hourly_rate),
       fixed_package_description: formData.fixed_package_description,
@@ -181,34 +203,21 @@ export default function NannyProfile(prop: Props) {
       is_verified: true,
       video_intro_url: formData.video_intro_url || "",
       resume_url: formData.resume_url || "",
-      nannytranslation: nannytranslation
+      nannytranslation: nannytranslation,
     };
 
     return nannyData;
   };
 
   const submitToAPI = async (nannyData: Nanny) => {
-    // Replace this with your actual API endpoint
-    const response = await fetch('/api/nanny/profile', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // Add any authentication headers if needed
-      },
-      body: JSON.stringify(nannyData)
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to save profile');
-    }
-
-    return await response.json();
+    console.log("Submitting nanny data:", nannyData);
+    var req = await addNuresProfile(nannyData);
+    console.log("API Response:", req);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Reset previous states
     setSubmitError(null);
     setSubmitSuccess(false);
@@ -225,22 +234,25 @@ export default function NannyProfile(prop: Props) {
     try {
       // Map form data to model
       const nannyData = mapFormDataToNannyModel();
-      
+
       // Log the data for debugging (remove in production)
-      console.log('Submitting nanny data:', nannyData);
-      
+      console.log("Submitting nanny data:", nannyData);
+
       // Submit to API
       const result = await submitToAPI(nannyData);
-      
-      console.log('API Response:', result);
+
+      console.log("API Response:", result);
       setSubmitSuccess(true);
-      
+
       // Optionally reset form or redirect
       // resetForm();
-      
     } catch (error) {
-      console.error('Error submitting form:', error);
-      setSubmitError(error instanceof Error ? error.message : 'An error occurred while saving your profile');
+      console.error("Error submitting form:", error);
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "An error occurred while saving your profile"
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -257,7 +269,7 @@ export default function NannyProfile(prop: Props) {
       booking_type: "",
       fixed_package_description: "",
       video_intro_url: "",
-      resume_url: ""
+      resume_url: "",
     });
     setSelectedLanguages([]);
     setSelectedDays([]);
@@ -277,7 +289,6 @@ export default function NannyProfile(prop: Props) {
     <div className="bg-white text-xs p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         <form onSubmit={handleSubmit}>
-          
           {/* Success/Error Messages */}
           {submitSuccess && (
             <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">
@@ -308,7 +319,8 @@ export default function NannyProfile(prop: Props) {
             </label>
             <span className="text-[#fdb68a] text-xs inline-flex items-center">
               <ShieldAlert size={16} className="mr-1" />
-              Based on your language selected we show your information in nanny list
+              Based on your language selected we show your information in nanny
+              list
             </span>
 
             {/* Language Checkboxes */}
@@ -323,9 +335,15 @@ export default function NannyProfile(prop: Props) {
                     name="language"
                     value={String(lang.id)}
                     className="w-4 h-4 text-[#fdb68a] border-gray-300 rounded focus:ring-[#fdb68a] focus:ring-2"
-                    checked={selectedLanguages.some(selected => selected.id === String(lang.id))}
+                    checked={selectedLanguages.some(
+                      (selected) => selected.id === String(lang.id)
+                    )}
                     onChange={(e) => {
-                      handleLanguageChange(lang.id, lang.name || '', e.target.checked);
+                      handleLanguageChange(
+                        lang.id,
+                        lang.name || "",
+                        e.target.checked
+                      );
                     }}
                   />
                   <span className="text-gray-700 select-none text-sm">
@@ -343,7 +361,10 @@ export default function NannyProfile(prop: Props) {
                 </h3>
                 <div className="space-y-6">
                   {selectedLanguages.map((lang) => (
-                    <div key={lang.id} className="border border-gray-200 rounded-lg p-4">
+                    <div
+                      key={lang.id}
+                      className="border border-gray-200 rounded-lg p-4"
+                    >
                       <div className="flex items-center justify-between mb-4">
                         <h4 className="text-sm font-medium text-gray-800">
                           {lang.name} Details
@@ -356,7 +377,7 @@ export default function NannyProfile(prop: Props) {
                           <X size={16} />
                         </button>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-600 mb-1">
@@ -365,13 +386,19 @@ export default function NannyProfile(prop: Props) {
                           <input
                             type="text"
                             value={lang.fullName}
-                            onChange={(e) => handleLanguageDetailChange(lang.id, 'fullName', e.target.value)}
+                            onChange={(e) =>
+                              handleLanguageDetailChange(
+                                lang.id,
+                                "fullName",
+                                e.target.value
+                              )
+                            }
                             placeholder={`Full name in ${lang.name}`}
                             className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
                             required
                           />
                         </div>
-                        
+
                         <div>
                           <label className="block text-sm font-medium text-gray-600 mb-1">
                             Specialization *
@@ -379,13 +406,19 @@ export default function NannyProfile(prop: Props) {
                           <input
                             type="text"
                             value={lang.specialization}
-                            onChange={(e) => handleLanguageDetailChange(lang.id, 'specialization', e.target.value)}
+                            onChange={(e) =>
+                              handleLanguageDetailChange(
+                                lang.id,
+                                "specialization",
+                                e.target.value
+                              )
+                            }
                             placeholder={`Specialization in ${lang.name}`}
                             className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
                             required
                           />
                         </div>
-                        
+
                         <div>
                           <label className="block text-sm font-medium text-gray-600 mb-1">
                             Age Groups *
@@ -393,7 +426,13 @@ export default function NannyProfile(prop: Props) {
                           <input
                             type="text"
                             value={lang.ageGroups}
-                            onChange={(e) => handleLanguageDetailChange(lang.id, 'ageGroups', e.target.value)}
+                            onChange={(e) =>
+                              handleLanguageDetailChange(
+                                lang.id,
+                                "ageGroups",
+                                e.target.value
+                              )
+                            }
                             placeholder="e.g., 0-3, 4-8, 9-12"
                             className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
                             required
@@ -409,9 +448,11 @@ export default function NannyProfile(prop: Props) {
 
           {/* Other Form Fields */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-
             <div>
-              <label htmlFor="gender" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="gender"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Gender *
               </label>
               <select
@@ -430,7 +471,10 @@ export default function NannyProfile(prop: Props) {
             </div>
 
             <div>
-              <label htmlFor="location_id" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="location_id"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Location *
               </label>
               <select
@@ -451,7 +495,10 @@ export default function NannyProfile(prop: Props) {
             </div>
 
             <div>
-              <label htmlFor="years_experience" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="years_experience"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Years of Experience *
               </label>
               <input
@@ -468,7 +515,10 @@ export default function NannyProfile(prop: Props) {
             </div>
 
             <div>
-              <label htmlFor="working_hours" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="working_hours"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Working Hours
               </label>
               <input
@@ -483,7 +533,10 @@ export default function NannyProfile(prop: Props) {
             </div>
 
             <div>
-              <label htmlFor="commitment_type" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="commitment_type"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Commitment Type *
               </label>
               <select
@@ -502,7 +555,10 @@ export default function NannyProfile(prop: Props) {
             </div>
 
             <div>
-              <label htmlFor="hourly_rate" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="hourly_rate"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Hourly Rate ($) *
               </label>
               <input
@@ -520,7 +576,10 @@ export default function NannyProfile(prop: Props) {
             </div>
 
             <div>
-              <label htmlFor="booking_type" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="booking_type"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Booking Type *
               </label>
               <select
@@ -539,7 +598,10 @@ export default function NannyProfile(prop: Props) {
             </div>
 
             <div>
-              <label htmlFor="video_intro_url" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="video_intro_url"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Video Introduction URL
               </label>
               <input
@@ -554,7 +616,10 @@ export default function NannyProfile(prop: Props) {
             </div>
 
             <div>
-              <label htmlFor="resume_url" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="resume_url"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Resume URL
               </label>
               <input
@@ -597,16 +662,22 @@ export default function NannyProfile(prop: Props) {
             </div>
             {selectedDays.length > 0 && (
               <div className="mt-2 text-xs text-[#fdb68a]">
-                Selected: {selectedDays.map(dayId => 
-                  daysOfWeek.find(day => day.id === dayId)?.name
-                ).join(', ')}
+                Selected:{" "}
+                {selectedDays
+                  .map(
+                    (dayId) => daysOfWeek.find((day) => day.id === dayId)?.name
+                  )
+                  .join(", ")}
               </div>
             )}
           </div>
 
           {/* Package Description */}
           <div className="mb-6">
-            <label htmlFor="fixed_package_description" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="fixed_package_description"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Package Description
             </label>
             <textarea
@@ -633,10 +704,10 @@ export default function NannyProfile(prop: Props) {
                   Saving...
                 </>
               ) : (
-                'Save Profile'
+                "Save Profile"
               )}
             </button>
-            
+
             {(submitSuccess || submitError) && (
               <button
                 type="button"
