@@ -11,6 +11,7 @@ import { Location } from "@/model/location";
 import React, { useEffect, useState } from "react";
 import { ShieldAlert, X, Loader2, Check } from "lucide-react";
 import { Nanny, NannyTranslation } from "@/model/nany";
+import LoadingPage from "@/app/component/general/Loading";
 
 interface Props {
   userInfo: Profile;
@@ -279,9 +280,7 @@ export default function NannyProfile(prop: Props) {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center p-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#fdb68a]"></div>
-      </div>
+      <LoadingPage/>
     );
   }
 
@@ -317,7 +316,7 @@ export default function NannyProfile(prop: Props) {
             <label className="block text-gray-700 font-medium mb-2">
               Select languages you can speak *
             </label>
-            <span className="text-[#fdb68a] text-xs inline-flex items-center">
+            <span className="text-[#ff9a5a] text-xs inline-flex items-center">
               <ShieldAlert size={16} className="mr-1" />
               Based on your language selected we show your information in nanny
               list
@@ -334,7 +333,7 @@ export default function NannyProfile(prop: Props) {
                     type="checkbox"
                     name="language"
                     value={String(lang.id)}
-                    className="w-4 h-4 text-[#fdb68a] border-gray-300 rounded focus:ring-[#fdb68a] focus:ring-2"
+                    className="w-4 h-4 text-[#ff9a5a] border-gray-300 rounded focus:ring-[#fdb68a] focus:ring-2"
                     checked={selectedLanguages.some(
                       (selected) => selected.id === String(lang.id)
                     )}
@@ -649,7 +648,7 @@ export default function NannyProfile(prop: Props) {
                     type="checkbox"
                     name="dayavailable"
                     value={day.id}
-                    className="w-4 h-4 text-[#fdb68a] border-gray-300 rounded focus:ring-[#fdb68a] focus:ring-2"
+                    className="w-4 h-4 text-[#ff9a5a] border-gray-300 rounded focus:ring-[#ff9a5a] focus:ring-2"
                     checked={selectedDays.includes(day.id)}
                     onChange={(e) => handleDayChange(day.id, e.target.checked)}
                   />
@@ -661,7 +660,7 @@ export default function NannyProfile(prop: Props) {
               ))}
             </div>
             {selectedDays.length > 0 && (
-              <div className="mt-2 text-xs text-[#fdb68a]">
+              <div className="mt-2 text-xs text-[#ff9a5a]">
                 Selected:{" "}
                 {selectedDays
                   .map(
@@ -696,7 +695,7 @@ export default function NannyProfile(prop: Props) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-[#fdb68a] hover:bg-[#fd9f5a] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-2 px-6 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:ring-offset-2 flex items-center justify-center"
+              className="bg-[#ff9a5a] hover:bg-[#fc8d3d] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-2 px-6 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:ring-offset-2 flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>
