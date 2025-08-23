@@ -279,9 +279,7 @@ export default function NannyProfile(prop: Props) {
   };
 
   if (isLoading) {
-    return (
-      <LoadingPage/>
-    );
+    return <LoadingPage />;
   }
 
   return (
@@ -547,9 +545,9 @@ export default function NannyProfile(prop: Props) {
                 required
               >
                 <option value="">Select commitment type</option>
-                <option value="full-time">Full Time</option>
-                <option value="part-time">Part Time</option>
-                <option value="contract">Contract</option>
+                <option value="Short-term">Short Term</option>
+                <option value="Long-term">Long Term</option>
+                <option value="temporary">Temporary</option>
               </select>
             </div>
 
@@ -590,9 +588,9 @@ export default function NannyProfile(prop: Props) {
                 required
               >
                 <option value="">Select booking type</option>
-                <option value="immediate">Immediate</option>
-                <option value="scheduled">Scheduled</option>
-                <option value="both">Both</option>
+                <option value="direct">Direct</option>
+                <option value="Interview">Interview</option>
+                <option value="on_request">On Request</option>
               </select>
             </div>
 
