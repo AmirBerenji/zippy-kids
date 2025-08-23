@@ -1,11 +1,12 @@
 import CookieConfig from "@/lib/cookieconfig";
 import { Login, Profile, Register, UpdateProfile } from "@/model/auth";
 import { Languages } from "@/model/language";
+import { Nanny } from "@/model/nany";
 
 import axios, { AxiosResponse } from "axios";
 
-axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
-//axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+//axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -83,10 +84,17 @@ const Location = {
 const Language = {
   getLanguage: () => requests.get<Languages>("languages"),
 };
+
+const Nurse = {
+  addNurseProfile: (profile: Nanny) => requests.post<Nanny>("nannies", profile),
+  getNurseProfile: () => requests.get<Profile>("nurse/profile"),
+};
+
 const agent = {
   Account,
   Location,
   Language,
+  Nurse,
 };
 
 export default agent;
