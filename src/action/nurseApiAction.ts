@@ -13,8 +13,10 @@ export async function getLanguages() {
   return req?.data;
 }
 export async function addNuresProfile(profile: Nanny) {
-  console.log("Nurse profile", profile);
   const req = await agent.Nurse.addNurseProfile(profile);
-  console.log("Nurse profile response", req);
+  return req?.data;
+}
+export async function getNuresList(value: string) {
+  const req = await agent.Nurse.getNurseList(value);
   return req?.data;
 }

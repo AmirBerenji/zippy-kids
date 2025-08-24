@@ -1,5 +1,6 @@
 "use client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function Sidebar() {
@@ -37,18 +38,18 @@ export default function Sidebar() {
       >
         {/* Navigation */}
         <nav className="flex flex-col gap-6 w-full px-6 text-xs text-gray-600 ">
-          <a
-            href="#"
+          <Link href="/" className="mb-10">
+            <h1 className="text-3xl font-extrabold text-[#2f3e4e]">
+              <span className="text-[#ff9a5a]">Kidoo</span>Hub
+            </h1>
+          </Link>
+          <Link
+            href="/user/profile"
             className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors"
           >
-            <i className="fas fa-circle-notch text-[10px]"></i> Dashboard
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors"
-          >
-            <i className="fas fa-briefcase"></i> Opportunities
-          </a>
+            <i className="fas fa-user"></i>Dashboard
+          </Link>
+
           <a
             href="#"
             className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors"
