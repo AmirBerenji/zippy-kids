@@ -12,20 +12,18 @@ export default function LoginForm() {
   const [message, setMessage] = useState("");
   const [isLoading, setLoading] = useState(false);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setMessage("");
     event.preventDefault();
     setLoading(true);
 
     const formData = new FormData(event.currentTarget);
     const result = await login(formData);
 
-    if (result) {
+    console.log("Result", result);
+    if (result.error) {
       setMessage(result.message);
-    } else {
-      // ✅ Redirect or show success as needed
-      // e.g., router.push('/dashboard')
     }
-
-     setLoading(false);
+    setLoading(false);
   };
   return (
     <form onSubmit={handleSubmit} className="space-y-6" method="POST">

@@ -1,11 +1,35 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import NurseCard from "./component/nurseCard";
+import { getNuresList } from "@/action/nurseApiAction";
 
 export default function Nursepage() {
+  const [nurses, setNurses] = useState([]);
+
+  useEffect(() => {
+    const fetchNurses = async () => {
+      const data = await getNuresList("");
+      console.log("Nurses data:", data.nannies);
+      setNurses(data.nannies || []);
+    };
+    fetchNurses();
+  }, []);
+
   return (
     <>
       <div className="w-11/12 mx-auto justify-center space-x-4 space-y-7  pt-3  pb-3 grid grid-cols-1 lg:grid-cols-4  md:grid-cols-4  ">
-        <NurseCard
+        {nurses.map((nurse: any) => (
+          <NurseCard
+            key={nurse.id}
+            image={
+              nurse.image ||
+              "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
+            }
+            title={nurse.translations[0].full_name || "Nurse Name"}
+            description={nurse.description || "No description available."}
+          />
+        ))}
+        {/* <NurseCard
           image="https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
           title="Nurse Care"
           description="Professional nursing support ensuring children's health and well-being."
@@ -39,7 +63,7 @@ export default function Nursepage() {
           image="/assets/images/service/nurse-service.jpg"
           title="Nurse Care"
           description="Professional nursing support ensuring children's health and well-being."
-        />
+        /> */}
       </div>
     </>
   );
