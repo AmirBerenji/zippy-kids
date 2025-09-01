@@ -39,7 +39,8 @@
     "signupbtn": "Зарегистрироваться",
     "placeholder": "Введите ваш пароль",
     "signin": "Войти",
-    "alreadyHaveAccount": "Уже есть аккаунт?"
+    "alreadyHaveAccount": "Уже есть аккаунт?",
+    "roleSelect": "Выберите свою роль"
   },
   "SignIn": {
     "header": "С возвращением",

@@ -13,12 +13,12 @@ export interface Nanny {
   is_verified: true,
   video_intro_url: string,
   resume_url: string,
-  nannytranslation: NannyTranslation[]
+  nannytranslation: NannyTranslation[],
+      age_groups: string;
 }
 
 export interface NannyTranslation{
     language_code: string;
     full_name: string;
     specialization: string;
-    age_groups: string;
 }

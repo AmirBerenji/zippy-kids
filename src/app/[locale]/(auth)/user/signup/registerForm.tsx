@@ -44,7 +44,7 @@ export default function RegisterForm() {
         {/* Role Selection */}
         <div>
           <label className="block text-sm font-semibold text-[#2f3e4e] mb-3">
-            Select Your Role
+            {t("roleSelect")}
           </label>
           <div className="grid grid-cols-3 gap-4">
             {roles.map((role) => (

@@ -39,7 +39,8 @@
     "signupbtn": "Sign Up",
     "placeholder": "Enter your password",
     "signin": "Sign In",
-    "alreadyHaveAccount": "Already have an account?"
+    "alreadyHaveAccount": "Already have an account?",
+    "roleSelect": "Select Your Role"
   },
   "SignIn": {
     "header": "Welcome Back",
