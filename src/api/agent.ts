@@ -5,7 +5,6 @@ import { Nanny } from "@/model/nany";
 
 import axios, { AxiosResponse } from "axios";
 
-
 axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
 //axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
@@ -34,7 +33,10 @@ const requests = {
       .catch((error) => error.response?.data),
 
   getbyvalue: <T>(url: string, value: string) =>
-    axios.get<T>(url + "?" + value).then(responseBody),
+    axios
+      .get<T>(url + "?" + value)
+      .then(responseBody)
+      .catch((error) => error.response?.data),
 
   post: <T>(url: string, body: object) =>
     axios
@@ -88,7 +90,10 @@ const Language = {
 
 const Nurse = {
   addNurseProfile: (profile: Nanny) => requests.post<Nanny>("nannies", profile),
-  getNurseProfile: () => requests.get<Profile>("nurse/profile"),
+  getNurseProfile: (value: string) =>
+    requests.getbyvalue<Profile>("nannies", value),
+  getNurseList: (value: string) =>
+    requests.getbyvalue<Nanny[]>("nannies", value),
 };
 
 const agent = {
