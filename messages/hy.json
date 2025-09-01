@@ -38,8 +38,8 @@
       "confirmPassword": "Հաստատել գաղտնաբառը",
       "signupbtn": "Գրանցվել",
       "placeholder": "Մուտքագրեք ձեր գաղտնաբառը",
-      "signin": "Մուտք գործել",
-      "alreadyHaveAccount": "Ունե՞ք հաշիվ"
+      "signin": "Մուտք գործել ",
+      "alreadyHaveAccount": "Ունե՞ք հաշիվ "
     },
     "SignIn": {
       "header": "Բարի վերադարձ",
