@@ -38,8 +38,9 @@
       "confirmPassword": "Հաստատել գաղտնաբառը",
       "signupbtn": "Գրանցվել",
       "placeholder": "Մուտքագրեք ձեր գաղտնաբառը",
-      "signin": "Մուտք գործել ",
-      "alreadyHaveAccount": "Ունե՞ք հաշիվ "
+      "signin": "Մուտք գործել",
+      "alreadyHaveAccount": "Ունե՞ք հաշիվ",
+      "roleSelect": "Ընտրեք ձեր դերը"
     },
     "SignIn": {
       "header": "Բարի վերադարձ",
