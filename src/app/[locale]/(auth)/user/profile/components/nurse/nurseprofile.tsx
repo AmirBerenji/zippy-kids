@@ -8,8 +8,8 @@ import { Profile } from "@/model/auth";
 import { Languages } from "@/model/language";
 import { Location } from "@/model/location";
 
-import React, { useEffect, useState } from "react";
-import { ShieldAlert, X, Loader2, Check } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { ShieldAlert, X, Loader2, Check, Camera, Upload, AlertCircle } from "lucide-react";
 import { Nanny, NannyTranslation } from "@/model/nany";
 import LoadingPage from "@/app/component/general/Loading";
 
@@ -22,7 +22,6 @@ interface SelectedLanguage {
   name: string;
   fullName: string;
   specialization: string;
-  ageGroups: string;
 }
 
 interface FormData {
@@ -36,6 +35,7 @@ interface FormData {
   fixed_package_description: string;
   video_intro_url: string;
   resume_url: string;
+  ageGroups: string;
 }
 
 export default function NannyProfile(prop: Props) {
@@ -50,7 +50,119 @@ export default function NannyProfile(prop: Props) {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+
+// Image upload state
+
+ const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const [dragOver, setDragOver] = useState(false);
+  const fileInputRef = useRef(null);
+
+  // const handleImageSelect = (file) => {
+  //   if (!file) return;
+
+  //   // Reset states
+  //   setError("");
+  //   setUploadSuccess(false);
+
+  //   // Validate file type
+  //   const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+  //   if (!allowedTypes.includes(file.type)) {
+  //     setError('Please select a valid image file (JPEG, PNG, or WebP)');
+  //     return;
+  //   }
+
+  //   // Validate file size (5MB max)
+  //   const maxSize = 5 * 1024 * 1024; // 5MB
+  //   if (file.size > maxSize) {
+  //     setError('Image size must be less than 5MB');
+  //     return;
+  //   }
+
+  //   setSelectedImage(file);
+    
+  //   // Create preview
+  //   const reader = new FileReader();
+  //   reader.onload = (e) => {
+  //     setImagePreview(e.target.result);
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
+
+  // const handleFileInputChange = (e) => {
+  //   const file = e.target.files?.[0];
+  //   handleImageSelect(file);
+  // };
+
+  // const handleDragOver = (e) => {
+  //   e.preventDefault();
+  //   setDragOver(true);
+  // };
+
+  // const handleDragLeave = (e) => {
+  //   e.preventDefault();
+  //   setDragOver(false);
+  // };
+
+  // const handleDrop = (e) => {
+  //   e.preventDefault();
+  //   setDragOver(false);
+  //   const file = e.dataTransfer.files?.[0];
+  //   handleImageSelect(file);
+  // };
+
+  // const triggerFileInput = () => {
+  //   fileInputRef.current?.click();
+  // };
+
+  // const handleRemoveImage = () => {
+  //   setSelectedImage(null);
+  //   setImagePreview(null);
+  //   setError("");
+  //   setUploadSuccess(false);
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.value = '';
+  //   }
+  // };
+
+  // const handleUpload = async () => {
+  //   if (!selectedImage) return;
+
+  //   setIsUploading(true);
+  //   setError(null);
+
+  //   try {
+  //     // Simulate API call
+  //     await new Promise(resolve => setTimeout(resolve, 2000));
+      
+  //     // Simulate success
+  //     setUploadSuccess(true);
+  //     console.log('Image uploaded successfully:', selectedImage.name);
+  //   } catch (err) {
+  //     setError('Failed to upload image. Please try again.');
+  //   } finally {
+  //     setIsUploading(false);
+  //   }
+  // };
+
+  // const formatFileSize = (bytes) => {
+  //   if (bytes === 0) return '0 Bytes';
+  //   const k = 1024;
+  //   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  //   const i = Math.floor(Math.log(bytes) / Math.log(k));
+  //   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  // };
+
+
+
+
+
   // Form state
+
+
   const [formData, setFormData] = useState<FormData>({
     gender: "",
     location_id: "",
@@ -62,6 +174,7 @@ export default function NannyProfile(prop: Props) {
     fixed_package_description: "",
     video_intro_url: "",
     resume_url: "",
+    ageGroups: ""
   });
 
   const daysOfWeek = [
@@ -117,7 +230,6 @@ export default function NannyProfile(prop: Props) {
           name: langName,
           fullName: "",
           specialization: "",
-          ageGroups: "",
         },
       ]);
     } else {
@@ -129,7 +241,7 @@ export default function NannyProfile(prop: Props) {
 
   const handleLanguageDetailChange = (
     langId: string | number,
-    field: "fullName" | "specialization" | "ageGroups",
+    field: "fullName" | "specialization" ,
     value: string
   ) => {
     const stringId = String(langId);
@@ -163,15 +275,14 @@ export default function NannyProfile(prop: Props) {
     if (selectedDays.length === 0) return "At least one day must be selected";
     if (selectedLanguages.length === 0)
       return "At least one language must be selected";
-
+    if (!formData.ageGroups) return "Age groups is required";
+        
     // Validate language translations
     for (const lang of selectedLanguages) {
       if (!lang.fullName.trim())
         return `Full name is required for ${lang.name}`;
       if (!lang.specialization.trim())
         return `Specialization is required for ${lang.name}`;
-      if (!lang.ageGroups.trim())
-        return `Age groups is required for ${lang.name}`;
     }
 
     return null;
@@ -184,7 +295,6 @@ export default function NannyProfile(prop: Props) {
         language_code: lang.id,
         full_name: lang.fullName.trim(),
         specialization: lang.specialization.trim(),
-        age_groups: lang.ageGroups.trim(),
       })
     );
 
@@ -205,6 +315,7 @@ export default function NannyProfile(prop: Props) {
       video_intro_url: formData.video_intro_url || "",
       resume_url: formData.resume_url || "",
       nannytranslation: nannytranslation,
+      age_groups: formData.ageGroups
     };
 
     return nannyData;
@@ -271,6 +382,7 @@ export default function NannyProfile(prop: Props) {
       fixed_package_description: "",
       video_intro_url: "",
       resume_url: "",
+      ageGroups: ""
     });
     setSelectedLanguages([]);
     setSelectedDays([]);
@@ -287,6 +399,167 @@ export default function NannyProfile(prop: Props) {
   return (
     <div className="bg-white text-xs p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
+
+
+<div className="max-w-md mx-auto p-6 bg-white">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Profile Picture</h2>
+          <p className="text-gray-600">Upload a photo to personalize your profile</p>
+        </div>
+
+        {/* Upload Area */}
+        <div className="mb-6">
+          {/* Image Preview */}
+          {imagePreview ? (
+            <div className="relative mb-4">
+              <div className="w-48 h-48 mx-auto rounded-full overflow-hidden bg-gray-100 border-4 border-white shadow-lg">
+                <img
+                  src={imagePreview}
+                  alt="Profile preview"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <button
+               // onClick={handleRemoveImage}
+                className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg transition-colors"
+                disabled={isUploading}
+              >
+                <X size={16} />
+              </button>
+            </div>
+          ) : (
+            /* Drag & Drop Area */
+            <div
+              // onDragOver={handleDragOver}
+              // onDragLeave={handleDragLeave}
+              // onDrop={handleDrop}
+              // onClick={triggerFileInput}
+              className={`
+                relative cursor-pointer rounded-2xl border-2 border-dashed transition-all duration-200 p-8
+                ${dragOver 
+                  ? 'border-orange-400 bg-orange-50' 
+                  : 'border-gray-300 hover:border-orange-400 hover:bg-gray-50'
+                }
+              `}
+            >
+              <div className="text-center">
+                <div className="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                  <Camera className="w-10 h-10 text-gray-400" />
+                </div>
+                
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  {dragOver ? 'Drop your image here' : 'Choose your profile picture'}
+                </h3>
+                
+                <p className="text-gray-500 mb-4">
+                  Drag and drop or click to browse
+                </p>
+                
+                <div className="inline-flex items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors">
+                  <Upload className="w-4 h-4 mr-2" />
+                  Select Image
+                </div>
+              </div>
+            </div>
+          )}
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/jpg,image/png,image/webp"
+           // onChange={handleFileInputChange}
+            className="hidden"
+            disabled={isUploading}
+          />
+        </div>
+
+        {/* File Information */}
+        {selectedImage && (
+          <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-gray-900 truncate">
+                  {/* {selectedImage.name} */}
+                </p>
+                <p className="text-sm text-gray-500">
+                {/* {formatFileSize(selectedImage.size)} */}
+                </p>
+              </div>
+              {uploadSuccess && (
+                <div className="flex items-center text-green-600">
+                  <Check size={16} className="mr-1" />
+                  <span className="text-sm font-medium">Uploaded</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="flex items-center">
+              <AlertCircle className="w-4 h-4 text-red-500 mr-2 flex-shrink-0" />
+              <p className="text-sm text-red-800">{error}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Upload Button */}
+        {selectedImage && !uploadSuccess && (
+          <button
+           // onClick={handleUpload}
+            disabled={isUploading}
+            className="w-full flex items-center justify-center px-4 py-3 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
+          >
+            {isUploading ? (
+              <>
+                <Loader2 className="animate-spin w-4 h-4 mr-2" />
+                Uploading...
+              </>
+            ) : (
+              <>
+                <Upload className="w-4 h-4 mr-2" />
+                Upload Photo
+              </>
+            )}
+          </button>
+        )}
+
+        {/* Success State */}
+        {uploadSuccess && (
+          <div className="text-center">
+            <div className="inline-flex items-center px-4 py-2 bg-green-50 border border-green-200 rounded-lg text-green-800">
+              <Check className="w-4 h-4 mr-2" />
+              <span className="font-medium">Profile picture updated successfully!</span>
+            </div>
+          </div>
+        )}
+
+        {/* Guidelines */}
+        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+          <h4 className="font-semibold text-blue-900 mb-2">Photo Guidelines:</h4>
+          <ul className="text-sm text-blue-800 space-y-1">
+            <li>• Use a clear, recent photo of yourself</li>
+            <li>• Face should be clearly visible and centered</li>
+            <li>• Accepted formats: JPEG, PNG, WebP</li>
+            <li>• Maximum file size: 5MB</li>
+            <li>• Recommended: 400x400 pixels or larger</li>
+          </ul>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
         <form onSubmit={handleSubmit}>
           {/* Success/Error Messages */}
           {submitSuccess && (
@@ -418,25 +691,6 @@ export default function NannyProfile(prop: Props) {
                           />
                         </div>
 
-                        <div>
-                          <label className="block text-sm font-medium text-gray-600 mb-1">
-                            Age Groups *
-                          </label>
-                          <input
-                            type="text"
-                            value={lang.ageGroups}
-                            onChange={(e) =>
-                              handleLanguageDetailChange(
-                                lang.id,
-                                "ageGroups",
-                                e.target.value
-                              )
-                            }
-                            placeholder="e.g., 0-3, 4-8, 9-12"
-                            className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
-                            required
-                          />
-                        </div>
                       </div>
                     </div>
                   ))}
@@ -531,6 +785,19 @@ export default function NannyProfile(prop: Props) {
               />
             </div>
 
+                        <div>
+                          <label className="block text-sm font-medium text-gray-600 mb-1">
+                            Age Groups *
+                          </label>
+                          <input
+                            type="text"
+                            value={formData.ageGroups}
+                           onChange={handleInputChange}
+                            placeholder="e.g., 0-3, 4-8, 9-12"
+                            className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
+                            required
+                          />
+                        </div>
             <div>
               <label
                 htmlFor="commitment_type"
