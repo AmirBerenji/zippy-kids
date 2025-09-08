@@ -24,7 +24,7 @@ interface SelectedLanguage {
   specialization: string;
 }
 
-interface FormData {
+interface NurseFormData {
   gender: string;
   location_id: string;
   years_experience: string;
@@ -41,9 +41,7 @@ interface FormData {
 export default function NannyProfile(prop: Props) {
   const [listLocation, setLocation] = useState<Location[]>([]);
   const [listLanguages, setLanguages] = useState<Languages[]>([]);
-  const [selectedLanguages, setSelectedLanguages] = useState<
-    SelectedLanguage[]
-  >([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<SelectedLanguage[]>([]);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,118 +50,148 @@ export default function NannyProfile(prop: Props) {
 
 
 // Image upload state
+const [selectedImage, setSelectedImage] = useState<File | null>(null);
+const [imagePreview, setImagePreview] = useState<string | null>(null);
+const [isUploading, setIsUploading] = useState(false);
+const [uploadSuccess, setUploadSuccess] = useState(false);
+const [error, setError] = useState<string | null>(null); // Changed to string | null
+const [dragOver, setDragOver] = useState(false);
+const fileInputRef = useRef<HTMLInputElement>(null);
 
- const [selectedImage, setSelectedImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [error, setError] = useState("");
-  const [dragOver, setDragOver] = useState(false);
-  const fileInputRef = useRef(null);
+const handleImageSelect = (file: File | null) => { // Allow null parameter
+  if (!file) return;
 
-  // const handleImageSelect = (file) => {
-  //   if (!file) return;
+  // Reset states
+  setError(null); // Changed to null
+  setUploadSuccess(false);
 
-  //   // Reset states
-  //   setError("");
-  //   setUploadSuccess(false);
+  // Validate file type
+  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+  if (!allowedTypes.includes(file.type)) {
+    setError('Please select a valid image file (JPEG, PNG, or WebP)');
+    return;
+  }
 
-  //   // Validate file type
-  //   const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-  //   if (!allowedTypes.includes(file.type)) {
-  //     setError('Please select a valid image file (JPEG, PNG, or WebP)');
-  //     return;
-  //   }
+  // Validate file size (5MB max)
+  const maxSize = 5 * 1024 * 1024; // 5MB
+  if (file.size > maxSize) {
+    setError('Image size must be less than 5MB');
+    return;
+  }
 
-  //   // Validate file size (5MB max)
-  //   const maxSize = 5 * 1024 * 1024; // 5MB
-  //   if (file.size > maxSize) {
-  //     setError('Image size must be less than 5MB');
-  //     return;
-  //   }
+  setSelectedImage(file); // Removed 'as any'
+  
+  // Create preview
+  const reader = new FileReader();
+  reader.onload = (e: ProgressEvent<FileReader>) => { // Proper typing
+    if (e.target?.result && typeof e.target.result === 'string') {
+      setImagePreview(e.target.result);
+    }
+  };
+  reader.readAsDataURL(file);
+};
 
-  //   setSelectedImage(file);
+const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => { // Proper typing
+  const file = e.target.files?.[0] || null;
+  handleImageSelect(file);
+};
+
+const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => { // Proper typing
+  e.preventDefault();
+  setDragOver(true);
+};
+
+const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => { // Proper typing
+  e.preventDefault();
+  setDragOver(false);
+};
+
+const handleDrop = (e: React.DragEvent<HTMLDivElement>) => { // Proper typing
+  e.preventDefault();
+  setDragOver(false);
+  const file = e.dataTransfer.files?.[0] || null;
+  handleImageSelect(file);
+};
+
+const triggerFileInput = (e: React.DragEvent<HTMLDivElement>) => {
+  fileInputRef.current?.click();
+     e.preventDefault();
+      const file = e.dataTransfer.files?.[0] || null;
+      handleImageSelect(file);
+};
+
+// const handleRemoveImage = () => {
+//   setSelectedImage(null);
+//   setImagePreview(null);
+//   setError(null); // Changed to null
+//   setUploadSuccess(false);
+//   if (fileInputRef.current) {
+//     fileInputRef.current.value = '';
+//   }
+// };
+
+// function uploadProfileImage(formData: globalThis.FormData): Promise<{ url?: string; profile_image_url?: string }> {
+//   // Simulate an API call - replace with actual API integration
+//   return new Promise((resolve, reject) => {})}
+
+// const uploadImage = async (): Promise<string | null> => { // New function for actual upload
+//   if (!selectedImage) return null;
+
+//   setIsUploading(true);
+//   setError(null);
+
+//   try {
+//     const formDataForUpload = new FormData();
+//     formDataForUpload.append('profile_image', selectedImage);
     
-  //   // Create preview
-  //   const reader = new FileReader();
-  //   reader.onload = (e) => {
-  //     setImagePreview(e.target.result);
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
+//     // Call your API function to upload image
+//     const response = await uploadProfileImage(formDataForUpload);
+    
+//     // Assuming the API returns { url: "uploaded_image_url" } or { profile_image_url: "url" }
+//     return null; //response.url || response.profile_image_url;
+//   } catch (error) {
+//     console.error('Error uploading image:', error);
+//     throw new Error('Failed to upload profile image');
+//   } finally {
+//     setIsUploading(false);
+//   }
+// };
 
-  // const handleFileInputChange = (e) => {
-  //   const file = e.target.files?.[0];
-  //   handleImageSelect(file);
-  // };
+// const handleUpload = async () => { // For demo/testing purposes
+//   if (!selectedImage) return;
 
-  // const handleDragOver = (e) => {
-  //   e.preventDefault();
-  //   setDragOver(true);
-  // };
+//   setIsUploading(true);
+//   setError(null);
 
-  // const handleDragLeave = (e) => {
-  //   e.preventDefault();
-  //   setDragOver(false);
-  // };
+//   try {
+//     // Simulate API call - replace with actual uploadImage() call
+//     await new Promise(resolve => setTimeout(resolve, 2000));
+    
+//     // Simulate success
+//     setUploadSuccess(true);
+//     console.log('Image uploaded successfully:', selectedImage.name);
+//   } catch (err) {
+//     const errorMessage = err instanceof Error ? err.message : 'Failed to upload image. Please try again.';
+//     setError(errorMessage);
+//   } finally {
+//     setIsUploading(false);
+//   }
+// };
 
-  // const handleDrop = (e) => {
-  //   e.preventDefault();
-  //   setDragOver(false);
-  //   const file = e.dataTransfer.files?.[0];
-  //   handleImageSelect(file);
-  // };
-
-  // const triggerFileInput = () => {
-  //   fileInputRef.current?.click();
-  // };
-
-  // const handleRemoveImage = () => {
-  //   setSelectedImage(null);
-  //   setImagePreview(null);
-  //   setError("");
-  //   setUploadSuccess(false);
-  //   if (fileInputRef.current) {
-  //     fileInputRef.current.value = '';
-  //   }
-  // };
-
-  // const handleUpload = async () => {
-  //   if (!selectedImage) return;
-
-  //   setIsUploading(true);
-  //   setError(null);
-
-  //   try {
-  //     // Simulate API call
-  //     await new Promise(resolve => setTimeout(resolve, 2000));
-      
-  //     // Simulate success
-  //     setUploadSuccess(true);
-  //     console.log('Image uploaded successfully:', selectedImage.name);
-  //   } catch (err) {
-  //     setError('Failed to upload image. Please try again.');
-  //   } finally {
-  //     setIsUploading(false);
-  //   }
-  // };
-
-  // const formatFileSize = (bytes) => {
-  //   if (bytes === 0) return '0 Bytes';
-  //   const k = 1024;
-  //   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  //   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  //   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  // };
-
-
+// const formatFileSize = (bytes: number): string => { // Proper typing and return type
+//   if (bytes === 0) return '0 Bytes';
+//   const k = 1024;
+//   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+//   const i = Math.floor(Math.log(bytes) / Math.log(k));
+//   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+// };
 
 
 
   // Form state
 
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<NurseFormData>({
     gender: "",
     location_id: "",
     years_experience: "",
@@ -398,19 +426,18 @@ export default function NannyProfile(prop: Props) {
     <div className="bg-white text-xs p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
 
-
-<div className="max-w-md mx-auto p-6 bg-white">
-        <div className="text-center mb-6">
+<div className="max-w-sm   p-0 ">
+        <div className="text-center mb-4">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Profile Picture</h2>
           <p className="text-gray-600">Upload a photo to personalize your profile</p>
         </div>
 
         {/* Upload Area */}
-        <div className="mb-6">
+        <div className="mb-4">
           {/* Image Preview */}
           {imagePreview ? (
             <div className="relative mb-4">
-              <div className="w-48 h-48 mx-auto rounded-full overflow-hidden bg-gray-100 border-4 border-white shadow-lg">
+              <div className="w-24 h-24 mx-auto rounded-full overflow-hidden bg-gray-100 border-4 border-white shadow-lg">
                 <img
                   src={imagePreview}
                   alt="Profile preview"
@@ -428,12 +455,12 @@ export default function NannyProfile(prop: Props) {
           ) : (
             /* Drag & Drop Area */
             <div
-              // onDragOver={handleDragOver}
-              // onDragLeave={handleDragLeave}
-              // onDrop={handleDrop}
-              // onClick={triggerFileInput}
+               onDragOver={handleDragOver}
+               onDragLeave={handleDragLeave}
+               onDrop={handleDrop}
+              onClick={triggerFileInput}
               className={`
-                relative cursor-pointer rounded-2xl border-2 border-dashed transition-all duration-200 p-8
+                relative cursor-pointer rounded-2xl border-2 border-dashed transition-all duration-200 p-2
                 ${dragOver 
                   ? 'border-orange-400 bg-orange-50' 
                   : 'border-gray-300 hover:border-orange-400 hover:bg-gray-50'
@@ -535,7 +562,7 @@ export default function NannyProfile(prop: Props) {
         )}
 
         {/* Guidelines */}
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+        {/* <div className="mt-6 p-4 bg-blue-50 rounded-lg">
           <h4 className="font-semibold text-blue-900 mb-2">Photo Guidelines:</h4>
           <ul className="text-sm text-blue-800 space-y-1">
             <li>• Use a clear, recent photo of yourself</li>
@@ -544,10 +571,8 @@ export default function NannyProfile(prop: Props) {
             <li>• Maximum file size: 5MB</li>
             <li>• Recommended: 400x400 pixels or larger</li>
           </ul>
-        </div>
+        </div> */}
       </div>
-
-
 
 
 
@@ -789,6 +814,8 @@ export default function NannyProfile(prop: Props) {
                           </label>
                           <input
                             type="text"
+                            name="ageGroups"
+                            id="ageGroups"
                             value={formData.ageGroups}
                            onChange={handleInputChange}
                             placeholder="e.g., 0-3, 4-8, 9-12"
