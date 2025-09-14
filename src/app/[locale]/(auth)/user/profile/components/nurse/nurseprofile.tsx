@@ -120,71 +120,71 @@ const triggerFileInput = (e: React.DragEvent<HTMLDivElement>) => {
       handleImageSelect(file);
 };
 
-// const handleRemoveImage = () => {
-//   setSelectedImage(null);
-//   setImagePreview(null);
-//   setError(null); // Changed to null
-//   setUploadSuccess(false);
-//   if (fileInputRef.current) {
-//     fileInputRef.current.value = '';
-//   }
-// };
+const handleRemoveImage = () => {
+  setSelectedImage(null);
+  setImagePreview(null);
+  setError(null); // Changed to null
+  setUploadSuccess(false);
+  if (fileInputRef.current) {
+    fileInputRef.current.value = '';
+  }
+};
 
-// function uploadProfileImage(formData: globalThis.FormData): Promise<{ url?: string; profile_image_url?: string }> {
-//   // Simulate an API call - replace with actual API integration
-//   return new Promise((resolve, reject) => {})}
+function uploadProfileImage(formData: globalThis.FormData): Promise<{ url?: string; profile_image_url?: string }> {
+  // Simulate an API call - replace with actual API integration
+  return new Promise((resolve, reject) => {})}
 
-// const uploadImage = async (): Promise<string | null> => { // New function for actual upload
-//   if (!selectedImage) return null;
+const uploadImage = async (): Promise<string | null> => { // New function for actual upload
+  if (!selectedImage) return null;
 
-//   setIsUploading(true);
-//   setError(null);
+  setIsUploading(true);
+  setError(null);
 
-//   try {
-//     const formDataForUpload = new FormData();
-//     formDataForUpload.append('profile_image', selectedImage);
+  try {
+    const formDataForUpload = new FormData();
+    formDataForUpload.append('profile_image', selectedImage);
     
-//     // Call your API function to upload image
-//     const response = await uploadProfileImage(formDataForUpload);
+    // Call your API function to upload image
+    const response = await uploadProfileImage(formDataForUpload);
     
-//     // Assuming the API returns { url: "uploaded_image_url" } or { profile_image_url: "url" }
-//     return null; //response.url || response.profile_image_url;
-//   } catch (error) {
-//     console.error('Error uploading image:', error);
-//     throw new Error('Failed to upload profile image');
-//   } finally {
-//     setIsUploading(false);
-//   }
-// };
+    // Assuming the API returns { url: "uploaded_image_url" } or { profile_image_url: "url" }
+    return null; //response.url || response.profile_image_url;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    throw new Error('Failed to upload profile image');
+  } finally {
+    setIsUploading(false);
+  }
+};
 
-// const handleUpload = async () => { // For demo/testing purposes
-//   if (!selectedImage) return;
+const handleUpload = async () => { // For demo/testing purposes
+  if (!selectedImage) return;
 
-//   setIsUploading(true);
-//   setError(null);
+  setIsUploading(true);
+  setError(null);
 
-//   try {
-//     // Simulate API call - replace with actual uploadImage() call
-//     await new Promise(resolve => setTimeout(resolve, 2000));
+  try {
+    // Simulate API call - replace with actual uploadImage() call
+    await new Promise(resolve => setTimeout(resolve, 2000));
     
-//     // Simulate success
-//     setUploadSuccess(true);
-//     console.log('Image uploaded successfully:', selectedImage.name);
-//   } catch (err) {
-//     const errorMessage = err instanceof Error ? err.message : 'Failed to upload image. Please try again.';
-//     setError(errorMessage);
-//   } finally {
-//     setIsUploading(false);
-//   }
-// };
+    // Simulate success
+    setUploadSuccess(true);
+    console.log('Image uploaded successfully:', selectedImage.name);
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : 'Failed to upload image. Please try again.';
+    setError(errorMessage);
+  } finally {
+    setIsUploading(false);
+  }
+};
 
-// const formatFileSize = (bytes: number): string => { // Proper typing and return type
-//   if (bytes === 0) return '0 Bytes';
-//   const k = 1024;
-//   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-//   const i = Math.floor(Math.log(bytes) / Math.log(k));
-//   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-// };
+const formatFileSize = (bytes: number): string => { // Proper typing and return type
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+};
 
 
 
@@ -424,9 +424,9 @@ const triggerFileInput = (e: React.DragEvent<HTMLDivElement>) => {
 
   return (
     <div className="bg-white text-xs p-4 sm:p-6 lg:p-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-<div className="max-w-sm   p-0 ">
+<div className="  p-0 ">
         <div className="text-center mb-4">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Profile Picture</h2>
           <p className="text-gray-600">Upload a photo to personalize your profile</p>
@@ -492,7 +492,7 @@ const triggerFileInput = (e: React.DragEvent<HTMLDivElement>) => {
             ref={fileInputRef}
             type="file"
             accept="image/jpeg,image/jpg,image/png,image/webp"
-           // onChange={handleFileInputChange}
+            onChange={handleFileInputChange}
             className="hidden"
             disabled={isUploading}
           />
@@ -504,10 +504,10 @@ const triggerFileInput = (e: React.DragEvent<HTMLDivElement>) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium text-gray-900 truncate">
-                  {/* {selectedImage.name} */}
+                  {selectedImage.name}
                 </p>
                 <p className="text-sm text-gray-500">
-                {/* {formatFileSize(selectedImage.size)} */}
+                {formatFileSize(selectedImage.size)}
                 </p>
               </div>
               {uploadSuccess && (
@@ -533,7 +533,7 @@ const triggerFileInput = (e: React.DragEvent<HTMLDivElement>) => {
         {/* Upload Button */}
         {selectedImage && !uploadSuccess && (
           <button
-           // onClick={handleUpload}
+            onClick={handleUpload}
             disabled={isUploading}
             className="w-full flex items-center justify-center px-4 py-3 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
           >
@@ -583,7 +583,7 @@ const triggerFileInput = (e: React.DragEvent<HTMLDivElement>) => {
 
 
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="  p-2 border border-gray-200 rounded-xl shadow-sm">
           {/* Success/Error Messages */}
           {submitSuccess && (
             <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">
@@ -619,7 +619,7 @@ const triggerFileInput = (e: React.DragEvent<HTMLDivElement>) => {
             </span>
 
             {/* Language Checkboxes */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-4 mt-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-3 mb-4 mt-3">
               {listLanguages.map((lang) => (
                 <label
                   key={lang.id}
@@ -723,7 +723,7 @@ const triggerFileInput = (e: React.DragEvent<HTMLDivElement>) => {
           </div>
 
           {/* Other Form Fields */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4 mb-6">
             <div>
               <label
                 htmlFor="gender"
@@ -930,7 +930,7 @@ const triggerFileInput = (e: React.DragEvent<HTMLDivElement>) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Days Available *
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2">
               {daysOfWeek.map((day) => (
                 <label
                   key={day.id}
