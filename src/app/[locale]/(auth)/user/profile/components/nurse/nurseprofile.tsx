@@ -9,7 +9,15 @@ import { Languages } from "@/model/language";
 import { Location } from "@/model/location";
 
 import React, { useEffect, useRef, useState } from "react";
-import { ShieldAlert, X, Loader2, Check, Camera, Upload, AlertCircle } from "lucide-react";
+import {
+  ShieldAlert,
+  X,
+  Loader2,
+  Check,
+  Camera,
+  Upload,
+  AlertCircle,
+} from "lucide-react";
 import { Nanny, NannyTranslation } from "@/model/nany";
 import LoadingPage from "@/app/component/general/Loading";
 
@@ -41,155 +49,19 @@ interface NurseFormData {
 export default function NannyProfile(prop: Props) {
   const [listLocation, setLocation] = useState<Location[]>([]);
   const [listLanguages, setLanguages] = useState<Languages[]>([]);
-  const [selectedLanguages, setSelectedLanguages] = useState<SelectedLanguage[]>([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<
+    SelectedLanguage[]
+  >([]);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-
-// Image upload state
-const [selectedImage, setSelectedImage] = useState<File | null>(null);
-const [imagePreview, setImagePreview] = useState<string | null>(null);
-const [isUploading, setIsUploading] = useState(false);
-const [uploadSuccess, setUploadSuccess] = useState(false);
-const [error, setError] = useState<string | null>(null); // Changed to string | null
-const [dragOver, setDragOver] = useState(false);
-const fileInputRef = useRef<HTMLInputElement>(null);
-
-const handleImageSelect = (file: File | null) => { // Allow null parameter
-  if (!file) return;
-
-  // Reset states
-  setError(null); // Changed to null
-  setUploadSuccess(false);
-
-  // Validate file type
-  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-  if (!allowedTypes.includes(file.type)) {
-    setError('Please select a valid image file (JPEG, PNG, or WebP)');
-    return;
-  }
-
-  // Validate file size (5MB max)
-  const maxSize = 5 * 1024 * 1024; // 5MB
-  if (file.size > maxSize) {
-    setError('Image size must be less than 5MB');
-    return;
-  }
-
-  setSelectedImage(file); // Removed 'as any'
-  
-  // Create preview
-  const reader = new FileReader();
-  reader.onload = (e: ProgressEvent<FileReader>) => { // Proper typing
-    if (e.target?.result && typeof e.target.result === 'string') {
-      setImagePreview(e.target.result);
-    }
-  };
-  reader.readAsDataURL(file);
-};
-
-const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => { // Proper typing
-  const file = e.target.files?.[0] || null;
-  handleImageSelect(file);
-};
-
-const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => { // Proper typing
-  e.preventDefault();
-  setDragOver(true);
-};
-
-const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => { // Proper typing
-  e.preventDefault();
-  setDragOver(false);
-};
-
-const handleDrop = (e: React.DragEvent<HTMLDivElement>) => { // Proper typing
-  e.preventDefault();
-  setDragOver(false);
-  const file = e.dataTransfer.files?.[0] || null;
-  handleImageSelect(file);
-};
-
-const triggerFileInput = (e: React.DragEvent<HTMLDivElement>) => {
-  fileInputRef.current?.click();
-     e.preventDefault();
-      const file = e.dataTransfer.files?.[0] || null;
-      handleImageSelect(file);
-};
-
-const handleRemoveImage = () => {
-  setSelectedImage(null);
-  setImagePreview(null);
-  setError(null); // Changed to null
-  setUploadSuccess(false);
-  if (fileInputRef.current) {
-    fileInputRef.current.value = '';
-  }
-};
-
-function uploadProfileImage(formData: globalThis.FormData): Promise<{ url?: string; profile_image_url?: string }> {
-  // Simulate an API call - replace with actual API integration
-  return new Promise((resolve, reject) => {})}
-
-const uploadImage = async (): Promise<string | null> => { // New function for actual upload
-  if (!selectedImage) return null;
-
-  setIsUploading(true);
-  setError(null);
-
-  try {
-    const formDataForUpload = new FormData();
-    formDataForUpload.append('profile_image', selectedImage);
-    
-    // Call your API function to upload image
-    const response = await uploadProfileImage(formDataForUpload);
-    
-    // Assuming the API returns { url: "uploaded_image_url" } or { profile_image_url: "url" }
-    return null; //response.url || response.profile_image_url;
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    throw new Error('Failed to upload profile image');
-  } finally {
-    setIsUploading(false);
-  }
-};
-
-const handleUpload = async () => { // For demo/testing purposes
-  if (!selectedImage) return;
-
-  setIsUploading(true);
-  setError(null);
-
-  try {
-    // Simulate API call - replace with actual uploadImage() call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Simulate success
-    setUploadSuccess(true);
-    console.log('Image uploaded successfully:', selectedImage.name);
-  } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : 'Failed to upload image. Please try again.';
-    setError(errorMessage);
-  } finally {
-    setIsUploading(false);
-  }
-};
-
-const formatFileSize = (bytes: number): string => { // Proper typing and return type
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-};
-
-
+  // Image upload state
+ 
 
   // Form state
-
 
   const [formData, setFormData] = useState<NurseFormData>({
     gender: "",
@@ -202,7 +74,7 @@ const formatFileSize = (bytes: number): string => { // Proper typing and return 
     fixed_package_description: "",
     video_intro_url: "",
     resume_url: "",
-    ageGroups: ""
+    ageGroups: "",
   });
 
   const daysOfWeek = [
@@ -269,7 +141,7 @@ const formatFileSize = (bytes: number): string => { // Proper typing and return 
 
   const handleLanguageDetailChange = (
     langId: string | number,
-    field: "fullName" | "specialization" ,
+    field: "fullName" | "specialization",
     value: string
   ) => {
     const stringId = String(langId);
@@ -304,7 +176,7 @@ const formatFileSize = (bytes: number): string => { // Proper typing and return 
     if (selectedLanguages.length === 0)
       return "At least one language must be selected";
     if (!formData.ageGroups) return "Age groups is required";
-        
+
     // Validate language translations
     for (const lang of selectedLanguages) {
       if (!lang.fullName.trim())
@@ -343,9 +215,10 @@ const formatFileSize = (bytes: number): string => { // Proper typing and return 
       video_intro_url: formData.video_intro_url || "",
       resume_url: formData.resume_url || "",
       nannytranslation: nannytranslation,
-      age_groups: formData.ageGroups
+      age_groups: formData.ageGroups,
+      photoes: [],
     };
-
+    console.log("Mapped Nanny Data:", nannyData);
     return nannyData;
   };
 
@@ -410,7 +283,7 @@ const formatFileSize = (bytes: number): string => { // Proper typing and return 
       fixed_package_description: "",
       video_intro_url: "",
       resume_url: "",
-      ageGroups: ""
+      ageGroups: "",
     });
     setSelectedLanguages([]);
     setSelectedDays([]);
@@ -423,167 +296,12 @@ const formatFileSize = (bytes: number): string => { // Proper typing and return 
   }
 
   return (
-    <div className="bg-white text-xs p-4 sm:p-6 lg:p-8">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-<div className="  p-0 ">
-        <div className="text-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Profile Picture</h2>
-          <p className="text-gray-600">Upload a photo to personalize your profile</p>
-        </div>
-
-        {/* Upload Area */}
-        <div className="mb-4">
-          {/* Image Preview */}
-          {imagePreview ? (
-            <div className="relative mb-4">
-              <div className="w-24 h-24 mx-auto rounded-full overflow-hidden bg-gray-100 border-4 border-white shadow-lg">
-                <img
-                  src={imagePreview}
-                  alt="Profile preview"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <button
-               // onClick={handleRemoveImage}
-                className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg transition-colors"
-                disabled={isUploading}
-              >
-                <X size={16} />
-              </button>
-            </div>
-          ) : (
-            /* Drag & Drop Area */
-            <div
-               onDragOver={handleDragOver}
-               onDragLeave={handleDragLeave}
-               onDrop={handleDrop}
-              onClick={triggerFileInput}
-              className={`
-                relative cursor-pointer rounded-2xl border-2 border-dashed transition-all duration-200 p-2
-                ${dragOver 
-                  ? 'border-orange-400 bg-orange-50' 
-                  : 'border-gray-300 hover:border-orange-400 hover:bg-gray-50'
-                }
-              `}
-            >
-              <div className="text-center">
-                <div className="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                  <Camera className="w-10 h-10 text-gray-400" />
-                </div>
-                
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {dragOver ? 'Drop your image here' : 'Choose your profile picture'}
-                </h3>
-                
-                <p className="text-gray-500 mb-4">
-                  Drag and drop or click to browse
-                </p>
-                
-                <div className="inline-flex items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors">
-                  <Upload className="w-4 h-4 mr-2" />
-                  Select Image
-                </div>
-              </div>
-            </div>
-          )}
-
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/jpeg,image/jpg,image/png,image/webp"
-            onChange={handleFileInputChange}
-            className="hidden"
-            disabled={isUploading}
-          />
-        </div>
-
-        {/* File Information */}
-        {selectedImage && (
-          <div className="mb-4 p-4 bg-gray-50 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium text-gray-900 truncate">
-                  {selectedImage.name}
-                </p>
-                <p className="text-sm text-gray-500">
-                {formatFileSize(selectedImage.size)}
-                </p>
-              </div>
-              {uploadSuccess && (
-                <div className="flex items-center text-green-600">
-                  <Check size={16} className="mr-1" />
-                  <span className="text-sm font-medium">Uploaded</span>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Error Message */}
-        {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <div className="flex items-center">
-              <AlertCircle className="w-4 h-4 text-red-500 mr-2 flex-shrink-0" />
-              <p className="text-sm text-red-800">{error}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Upload Button */}
-        {selectedImage && !uploadSuccess && (
-          <button
-            onClick={handleUpload}
-            disabled={isUploading}
-            className="w-full flex items-center justify-center px-4 py-3 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
-          >
-            {isUploading ? (
-              <>
-                <Loader2 className="animate-spin w-4 h-4 mr-2" />
-                Uploading...
-              </>
-            ) : (
-              <>
-                <Upload className="w-4 h-4 mr-2" />
-                Upload Photo
-              </>
-            )}
-          </button>
-        )}
-
-        {/* Success State */}
-        {uploadSuccess && (
-          <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-green-50 border border-green-200 rounded-lg text-green-800">
-              <Check className="w-4 h-4 mr-2" />
-              <span className="font-medium">Profile picture updated successfully!</span>
-            </div>
-          </div>
-        )}
-
-        {/* Guidelines */}
-        {/* <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-          <h4 className="font-semibold text-blue-900 mb-2">Photo Guidelines:</h4>
-          <ul className="text-sm text-blue-800 space-y-1">
-            <li>• Use a clear, recent photo of yourself</li>
-            <li>• Face should be clearly visible and centered</li>
-            <li>• Accepted formats: JPEG, PNG, WebP</li>
-            <li>• Maximum file size: 5MB</li>
-            <li>• Recommended: 400x400 pixels or larger</li>
-          </ul>
-        </div> */}
-      </div>
-
-
-
-
-
-
-
-
-
-
-        <form onSubmit={handleSubmit} className="  p-2 border border-gray-200 rounded-xl shadow-sm">
+    <div className="bg-white text-xs ">
+      <div className="max-w-7xl mx-auto ">
+        <form
+          onSubmit={handleSubmit}
+          className=""
+        >
           {/* Success/Error Messages */}
           {submitSuccess && (
             <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">
@@ -713,7 +431,6 @@ const formatFileSize = (bytes: number): string => { // Proper typing and return 
                             required
                           />
                         </div>
-
                       </div>
                     </div>
                   ))}
@@ -808,21 +525,21 @@ const formatFileSize = (bytes: number): string => { // Proper typing and return 
               />
             </div>
 
-                        <div>
-                          <label className="block text-sm font-medium text-gray-600 mb-1">
-                            Age Groups *
-                          </label>
-                          <input
-                            type="text"
-                            name="ageGroups"
-                            id="ageGroups"
-                            value={formData.ageGroups}
-                           onChange={handleInputChange}
-                            placeholder="e.g., 0-3, 4-8, 9-12"
-                            className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
-                            required
-                          />
-                        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Age Groups *
+              </label>
+              <input
+                type="text"
+                name="ageGroups"
+                id="ageGroups"
+                value={formData.ageGroups}
+                onChange={handleInputChange}
+                placeholder="e.g., 0-3, 4-8, 9-12"
+                className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
+                required
+              />
+            </div>
             <div>
               <label
                 htmlFor="commitment_type"
@@ -928,9 +645,9 @@ const formatFileSize = (bytes: number): string => { // Proper typing and return 
           {/* Days Available Section */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Days Available *
+              Days Available*
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
               {daysOfWeek.map((day) => (
                 <label
                   key={day.id}
