@@ -24,3 +24,7 @@ export interface UpdateProfile {
   phone: string;
   email: string;
 }
+
+export interface UpdateProfileImage {
+  image: File;
+}

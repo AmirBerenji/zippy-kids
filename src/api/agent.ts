@@ -1,5 +1,6 @@
+import { updateProfile } from "@/action/apiAction";
 import CookieConfig from "@/lib/cookieconfig";
-import { Login, Profile, Register, UpdateProfile } from "@/model/auth";
+import { Login, Profile, Register, UpdateProfile, UpdateProfileImage } from "@/model/auth";
 import { Languages } from "@/model/language";
 import { Nanny } from "@/model/nany";
 
@@ -78,6 +79,8 @@ const Account = {
   getProfile: () => requests.get<Profile>("user/profile"),
   updateProfile: (profile: UpdateProfile) =>
     requests.put<Profile>("user/update", profile),
+  updateProfileImage: (image: FormData) =>
+    requests.putForm<Profile>("user/photo", image),
 };
 
 const Location = {

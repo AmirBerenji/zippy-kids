@@ -111,3 +111,9 @@ export async function updateProfile(formdata: FormData) {
   }
   return { message: "Your email format is not true", success: false };
 }
+
+export async function updateProfileImage(formdata: FormData) {
+  const req = await agent.Account.updateProfileImage(formdata);
+  console.log("Update Profile Image", req);
+  return req;
+}
