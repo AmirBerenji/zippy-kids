@@ -26,5 +26,5 @@ export interface UpdateProfile {
 }
 
 export interface UpdateProfileImage {
-  image: File;
+  photo: File;
 }
