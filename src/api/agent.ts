@@ -1,5 +1,12 @@
+import { updateProfile } from "@/action/apiAction";
 import CookieConfig from "@/lib/cookieconfig";
-import { Login, Profile, Register, UpdateProfile } from "@/model/auth";
+import {
+  Login,
+  Profile,
+  Register,
+  UpdateProfile,
+  UpdateProfileImage,
+} from "@/model/auth";
 import { Languages } from "@/model/language";
 import { Nanny } from "@/model/nany";
 
@@ -46,11 +53,7 @@ const requests = {
 
   postForm: <T>(url: string, formData: FormData) =>
     axios
-      .post<T, AxiosResponse<T>>(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .post<T, AxiosResponse<T>>(url, formData)
       .then(responseBody)
       .catch((error) => error.response?.data),
 
@@ -60,15 +63,14 @@ const requests = {
       .then(responseBody)
       .catch((error) => error.response?.data),
 
-  putForm: <T>(url: string, formData: FormData) =>
+  putForm: <T>(url: string, formData: FormData | object) =>
     axios
-      .put<T, AxiosResponse<T>>(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .put<T, AxiosResponse<T>>(url, formData)
       .then(responseBody)
-      .catch((error) => error.response?.data),
+      .catch((error) => {
+        console.log("Error", error);
+        return error.response?.data;
+      }),
 };
 
 const Account = {
@@ -78,6 +80,8 @@ const Account = {
   getProfile: () => requests.get<Profile>("user/profile"),
   updateProfile: (profile: UpdateProfile) =>
     requests.put<Profile>("user/update", profile),
+  updateProfileImage: (image: FormData) =>
+    requests.postForm<Profile>("user/photo", image),
 };
 
 const Location = {
