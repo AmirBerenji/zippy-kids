@@ -22,7 +22,7 @@ export default function Nursepage() {
           <NurseCard
             key={nurse.id}
             image={
-              nurse.image ||
+              nurse.user.photoUrl ||
               "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
             }
             title={nurse.translations[0].full_name || "Nurse Name"}
