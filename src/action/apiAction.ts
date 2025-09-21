@@ -3,7 +3,12 @@
 import agent from "@/api/agent";
 import CookieConfig from "@/lib/cookieconfig";
 import Validation from "@/lib/validation";
-import { Login, Register, UpdateProfile } from "@/model/auth";
+import {
+  Login,
+  Register,
+  UpdateProfile,
+  UpdateProfileImage,
+} from "@/model/auth";
 import { redirect } from "next/navigation";
 
 export async function register(formdata: FormData) {
@@ -112,8 +117,54 @@ export async function updateProfile(formdata: FormData) {
   return { message: "Your email format is not true", success: false };
 }
 
-export async function updateProfileImage(formdata: FormData) {
-  const req = await agent.Account.updateProfileImage(formdata);
-  console.log("Update Profile Image", req);
-  return req;
+export async function updateProfileImage(input: FormData | File) {
+  try {
+    console.log("=== Starting updateProfileImage ===");
+    console.log("Input type:", typeof input);
+    console.log("Input constructor:", input?.constructor?.name);
+
+    let file: File;
+
+    if (input instanceof FormData) {
+      // Try both "image" and "photo" field names
+      const fileFromFormData = input.get("image") || input.get("photo");
+      if (!fileFromFormData || !(fileFromFormData instanceof File)) {
+        throw new Error("No valid file found in FormData");
+      }
+      file = fileFromFormData;
+    } else if (input instanceof File) {
+      file = input;
+    } else {
+      throw new Error("Invalid input type. Expected FormData or File");
+    }
+
+    console.log("Processing file:", {
+      name: file.name,
+      size: file.size,
+      type: file.type,
+    });
+
+    // Create FormData for API - use "photo" as Laravel expects it
+    const formData = new FormData();
+    formData.append("photo", file);
+
+    // Debug the FormData
+    console.log("API FormData entries:");
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+      if (value instanceof File) {
+        console.log(
+          `  File details: ${value.name}, ${value.size} bytes, ${value.type}`
+        );
+      }
+    }
+
+    const req = await agent.Account.updateProfileImage(formData);
+    console.log("✅ Profile image updated successfully:", req);
+
+    return req;
+  } catch (error) {
+    console.error("❌ updateProfileImage error:", error);
+    throw error;
+  }
 }

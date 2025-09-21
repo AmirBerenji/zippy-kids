@@ -1,3 +1,5 @@
+import { url } from "inspector";
+
 export interface Register {
   email: string;
   password: string;
@@ -12,6 +14,8 @@ export interface Profile {
   name: string;
   phone: string;
   roles: string;
+  photo: string;
+  photoUrl: string;
 }
 
 export interface Login {

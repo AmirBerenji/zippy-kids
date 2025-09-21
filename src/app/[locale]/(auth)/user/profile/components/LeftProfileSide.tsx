@@ -9,8 +9,10 @@ interface Props {
 
 export default function LeftProfileSide(prop: Props) {
   const [profileImage, setProfileImage] = useState<string>(
-    "https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg"
+    prop.userInfo?.photoUrl ||
+      "https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg"
   );
+  //
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -22,14 +24,14 @@ export default function LeftProfileSide(prop: Props) {
     if (!file) return;
 
     // Validate file type
-    if (!file.type.startsWith('image/')) {
-      alert('Please select a valid image file.');
+    if (!file.type.startsWith("image/")) {
+      alert("Please select a valid image file.");
       return;
     }
 
     // Validate file size (5MB max)
     if (file.size > 5 * 1024 * 1024) {
-      alert('Please select an image smaller than 5MB.');
+      alert("Please select an image smaller than 5MB.");
       return;
     }
 
@@ -54,45 +56,34 @@ export default function LeftProfileSide(prop: Props) {
       // Call parent callback if provided
       const formData = new FormData();
       formData.append("image", selectedFile);
-      console.log("Form Data", formData);
-      console.log("Selected File", selectedFile);
       await updateProfileImage(formData);
 
       if (prop.onProfileImageChange) {
         await prop.onProfileImageChange(selectedFile);
       }
-      
-      // Reset states after successful save
       setSelectedFile(null);
       setHasUnsavedChanges(false);
-      
-      // You could add a success notification here
-      console.log('Profile image saved successfully');
     } catch (error) {
-      console.error('Error saving image:', error);
-      alert('Failed to save image. Please try again.');
+      alert("Failed to save image. Please try again.");
     } finally {
       setIsSaving(false);
     }
   };
 
   const handleCancelChanges = () => {
-    // Reset to original image
-    setProfileImage("https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg");
+    if (prop.userInfo?.photoUrl) {
+      setProfileImage(prop.userInfo.photoUrl);
+    } else {
+      setProfileImage(
+        "https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg"
+      );
+    }
     setSelectedFile(null);
     setHasUnsavedChanges(false);
   };
 
   const handleEditClick = () => {
     fileInputRef.current?.click();
-  };
-
-  const copyProfileLink = () => {
-    const profileUrl = `https://app.ahireground.com/profile/${prop.userInfo?.name?.toLowerCase().replace(/\s+/g, '')}`;
-    navigator.clipboard.writeText(profileUrl).then(() => {
-      // You could add a toast notification here
-      console.log('Profile URL copied to clipboard');
-    });
   };
 
   return (
@@ -107,28 +98,28 @@ export default function LeftProfileSide(prop: Props) {
             width="96"
             height="96"
           />
-          
+
           {/* Edit Icon */}
           <button
             onClick={handleEditClick}
             disabled={isUploading}
-            className="absolute -top-1 -right-1 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 border-2 border-white rounded-full w-7 h-7 flex items-center justify-center transition-all duration-200 shadow-lg hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="absolute -top-1 -right-1 bg-[#ff9a5a] hover:bg-orange-400 disabled:bg-gray-400 border-2 border-white rounded-full w-7 h-7 flex items-center justify-center transition-all duration-200 shadow-lg hover:scale-110 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
             title="Change profile picture"
           >
             {isUploading ? (
               <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin" />
             ) : (
-              <svg 
-                className="w-3 h-3 text-white" 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                className="w-3 h-3 text-white"
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" 
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                 />
               </svg>
             )}
@@ -142,8 +133,6 @@ export default function LeftProfileSide(prop: Props) {
             accept="image/*"
             className="hidden"
           />
-
-          
         </div>
 
         {/* Save/Cancel Buttons - Show only when there are unsaved changes */}
@@ -161,8 +150,18 @@ export default function LeftProfileSide(prop: Props) {
                 </>
               ) : (
                 <>
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   Save
                 </>
@@ -173,8 +172,18 @@ export default function LeftProfileSide(prop: Props) {
               disabled={isSaving}
               className="flex-1 bg-gray-500 hover:bg-gray-600 disabled:bg-gray-400 text-white text-xs font-medium py-2 px-3 rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 flex items-center justify-center gap-1"
             >
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-3 h-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
               Cancel
             </button>
@@ -184,17 +193,16 @@ export default function LeftProfileSide(prop: Props) {
         {/* User Info */}
         <div className="text-center mt-4 space-y-1">
           <h3 className="text-sm font-semibold text-[#1f2a56]">
-            {prop.userInfo?.name || 'Unknown User'}
+            {prop.userInfo?.name || "Unknown User"}
           </h3>
           <p className="text-xs text-gray-400">
-            {prop.userInfo?.roles?.[0]?.toUpperCase() || 'NO ROLE ASSIGNED'}
+            {prop.userInfo?.roles?.[0]?.toUpperCase() || "NO ROLE ASSIGNED"}
           </p>
           <p className="text-xs text-gray-400 break-all">
-            {prop.userInfo?.email || 'No email provided'}
+            {prop.userInfo?.email || "No email provided"}
           </p>
         </div>
 
-  
         {/* <div className="mt-6 w-full space-y-3 text-xs text-gray-500">
           <div className="flex justify-between border-b border-gray-100 pb-1">
             <span>Opportunities applied</span>

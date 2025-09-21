@@ -12,8 +12,8 @@ import { Nanny } from "@/model/nany";
 
 import axios, { AxiosResponse } from "axios";
 
-//axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
-axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
+//axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -53,11 +53,7 @@ const requests = {
 
   postForm: <T>(url: string, formData: FormData) =>
     axios
-      .post<T, AxiosResponse<T>>(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .post<T, AxiosResponse<T>>(url, formData)
       .then(responseBody)
       .catch((error) => error.response?.data),
 
@@ -67,15 +63,14 @@ const requests = {
       .then(responseBody)
       .catch((error) => error.response?.data),
 
-  putForm: <T>(url: string, formData: FormData) =>
+  putForm: <T>(url: string, formData: FormData | object) =>
     axios
-      .put<T, AxiosResponse<T>>(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .put<T, AxiosResponse<T>>(url, formData)
       .then(responseBody)
-      .catch((error) => error.response?.data),
+      .catch((error) => {
+        console.log("Error", error);
+        return error.response?.data;
+      }),
 };
 
 const Account = {
@@ -86,7 +81,7 @@ const Account = {
   updateProfile: (profile: UpdateProfile) =>
     requests.put<Profile>("user/update", profile),
   updateProfileImage: (image: FormData) =>
-    requests.putForm<Profile>("user/photo", image),
+    requests.postForm<Profile>("user/photo", image),
 };
 
 const Location = {
