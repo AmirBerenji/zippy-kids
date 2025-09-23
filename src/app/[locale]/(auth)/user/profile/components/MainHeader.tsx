@@ -23,7 +23,7 @@ export default function MainHeader(prop:Props) {
       <div className="flex items-center gap-2 cursor-pointer select-none">
        <img alt="Profile picture of Nathaniel Poole, a middle-aged man with glasses and short hair" className="w-8 h-8 rounded-full object-cover" height="32" src="https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg" width="32"/>
        <span className="text-sm text-[#1f2a56] font-semibold">
-        {prop.user.name}
+        {prop.user?.name}
        </span>
        <i className="fas fa-chevron-down text-xs text-gray-400">
        </i>

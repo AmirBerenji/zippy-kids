@@ -1,6 +1,7 @@
+"use client";
 import { updateProfileImage } from "@/action/apiAction";
 import { Profile } from "@/model/auth";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 interface Props {
   userInfo: Profile;
@@ -8,10 +9,7 @@ interface Props {
 }
 
 export default function LeftProfileSide(prop: Props) {
-  const [profileImage, setProfileImage] = useState<string>(
-    prop.userInfo?.photoUrl ||
-      "https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg"
-  );
+ const [profileImage, setProfileImage] = useState<string>("");
   //
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -85,6 +83,17 @@ export default function LeftProfileSide(prop: Props) {
   const handleEditClick = () => {
     fileInputRef.current?.click();
   };
+
+
+useEffect(() => {
+  if (prop.userInfo?.photoUrl) {
+    setProfileImage("https://zippy.elrincondsabor.com/storage/app/public/"+prop.userInfo.photo);
+  } else {
+    setProfileImage("https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg");
+  }
+}, [prop.userInfo?.photoUrl]);
+
+
 
   return (
     <aside className="">
