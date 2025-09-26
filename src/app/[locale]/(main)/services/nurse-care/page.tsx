@@ -2,11 +2,29 @@
 import React, { useEffect, useState } from "react";
 import NurseCard from "./component/nurseCard";
 import { getNuresList } from "@/action/nurseApiAction";
+import { getProfile } from "@/action/apiAction";
+import NotUserRegisterPage from "./component/notregister";
+
+
+
+async function getDataFromBarrer() {
+  const req = await getProfile();
+  return req;
+}
 
 export default function Nursepage() {
   const [nurses, setNurses] = useState([]);
+  const [register,setRegister]=useState(true);
 
   useEffect(() => {
+    const getProfileInfo = async () => {
+        const userData = await getDataFromBarrer();
+        console.log("User Data nurse:", userData);
+        if (!userData) {
+           setRegister(false);
+        } 
+    };
+    getProfileInfo();
     const fetchNurses = async () => {
       const data = await getNuresList("");
       console.log("Nurses data:", data.nannies);
@@ -15,14 +33,21 @@ export default function Nursepage() {
     fetchNurses();
   }, []);
 
+
+if(register){
+
   return (
+    
+
+
     <>
       <div className="w-11/12 mx-auto justify-center space-x-4 space-y-7  pt-3  pb-3 grid grid-cols-1 lg:grid-cols-4  md:grid-cols-4  ">
         {nurses.map((nurse: any) => (
           <NurseCard
             key={nurse.id}
             image={
-              nurse.user.photoUrl ||
+              "https://zippy.elrincondsabor.com/storage/app/public/"+nurse.user.photo
+               ||
               "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
             }
             title={nurse.translations[0].full_name || "Nurse Name"}
@@ -66,5 +91,13 @@ export default function Nursepage() {
         /> */}
       </div>
     </>
+
+
+
   );
+}else {  return(
+  <>
+    <NotUserRegisterPage />
+  </>
+)};
 }
