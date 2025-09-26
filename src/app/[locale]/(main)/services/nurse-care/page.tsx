@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import NurseCard from "./component/nurseCard";
 import { getNuresList } from "@/action/nurseApiAction";
 import { getProfile } from "@/action/apiAction";
+import NotUserRegisterPage from "./component/notregister";
+
 
 
 async function getDataFromBarrer() {
@@ -12,13 +14,14 @@ async function getDataFromBarrer() {
 
 export default function Nursepage() {
   const [nurses, setNurses] = useState([]);
+  const [register,setRegister]=useState(true);
 
   useEffect(() => {
     const getProfileInfo = async () => {
         const userData = await getDataFromBarrer();
         console.log("User Data nurse:", userData);
         if (!userData) {
-           console.log("No user data found" );
+           setRegister(false);
         } 
     };
     getProfileInfo();
@@ -30,7 +33,13 @@ export default function Nursepage() {
     fetchNurses();
   }, []);
 
+
+if(register){
+
   return (
+    
+
+
     <>
       <div className="w-11/12 mx-auto justify-center space-x-4 space-y-7  pt-3  pb-3 grid grid-cols-1 lg:grid-cols-4  md:grid-cols-4  ">
         {nurses.map((nurse: any) => (
@@ -82,5 +91,13 @@ export default function Nursepage() {
         /> */}
       </div>
     </>
+
+
+
   );
+}else {  return(
+  <>
+    <NotUserRegisterPage />
+  </>
+)};
 }

@@ -1,29 +1,12 @@
 import { useState } from 'react';
 import { User, Shield, Clock, Heart, ArrowRight, Users, Star, CheckCircle, Lock, UserPlus } from 'lucide-react';
 
-export default function NurseListAccess() {
+export default function NotUserRegisterPage() {
   const [activeTab, setActiveTab] = useState('register');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-100">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="bg-gradient-to-r from-[#ff9a5a] to-[#ff8040] p-2 rounded-lg shadow-lg">
-              <Heart className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-2xl font-bold text-gray-800">
-              Kidoo<span style={{color: '#ff9a5a'}}>Hub</span>
-            </span>
-          </div>
-          <nav className="hidden md:flex space-x-6">
-            <a href="#" className="text-gray-600 hover:text-[#ff9a5a] transition-colors font-medium">Services</a>
-            <a href="#" className="text-gray-600 hover:text-[#ff9a5a] transition-colors font-medium">About</a>
-            <a href="#" className="text-gray-600 hover:text-[#ff9a5a] transition-colors font-medium">Contact</a>
-          </nav>
-        </div>
-      </header>
+      
 
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
@@ -34,7 +17,7 @@ export default function NurseListAccess() {
               <Users className="w-4 h-4 mr-2" />
               Trusted Healthcare Network
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-5xl md:text-5xl font-bold text-gray-700 mb-6 leading-tight">
               Find Qualified
               <span className="block mt-2" style={{color: '#ff9a5a'}}>
                 Nurses Near You
@@ -58,7 +41,7 @@ export default function NurseListAccess() {
                          style={{backgroundColor: '#ff9a5a20'}}>
                       <Lock className="w-8 h-8" style={{color: '#ff9a5a'}} />
                     </div>
-                    <h2 className="text-3xl font-bold text-gray-900 mb-3">
+                    <h2 className="text-3xl font-bold text-gray-700 mb-3">
                       Access Required
                     </h2>
                     <p className="text-gray-600 text-lg">
@@ -72,7 +55,7 @@ export default function NurseListAccess() {
                       onClick={() => setActiveTab('register')}
                       className={`flex-1 py-3 px-6 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center justify-center ${
                         activeTab === 'register'
-                          ? 'bg-white text-gray-900 shadow-md'
+                          ? 'bg-white text-gray-700 shadow-md'
                           : 'text-gray-600 hover:text-gray-900'
                       }`}
                     >
@@ -83,7 +66,7 @@ export default function NurseListAccess() {
                       onClick={() => setActiveTab('login')}
                       className={`flex-1 py-3 px-6 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center justify-center ${
                         activeTab === 'login'
-                          ? 'bg-white text-gray-900 shadow-md'
+                          ? 'bg-white text-gray-700 shadow-md'
                           : 'text-gray-600 hover:text-gray-900'
                       }`}
                     >
@@ -142,7 +125,7 @@ export default function NurseListAccess() {
             <div className="order-1 lg:order-2">
               <div className="space-y-8">
                 <div>
-                  <h3 className="text-3xl font-bold text-gray-900 mb-6">
+                  <h3 className="text-3xl font-bold text-gray-700 mb-6">
                     Why Choose KidooHub Nurses?
                   </h3>
                   <p className="text-lg text-gray-600 mb-8">
@@ -158,7 +141,7 @@ export default function NurseListAccess() {
                       <Shield className="w-6 h-6" style={{color: '#ff9a5a'}} />
                     </div>
                     <div>
-                      <h4 className="text-xl font-semibold text-gray-900 mb-2">Thoroughly Verified</h4>
+                      <h4 className="text-xl font-semibold text-gray-700 mb-2">Thoroughly Verified</h4>
                       <p className="text-gray-600">Background checks, license verification, and reference validation for every nurse.</p>
                     </div>
                   </div>
@@ -169,7 +152,7 @@ export default function NurseListAccess() {
                       <Star className="w-6 h-6" style={{color: '#ff9a5a'}} />
                     </div>
                     <div>
-                      <h4 className="text-xl font-semibold text-gray-900 mb-2">Highly Rated</h4>
+                      <h4 className="text-xl font-semibold text-gray-700 mb-2">Highly Rated</h4>
                       <p className="text-gray-600">Only professionals with excellent reviews and proven track records.</p>
                     </div>
                   </div>
@@ -180,7 +163,7 @@ export default function NurseListAccess() {
                       <Clock className="w-6 h-6" style={{color: '#ff9a5a'}} />
                     </div>
                     <div>
-                      <h4 className="text-xl font-semibold text-gray-900 mb-2">Available When You Need</h4>
+                      <h4 className="text-xl font-semibold text-gray-700 mb-2">Available When You Need</h4>
                       <p className="text-gray-600">Flexible scheduling including evenings, weekends, and emergency coverage.</p>
                     </div>
                   </div>
