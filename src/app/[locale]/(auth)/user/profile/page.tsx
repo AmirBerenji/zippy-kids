@@ -6,6 +6,7 @@ import ProfileNavigation from "./components/ProfileNavigation";
 import AccountSetting from "./components/AccountSetting";
 import { Profile } from "@/model/auth";
 import NurseProfile from "./components/nurse/nurseprofile";
+import DashboardTopMessage from "@/app/component/general/DashboardTopMessage";
 
 async function getDataFromBarrer() {
   const req = await getProfile();
@@ -26,7 +27,14 @@ export default function ProfilePage() {
 
   return (
     <>
+   <DashboardTopMessage/>
+        
+
+
       <section className="flex flex-col md:flex-row p-4 sm:p-6 md:p-8 mb-12 gap-6 md:gap-8">
+        
+        
+        
         <LeftProfileSide userInfo={userData!} />
 
         <section className="flex-1 bg-white rounded-lg shadow-md p-6 min-w-0">
