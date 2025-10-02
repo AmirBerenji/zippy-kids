@@ -46,6 +46,9 @@ export async function register(formdata: FormData) {
       return { message: req.message, success: false };
     }
     new CookieConfig().setToken("jwt", req.data.token);
+    if (req.data.user.roles.includes("nurse")) {
+      redirect("/user/profile");
+    }
     redirect("/");
   }
   return { message: "Your email format is not true", success: false };
@@ -106,9 +109,7 @@ export async function updateProfile(formdata: FormData) {
   const result = new Validation().validateEmail(update.email);
 
   if (result) {
-    console.log("Update Profile", update);
     const req = await agent.Account.updateProfile(update);
-    console.log("Update Profile", req);
     if (req.success == false) {
       return { message: req.message, success: false };
     }
@@ -119,10 +120,6 @@ export async function updateProfile(formdata: FormData) {
 
 export async function updateProfileImage(input: FormData | File) {
   try {
-    console.log("=== Starting updateProfileImage ===");
-    console.log("Input type:", typeof input);
-    console.log("Input constructor:", input?.constructor?.name);
-
     let file: File;
 
     if (input instanceof FormData) {
@@ -138,20 +135,13 @@ export async function updateProfileImage(input: FormData | File) {
       throw new Error("Invalid input type. Expected FormData or File");
     }
 
-    console.log("Processing file:", {
-      name: file.name,
-      size: file.size,
-      type: file.type,
-    });
-
     // Create FormData for API - use "photo" as Laravel expects it
     const formData = new FormData();
     formData.append("photo", file);
 
     // Debug the FormData
-    console.log("API FormData entries:");
+    
     for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
       if (value instanceof File) {
         console.log(
           `  File details: ${value.name}, ${value.size} bytes, ${value.type}`
