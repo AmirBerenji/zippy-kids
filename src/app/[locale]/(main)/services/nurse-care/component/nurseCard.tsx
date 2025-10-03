@@ -1,7 +1,9 @@
 "use client";
+import Link from "next/link";
 import React, { useState } from "react";
 
 interface Props {
+  id:number;
   image: string;
   title: string;
   description: string;
@@ -17,7 +19,10 @@ export default function NurseCard(prop: Props) {
   const blurClass = prop.isRegistered ? "" : " blur-xs select-none";
 
   return (
-    <div className="rounded-lg shadow-md p-3 flex flex-col shadow-gray/20 hover:shadow-lg hover:shadow-[#ff9a5a]/40 transition-shadow duration-300 bg-white">
+    <div className="rounded-lg shadow-md p-3 flex flex-col 
+    shadow-gray/20 hover:shadow-lg 
+    hover:shadow-[#ff9a5a]/40 
+    transition-shadow duration-300 bg-white my-3  ">
       <img
         alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"
         className="rounded-lg mb-4 w-50 h-50 object-cover m-auto"
@@ -42,9 +47,12 @@ export default function NurseCard(prop: Props) {
         Description: {prop.description}
       </p>
       <p className="w-full items-end justify-end flex">
-        <button className="bg-[#ff9a5a] text-white px-4 py-2 rounded-lg mt-4 hover:bg-[#ff7a3a] transition-colors">
+        <Link
+          href={`/services/nurse-care/${prop.id}/profile`}
+          className="bg-[#ff9a5a] text-white px-4 py-2 rounded-lg mt-4 hover:bg-[#ff7a3a] transition-colors"
+        >
           More Info
-        </button>
+        </Link>
       </p>
     </div>
   );
