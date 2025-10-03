@@ -6,6 +6,8 @@ interface Props {
   title: string;
   description: string;
   isRegistered?: boolean;
+  phone?: string;
+  email?: string;
 }
 
 export default function NurseCard(prop: Props) {
@@ -15,7 +17,7 @@ export default function NurseCard(prop: Props) {
   const blurClass = prop.isRegistered ? "" : " blur-xs select-none";
 
   return (
-    <div className="rounded-lg shadow-md p-3 flex flex-col">
+    <div className="rounded-lg shadow-md p-3 flex flex-col shadow-gray/20 hover:shadow-lg hover:shadow-[#ff9a5a]/40 transition-shadow duration-300 bg-white">
       <img
         alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"
         className="rounded-lg mb-4 w-50 h-50 object-cover m-auto"
@@ -30,10 +32,10 @@ export default function NurseCard(prop: Props) {
 
       {/* Phone and Email with blur if not registered */}
       <p className={`text-[#2f3e4e] text-left`}>
-        Phone: <span className={`${blurClass}`} > +3749958888888 </span>
+        Phone: <span className={`${blurClass}`} > {prop.phone} </span>
       </p>
       <p className={`text-[#2f3e4e] text-left`}>
-        Email: <span className={`${blurClass}`} >test@gmail.com </span>
+        Email: <span className={`${blurClass}`} >{prop.email} </span>
       </p>
 
       <p className="text-[#2f3e4e] text-left">

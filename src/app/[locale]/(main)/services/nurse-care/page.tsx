@@ -36,7 +36,7 @@ export default function Nursepage() {
 
   return (
     <>
-      <div className="w-11/12 mx-auto justify-center space-x-4 space-y-7  pt-3  pb-3 grid grid-cols-1 lg:grid-cols-4  md:grid-cols-4  ">
+      <div className="w-11/12 mx-auto justify-center space-x-5 pt-3  pb-3 grid grid-cols-1 lg:grid-cols-4  md:grid-cols-4  ">
         {nurses.map((nurse: any) => (
           <NurseCard
             key={nurse.id}
@@ -48,6 +48,8 @@ export default function Nursepage() {
             title={nurse.translations[0].full_name || "Nurse Name"}
             description={nurse.description || "No description available."}
             isRegistered={register}
+            phone={nurse.user.phone || "N/A"}
+            email={nurse.user.email || "N/A"}
           />
         ))}
        
