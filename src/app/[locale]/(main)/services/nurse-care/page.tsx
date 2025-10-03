@@ -50,6 +50,7 @@ export default function Nursepage() {
             isRegistered={register}
             phone={nurse.user.phone || "N/A"}
             email={nurse.user.email || "N/A"}
+            id={nurse.id}
           />
         ))}
        
