@@ -21,3 +21,9 @@ export async function getNuresList(value: string) {
   console.log("NurseListreq", req);
   return req?.data;
 }
+
+export async function getNuresById(id: number) {
+  const req = await agent.Nurse.getNurseById(id);
+  console.log("NurseByIdreq", req);
+  return req?.data;
+}
