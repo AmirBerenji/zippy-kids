@@ -98,6 +98,7 @@ const Nurse = {
     requests.getbyvalue<Profile>("nannies", value),
   getNurseList: (value: string) =>
     requests.getbyvalue<Nanny[]>("nannies", value),
+  getNurseById: (id: number) => requests.get<Nanny>(`nannies/${id}`),
 };
 
 const agent = {
