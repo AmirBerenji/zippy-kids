@@ -14,6 +14,7 @@ export default function NurseProfilePage() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     setMounted(true);
   }, []);
 
@@ -76,25 +77,27 @@ export default function NurseProfilePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center ">
           <img
             src={
               "https://zippy.elrincondsabor.com/storage/app/public/" +
               nurse.user.photo
             }
             alt={nurse.translations[0].full_name}
-            className="w-32 h-32 rounded-full object-cover mb-4"
+            className="w-48 h-48  object-cover mb-4 rounded-lg shadow-md"
           />
-          <h1 className="text-2xl font-bold mb-2">
+          <h1 className="text-2xl font-bold mb-2 text-[#ff9a5a] ">
             {nurse.translations[0].full_name}
           </h1>
-          <p className="text-gray-600 mb-4">
-            <StarRating rating={2.5} reviewCount={102} />
+          <p className="mb-4">
+            <StarRating rating={2.5} reviewCount={102} size="sm" />
           </p>
         </div>
 
-        <div className="mt-6">
-          <h2 className="text-xl font-semibold mb-3">Professional Details</h2>
+        <div className="mt-14 ml-3">
+          <h2 className=" font-semibold text-[19px] mb-3 text-[#ff9a5a] ">
+            Professional Details
+          </h2>
           <div className="space-y-4">
             <div>
               <h3 className="font-medium">Experience</h3>
