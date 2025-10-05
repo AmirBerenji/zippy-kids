@@ -117,9 +117,11 @@ export default function NurseProfilePage() {
               <h3 className="font-medium">Hourly Price</h3>
               <p className="text-gray-600">{nurse.hourly_rate}($)</p>
             </div>
-            <div>
+            <div className="w-full">
               <h3 className="font-medium">Available Days:</h3>
-              <p className="text-gray-600">{nurse.days_available}</p>
+              <p className="text-gray-600 break-words whitespace-normal">
+                {nurse.days_available}
+              </p>
             </div>
             <div>
               <h3 className="font-medium">Location:</h3>

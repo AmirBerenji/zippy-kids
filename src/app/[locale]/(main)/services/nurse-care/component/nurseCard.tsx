@@ -26,18 +26,19 @@ export default function NurseCard(prop: Props) {
     hover:shadow-[#ff9a5a]/40 
     transition-shadow duration-300 bg-white my-3  "
     >
-      <img
-        alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"
-        className="rounded-lg mb-4 w-50 h-50 object-cover m-auto"
-        height="300"
-        loading="lazy"
-        src={prop.image}
-        width="400"
-      />
-      <h3 className="text-xl font-semibold text-[#ff9a5a] mb-2 text-center">
-        {prop.title}
-      </h3>
-
+      <Link href={`/services/nurse-care/${prop.id}/profile`}>
+        <img
+          alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"
+          className="rounded-lg mb-4 w-50 h-50 object-cover m-auto"
+          height="300"
+          loading="lazy"
+          src={prop.image}
+          width="400"
+        />
+        <h3 className="text-xl font-semibold text-[#ff9a5a] mb-2 text-center">
+          {prop.title}
+        </h3>
+      </Link>
       {/* Phone and Email with blur if not registered */}
       <p className={`text-[#2f3e4e] text-left`}>
         Phone: <span className={`${blurClass}`}> {prop.phone} </span>
