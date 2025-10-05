@@ -59,7 +59,6 @@ export default function NannyProfile(prop: Props) {
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Image upload state
- 
 
   // Form state
 
@@ -298,10 +297,7 @@ export default function NannyProfile(prop: Props) {
   return (
     <div className="bg-white text-xs ">
       <div className="max-w-7xl mx-auto ">
-        <form
-          onSubmit={handleSubmit}
-          className=""
-        >
+        <form onSubmit={handleSubmit} className="">
           {/* Success/Error Messages */}
           {submitSuccess && (
             <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">
@@ -567,7 +563,7 @@ export default function NannyProfile(prop: Props) {
                 htmlFor="hourly_rate"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Hourly Rate ($) *
+                Hourly Rate($)*
               </label>
               <input
                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
@@ -605,7 +601,7 @@ export default function NannyProfile(prop: Props) {
               </select>
             </div>
 
-            <div>
+            {/* <div>
               <label
                 htmlFor="video_intro_url"
                 className="block text-sm font-medium text-gray-700 mb-1"
@@ -621,9 +617,9 @@ export default function NannyProfile(prop: Props) {
                 value={formData.video_intro_url}
                 onChange={handleInputChange}
               />
-            </div>
+            </div> */}
 
-            <div>
+            {/* <div>
               <label
                 htmlFor="resume_url"
                 className="block text-sm font-medium text-gray-700 mb-1"
@@ -639,7 +635,7 @@ export default function NannyProfile(prop: Props) {
                 value={formData.resume_url}
                 onChange={handleInputChange}
               />
-            </div>
+            </div> */}
           </div>
 
           {/* Days Available Section */}
@@ -686,7 +682,7 @@ export default function NannyProfile(prop: Props) {
               htmlFor="fixed_package_description"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Package Description
+              Description
             </label>
             <textarea
               className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent resize-y min-h-[100px]"

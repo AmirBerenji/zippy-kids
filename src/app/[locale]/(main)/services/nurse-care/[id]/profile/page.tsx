@@ -86,7 +86,7 @@ export default function NurseProfilePage() {
             alt={nurse.translations[0].full_name}
             className="w-48 h-48  object-cover mb-4 rounded-lg shadow-md"
           />
-          <h1 className="text-2xl font-bold mb-2 text-[#ff9a5a] ">
+          <h1 className="text-2xl font-bold mb-2 text-[#2f3e4e] ">
             {nurse.translations[0].full_name}
           </h1>
           <p className="mb-4">
@@ -100,14 +100,48 @@ export default function NurseProfilePage() {
           </h2>
           <div className="space-y-4">
             <div>
-              <h3 className="font-medium">Experience</h3>
-              <p className="text-gray-600">{nurse.years_experience}</p>
-            </div>
-            <div>
               <h3 className="font-medium">Specialization</h3>
               <p className="text-gray-600">
                 {nurse.translations[0].specialization}
               </p>
+            </div>
+            <div>
+              <h3 className="font-medium">Gender</h3>
+              <p className="text-gray-600">{nurse.gender}</p>
+            </div>
+            <div>
+              <h3 className="font-medium">Experience</h3>
+              <p className="text-[#2f3e4e]">{nurse.years_experience} years</p>
+            </div>
+            <div>
+              <h3 className="font-medium">Hourly Price</h3>
+              <p className="text-gray-600">{nurse.hourly_rate}($)</p>
+            </div>
+            <div>
+              <h3 className="font-medium">Available Days:</h3>
+              <p className="text-gray-600">{nurse.days_available}</p>
+            </div>
+            <div>
+              <h3 className="font-medium">Location:</h3>
+              <p className="text-gray-600">{nurse.location.city}</p>
+            </div>
+            <div>
+              <h3 className="font-medium">Working Hours:</h3>
+              <p className="text-gray-600">{nurse.working_hours}</p>
+            </div>
+
+            <div>
+              <h3 className="font-medium">Commitment Type</h3>
+              <p className="text-gray-600">{nurse.commitment_type}</p>
+            </div>
+            <div>
+              <h3 className="font-medium">Booking Type</h3>
+              <p className="text-gray-600">{nurse.booking_type}</p>
+            </div>
+
+            <div>
+              <h3 className="font-medium">Description:</h3>
+              <p className="text-gray-600">{nurse.fixed_package_description}</p>
             </div>
           </div>
         </div>
