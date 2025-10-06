@@ -23,6 +23,7 @@ import LoadingPage from "@/app/component/general/Loading";
 
 interface Props {
   userInfo: Profile;
+  nurseInfo?: Nanny;
 }
 
 interface SelectedLanguage {

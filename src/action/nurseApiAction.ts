@@ -7,7 +7,6 @@ export async function getLocation() {
   const req = await agent.Location.getLocations();
   return req?.data;
 }
-
 export async function getLanguages() {
   const req = await agent.Language.getLanguage();
   return req?.data;
@@ -21,9 +20,13 @@ export async function getNuresList(value: string) {
   console.log("NurseListreq", req);
   return req?.data;
 }
-
 export async function getNuresById(id: number) {
   const req = await agent.Nurse.getNurseById(id);
   console.log("NurseByIdreq", req);
+  return req?.data;
+}
+export async function getNuresByUserId() {
+  const req = await agent.Nurse.getNurseByUserId();
+  console.log("NurseByUserIdreq", req);
   return req?.data;
 }
