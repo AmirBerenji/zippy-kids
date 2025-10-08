@@ -20,6 +20,9 @@ export default function Loginpage() {
             />
           </div>
           <div className="w-full md:w-1/2 bg-white rounded-r-3xl rounded-l-3xl md:rounded-l-none shadow-lg p-10 max-w-md mx-auto ">
+           <Link href={`/${locale}/`}>
+           <img src="/assets/images/logo.png" className="w-12  m-auto" />
+           </Link>
             <h1 className="text-3xl font-bold text-[#2f3e4e] mb-6 text-center">
               {t("header")}
             </h1>
