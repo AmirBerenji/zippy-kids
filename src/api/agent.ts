@@ -11,6 +11,7 @@ import { Languages } from "@/model/language";
 import { Nanny } from "@/model/nany";
 
 import axios, { AxiosResponse } from "axios";
+import { get } from "http";
 
 axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
 //axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
@@ -99,6 +100,7 @@ const Nurse = {
   getNurseList: (value: string) =>
     requests.getbyvalue<Nanny[]>("nannies", value),
   getNurseById: (id: number) => requests.get<Nanny>(`nannies/${id}`),
+  getNurseByUserId: () => requests.get<Nanny>(`nannies/user`),
 };
 
 const agent = {

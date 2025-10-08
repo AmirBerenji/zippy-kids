@@ -53,12 +53,22 @@ export default function NurseCard(prop: Props) {
 
       <p className="w-full items-center  justify-between flex mt-3 ">
         <StarRating rating={3.6} reviewCount={232} size="sm" />
-        <Link
+        {prop.isRegistered ? (
+          <Link
           href={`/services/nurse-care/${prop.id}/profile`}
           className="bg-[#ff9a5a] text-white px-4 py-2 rounded-lg mt-0 hover:bg-[#ff7a3a] transition-colors"
         >
           More Info
         </Link>
+        ):(
+          <Link
+          href={`/notregister`}
+          className="bg-[#ff9a5a] text-white px-4 py-2 rounded-lg mt-0 hover:bg-[#ff7a3a] transition-colors"
+        >
+          More Info
+        </Link>
+        )}
+        
       </p>
     </div>
   );

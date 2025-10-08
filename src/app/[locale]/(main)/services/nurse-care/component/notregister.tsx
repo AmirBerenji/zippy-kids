@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { User, Shield, Clock, Heart, ArrowRight, Users, Star, CheckCircle, Lock, UserPlus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
 
 export default function NotUserRegisterPage() {
   const [activeTab, setActiveTab] = useState('register');
+  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
@@ -76,24 +79,32 @@ export default function NotUserRegisterPage() {
                   </div>
 
                   {/* CTA Button */}
-                  <button 
+                  <button onClick={() => {
+        const targetPath = activeTab === 'register' 
+          ? '/en/user/signup' 
+          : '/en/user/login';
+        router.push(targetPath);
+      }}
                     className="w-full py-4 px-8 rounded-xl font-semibold text-lg text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center group"
                     style={{background: `linear-gradient(135deg, #ff9a5a 0%, #ff8040 100%)`}}
                   >
-                    {activeTab === 'register' ? 'Create Free Account' : 'Sign In to Continue'}
+                    {activeTab === 'register' ? 'Create Account' : 'Sign In to Continue'}
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </button>
                   
+
                   <div className="text-center mt-6">
                     <p className="text-sm text-gray-500">
                       {activeTab === 'register' ? 'Already have an account?' : "Don't have an account?"}{' '}
+                      
                       <button
                         onClick={() => setActiveTab(activeTab === 'register' ? 'login' : 'register')}
                         className="font-semibold hover:underline"
                         style={{color: '#ff9a5a'}}
                       >
-                        {activeTab === 'register' ? 'Sign in here' : 'Register for free'}
+                        {activeTab === 'register' ? 'Sign in here' : 'Register now'}
                       </button>
+
                     </p>
                   </div>
 
@@ -172,15 +183,15 @@ export default function NotUserRegisterPage() {
                 {/* Stats */}
                 <div className="grid grid-cols-3 gap-6 pt-6">
                   <div className="text-center">
-                    <div className="text-3xl font-bold" style={{color: '#ff9a5a'}}>500+</div>
+                    <div className="text-3xl font-bold text-[#ff9a5a]" >500+</div>
                     <div className="text-sm text-gray-600">Qualified Nurses</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold" style={{color: '#ff9a5a'}}>4.9★</div>
+                    <div className="text-3xl font-bold text-[#ff9a5a]">4.9★</div>
                     <div className="text-sm text-gray-600">Average Rating</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold" style={{color: '#ff9a5a'}}>24/7</div>
+                    <div className="text-3xl font-bold text-[#ff9a5a]">24/7</div>
                     <div className="text-sm text-gray-600">Support</div>
                   </div>
                 </div>
