@@ -100,7 +100,7 @@ const Nurse = {
   getNurseList: (value: string) =>
     requests.getbyvalue<Nanny[]>("nannies", value),
   getNurseById: (id: number) => requests.get<Nanny>(`nannies/${id}`),
-  getNurseByUserId: () => requests.get<Nanny>(`nannies/user`),
+  getNurseByUserId: () => requests.get<Nanny>(`nannies/user/info`),
 };
 
 const agent = {
