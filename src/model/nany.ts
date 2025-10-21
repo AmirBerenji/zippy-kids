@@ -1,4 +1,5 @@
 export interface Nanny {
+  id: number;
   gender: string;
   location_id: number;
   years_experience: number;
