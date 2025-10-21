@@ -71,6 +71,7 @@ export async function login(formdata: FormData) {
 
   if (result) {
     const req = await agent.Account.login(login);
+    console.log("Login response:", req);
     if (!req.success) {
       return { message: req.message, error: true };
     }
@@ -140,7 +141,7 @@ export async function updateProfileImage(input: FormData | File) {
     formData.append("photo", file);
 
     // Debug the FormData
-    
+
     for (const [key, value] of formData.entries()) {
       if (value instanceof File) {
         console.log(

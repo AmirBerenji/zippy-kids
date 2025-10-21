@@ -20,8 +20,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("account");
   const [nurseData, setNurseData] = useState<Nanny>();
 
-
- useEffect(() => {
+  useEffect(() => {
     const fetchAllData = async () => {
       try {
         const [profileData, nurseInfo] = await Promise.all([
@@ -31,24 +30,16 @@ export default function ProfilePage() {
         setUserData(profileData);
         setNurseData(nurseInfo);
       } catch (err) {
-
         console.error("Profile fetch error:", err);
       } finally {
-        console.log("Profile fetch completed");
-        console.log("NurseDataProfilePage", nurseData);
       }
     };
 
     fetchAllData();
   }, []);
 
-
-
-  
-
   return (
     <>
-      {console.log("NurseDataProfilePage12313213", nurseData)}
       {!nurseData && <DashboardTopMessage />}
 
       <section className="flex flex-col md:flex-row p-4 sm:p-6 md:p-8 mb-12 gap-6 md:gap-8">
