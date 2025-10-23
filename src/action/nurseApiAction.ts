@@ -33,6 +33,7 @@ export async function getNuresByUserId() {
 }
 
 export async function updateNuresProfile(id: number, profile: Nanny) {
+  console.log("UpdateNurseProfile", id, profile);
   const req = await agent.Nurse.updateNurseProfile(profile);
   console.log("UpdateNurseProfileReq", req);
   return req?.data;
