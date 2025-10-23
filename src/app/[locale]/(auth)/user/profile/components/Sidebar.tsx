@@ -43,6 +43,14 @@ export default function Sidebar() {
               <span className="text-[#ff9a5a]">Kidoo</span>Hub
             </h1>
           </Link>
+
+          <Link
+            href="/"
+            className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors"
+          >
+            <i className="fas fa-user"></i>Home
+          </Link>
+
           <Link
             href="/user/profile"
             className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors"
@@ -55,6 +63,13 @@ export default function Sidebar() {
             className="flex items-center gap-3 hover:text-[#1f2a56] transition-colors"
           >
             <i className="fas fa-box"></i> Suppliers
+          </a>
+
+          <a
+            href="/"
+            className="flex items-center gap-3 text-red-800  hover:text-[#1f2a56] transition-colors"
+          >
+            <i className="fas fa-box"></i> logout
           </a>
           {/* Add other links here */}
         </nav>
