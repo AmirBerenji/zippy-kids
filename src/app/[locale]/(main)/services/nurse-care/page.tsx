@@ -50,7 +50,7 @@ export default function Nursepage() {
                 "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
               }
               title={nurse.translations[0].full_name || "Nurse Name"}
-              description={nurse.description || "No description available."}
+              description={nurse.fixed_package_description || "No description available."}
               isRegistered={register}
               phone={nurse.user.phone || "N/A"}
               email={nurse.user.email || "N/A"}

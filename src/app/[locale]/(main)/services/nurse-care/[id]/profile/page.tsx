@@ -3,15 +3,30 @@
 import { getNuresById } from "@/action/nurseApiAction";
 import LoadingPage from "@/app/component/general/Loading";
 import StarRating from "@/app/component/general/StarRating";
-import { Nanny } from "@/model/nany";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
+// Review interface
+interface Review {
+  id: number;
+  user_name: string;
+  user_photo?: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
 
 export default function NurseProfilePage() {
   const { id } = useParams();
   const [nurse, setNurse] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [newReview, setNewReview] = useState({
+    rating: 0,
+    comment: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -26,6 +41,28 @@ export default function NurseProfilePage() {
         const response = await getNuresById(Number(id));
         console.log("NurseProfileResponse", response);
         setNurse(response);
+        
+        // TODO: Fetch reviews from your API
+        // const reviewsResponse = await getReviewsByNurseId(Number(id));
+        // setReviews(reviewsResponse);
+        
+        // Mock reviews for demonstration
+        setReviews([
+          {
+            id: 1,
+            user_name: "John Doe",
+            rating: 5,
+            comment: "Excellent care! Very professional and attentive.",
+            date: "2025-10-15",
+          },
+          {
+            id: 2,
+            user_name: "Jane Smith",
+            rating: 4,
+            comment: "Great experience. Highly recommend!",
+            date: "2025-10-10",
+          },
+        ]);
       } catch (error) {
         console.error("Error fetching nurse profile:", error);
       } finally {
@@ -35,6 +72,61 @@ export default function NurseProfilePage() {
 
     fetchNurseProfile();
   }, [id, mounted]);
+
+  const handleSubmitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (newReview.rating === 0 || newReview.comment.trim() === "") {
+      alert("Please provide both rating and comment");
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      // TODO: Submit review to your API
+      // await submitReview(Number(id), newReview);
+      
+      // Mock submission - add review to list
+      const review: Review = {
+        id: Date.now(),
+        user_name: "Current User", // Replace with actual user name
+        rating: newReview.rating,
+        comment: newReview.comment,
+        date: new Date().toISOString().split('T')[0],
+      };
+      
+      setReviews([review, ...reviews]);
+      setNewReview({ rating: 0, comment: "" });
+      
+      alert("Review submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      alert("Failed to submit review");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const renderStars = (rating: number, interactive: boolean = false) => {
+    return (
+      <div className="flex gap-1">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <button
+            key={star}
+            type="button"
+            disabled={!interactive}
+            onClick={() => interactive && setNewReview({ ...newReview, rating: star })}
+            className={`text-2xl ${
+              interactive ? "cursor-pointer hover:scale-110 transition-transform" : ""
+            } ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
+          >
+            ★
+          </button>
+        ))}
+      </div>
+    );
+  };
 
   // Prevent hydration mismatch by not rendering until mounted
   if (!mounted) {
@@ -74,6 +166,10 @@ export default function NurseProfilePage() {
     );
   }
 
+  const averageRating = reviews.length > 0
+    ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+    : 0;
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
@@ -90,7 +186,7 @@ export default function NurseProfilePage() {
             {nurse.translations[0].full_name}
           </h1>
           <p className="mb-4">
-            <StarRating rating={2.5} reviewCount={102} size="sm" />
+            <StarRating rating={averageRating} reviewCount={reviews.length} size="sm" />
           </p>
         </div>
 
@@ -145,6 +241,80 @@ export default function NurseProfilePage() {
               <h3 className="font-medium">Description:</h3>
               <p className="text-gray-600">{nurse.fixed_package_description}</p>
             </div>
+          </div>
+        </div>
+
+        {/* Reviews Section */}
+        <div className="mt-10 border-t border-t-gray-200 pt-4">
+          <h2 className="font-semibold text-[14px] mb-4 text-[#ff9a5a]">
+            Reviews ({reviews.length})
+          </h2>
+
+          {/* Add Review Form */}
+          <div className="mb-8 bg-gray-50 p-6 rounded-lg">
+            <h3 className="font-medium text-lg mb-4">Write a Review</h3>
+            <form onSubmit={handleSubmitReview}>
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-2">
+                  Your Rating
+                </label>
+                {renderStars(newReview.rating, true)}
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-2">
+                  Your Comment
+                </label>
+                <textarea
+                  value={newReview.comment}
+                  onChange={(e) =>
+                    setNewReview({ ...newReview, comment: e.target.value })
+                  }
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff9a5a]"
+                  rows={4}
+                  placeholder="Share your experience..."
+                  disabled={isSubmitting}
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-[#ff9a5a] text-white px-6 py-2 rounded-lg hover:bg-[#ff8a4a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "Submitting..." : "Submit Review"}
+              </button>
+            </form>
+          </div>
+
+          {/* Reviews List */}
+          <div className="space-y-6">
+            {reviews.length === 0 ? (
+              <p className="text-gray-500 text-center py-8">
+                No reviews yet. Be the first to review!
+              </p>
+            ) : (
+              reviews.map((review) => (
+                <div
+                  key={review.id}
+                  className="border-b pb-6 last:border-b-0 border-b-gray-200"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-semibold">
+                      {review.user_name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-medium">{review.user_name}</h4>
+                        <span className="text-sm text-gray-500">
+                          {new Date(review.date).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="mb-2">{renderStars(review.rating)}</div>
+                      <p className="text-gray-600">{review.comment}</p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
