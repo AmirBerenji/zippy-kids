@@ -17,13 +17,13 @@ export default function OurService() {
               image="/assets/images/service/doctor.jpg"
               title="Pediatric Doctor"
               description="Expert medical care tailored for children's unique needs."
-              link="/services/nurse-care"
+              link="/services/doctor"
             />
             <Service
               image="/assets/images/service/event-plannig.jpg"
               title="Event Planning"
               description="Fun and engaging events designed to create joyful memories."
-              link="/services/nurse-care"
+              link="/services/events"
             />
 
             {/* 
