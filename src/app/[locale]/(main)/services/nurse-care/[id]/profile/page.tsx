@@ -7,14 +7,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 // Review interface
-interface Review {
-  id: number;
-  user_name: string;
-  user_photo?: string;
-  rating: number;
-  comment: string;
-  date: string;
-}
+
 
 export default function NurseProfilePage() {
   const { id } = useParams();
