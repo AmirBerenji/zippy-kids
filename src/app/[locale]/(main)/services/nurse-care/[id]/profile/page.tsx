@@ -1,18 +1,11 @@
 "use client";
 
 import { getNuresById } from "@/action/nurseApiAction";
-import {
-  getNurseReviews,
-  checkNurseReview,
-  submitNurseReview,
-  updateReview,
-  deleteReview,
-} from "@/action/reviewApiAction";
+import { addReview, checkReview } from "@/action/reviewApiAction";
 import LoadingPage from "@/app/component/general/Loading";
 import StarRating from "@/app/component/general/StarRating";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
 
 export default function NurseProfilePage() {
   const { id } = useParams();
@@ -55,7 +48,7 @@ export default function NurseProfilePage() {
 
   const fetchReviews = async (page = 1) => {
     try {
-      const data = await getNurseReviews(Number(id), page);
+      const data = await checkReview("nurse", String(id));
       if (data.success) {
         setReviewsData(data.data);
       }
@@ -66,11 +59,10 @@ export default function NurseProfilePage() {
 
   const checkUserReviewStatus = async () => {
     try {
-      const data = await checkNurseReview(Number(id));
+      const data = await checkReview("nurse", String(id));
       if (data.success) {
         setHasReviewed(data.data.has_reviewed);
         setUserReview(data.data.review);
-
         if (data.data.review) {
           setNewReview({
             rating: data.data.review.rating,
@@ -98,14 +90,20 @@ export default function NurseProfilePage() {
       let data;
 
       if (isEditing && userReview) {
-        data = await updateReview(userReview.id, newReview);
+        //data = await updateReview(userReview.id, newReview);
         alert("Review updated successfully!");
       } else {
-        data = await submitNurseReview(Number(id), newReview);
+        const value: ReviewSubmission = {
+          type: "nurse",
+          reviewable_id: Number(id),
+          rating: newReview.rating,
+          comment: newReview.comment,
+        };
+        data = await addReview(value);
         alert("Review submitted successfully!");
       }
 
-      if (data.success) {
+      if (data?.success) {
         setHasReviewed(true);
         setIsEditing(false);
         await fetchReviews();
@@ -126,50 +124,49 @@ export default function NurseProfilePage() {
     }
   };
 
-  const handleDeleteReview = async () => {
-    if (
-      !userReview ||
-      !confirm("Are you sure you want to delete your review?")
-    ) {
-      return;
-    }
+  // const handleDeleteReview = async () => {
+  //   if (
+  //     !userReview ||
+  //     !confirm("Are you sure you want to delete your review?")
+  //   ) {
+  //     return;
+  //   }
 
-    try {
-      const data = await deleteReview(userReview.id);
+  //   try {
+  //     // const data = await deleteReview(userReview.id);
+  //     // if (data.success) {
+  //     //   alert("Review deleted successfully!");
+  //     //   setHasReviewed(false);
+  //     //   setUserReview(null);
+  //     //   setNewReview({ rating: 0, comment: "" });
+  //     //   setIsEditing(false);
+  //     //   await fetchReviews();
+  //     // }
+  //   } catch (error: any) {
+  //     console.error("Error deleting review:", error);
+  //     alert(error.message || "Failed to delete review");
+  //   }
+  // };
 
-      if (data.success) {
-        alert("Review deleted successfully!");
-        setHasReviewed(false);
-        setUserReview(null);
-        setNewReview({ rating: 0, comment: "" });
-        setIsEditing(false);
-        await fetchReviews();
-      }
-    } catch (error: any) {
-      console.error("Error deleting review:", error);
-      alert(error.message || "Failed to delete review");
-    }
-  };
+  // const handleEditReview = () => {
+  //   setIsEditing(true);
+  //   if (userReview) {
+  //     setNewReview({
+  //       rating: userReview.rating,
+  //       comment: userReview.comment || "",
+  //     });
+  //   }
+  // };
 
-  const handleEditReview = () => {
-    setIsEditing(true);
-    if (userReview) {
-      setNewReview({
-        rating: userReview.rating,
-        comment: userReview.comment || "",
-      });
-    }
-  };
-
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    if (userReview) {
-      setNewReview({
-        rating: userReview.rating,
-        comment: userReview.comment || "",
-      });
-    }
-  };
+  // const handleCancelEdit = () => {
+  //   setIsEditing(false);
+  //   if (userReview) {
+  //     setNewReview({
+  //       rating: userReview.rating,
+  //       comment: userReview.comment || "",
+  //     });
+  //   }
+  // };
 
   const renderStars = (rating: number, interactive: boolean = false) => {
     return (
@@ -362,7 +359,7 @@ export default function NurseProfilePage() {
                   {isEditing && (
                     <button
                       type="button"
-                      onClick={handleCancelEdit}
+                      //onClick={handleCancelEdit}
                       className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors"
                     >
                       Cancel
@@ -380,13 +377,13 @@ export default function NurseProfilePage() {
                 <h3 className="font-medium text-lg">Your Review</h3>
                 <div className="flex gap-2">
                   <button
-                    onClick={handleEditReview}
+                    // onClick={handleEditReview}
                     className="text-blue-600 hover:text-blue-800 text-sm font-medium"
                   >
                     Edit
                   </button>
                   <button
-                    onClick={handleDeleteReview}
+                    // onClick={handleDeleteReview}
                     className="text-red-600 hover:text-red-800 text-sm font-medium"
                   >
                     Delete
@@ -461,6 +458,7 @@ export default function NurseProfilePage() {
 }
 
 // import { getNuresById } from "@/action/nurseApiAction";
+// import { addReview, checkReview } from "@/action/reviewApiAction";
 // import LoadingPage from "@/app/component/general/Loading";
 // import StarRating from "@/app/component/general/StarRating";
 // import { useParams } from "next/navigation";
@@ -553,8 +551,21 @@ export default function NurseProfilePage() {
 //         user_name: "Current User", // Replace with actual user name
 //         rating: newReview.rating,
 //         comment: newReview.comment,
-//         date: new Date().toISOString().split('T')[0],
+//         date: new Date().toISOString().split("T")[0],
 //       };
+
+//       const value: ReviewSubmission = {
+//         type: "nurse",
+//         reviewable_id: Number(id),
+//         rating: newReview.rating,
+//         comment: newReview.comment,
+//       };
+//       const data = await addReview(value);
+
+//       if (data?.success) {
+//         const reviewData = await checkReview("nurse", "1");
+//         console.log("ReviewData after submission:", reviewData);
+//       }
 
 //       setReviews([review, ...reviews]);
 //       setNewReview({ rating: 0, comment: "" });
@@ -576,9 +587,13 @@ export default function NurseProfilePage() {
 //             key={star}
 //             type="button"
 //             disabled={!interactive}
-//             onClick={() => interactive && setNewReview({ ...newReview, rating: star })}
+//             onClick={() =>
+//               interactive && setNewReview({ ...newReview, rating: star })
+//             }
 //             className={`text-2xl ${
-//               interactive ? "cursor-pointer hover:scale-110 transition-transform" : ""
+//               interactive
+//                 ? "cursor-pointer hover:scale-110 transition-transform"
+//                 : ""
 //             } ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
 //           >
 //             ★
@@ -626,9 +641,10 @@ export default function NurseProfilePage() {
 //     );
 //   }
 
-//   const averageRating = reviews.length > 0
-//     ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
-//     : 0;
+//   const averageRating =
+//     reviews.length > 0
+//       ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+//       : 0;
 
 //   return (
 //     <div className="container mx-auto px-4 py-8">
@@ -646,7 +662,11 @@ export default function NurseProfilePage() {
 //             {nurse.translations[0].full_name}
 //           </h1>
 //           <p className="mb-4">
-//             <StarRating rating={averageRating} reviewCount={reviews.length} size="sm" />
+//             <StarRating
+//               rating={averageRating}
+//               reviewCount={reviews.length}
+//               size="sm"
+//             />
 //           </p>
 //         </div>
 

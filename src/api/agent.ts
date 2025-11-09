@@ -13,8 +13,8 @@ import { Nanny } from "@/model/nany";
 import axios, { AxiosResponse } from "axios";
 import { get } from "http";
 
-axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
-//axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+//axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -105,11 +105,25 @@ const Nurse = {
     requests.put<Nanny>("nannies/update", profile),
 };
 
+const Reviews = {
+  addReview: (review: ReviewSubmission) =>
+    requests.post<ReviewResponse>("reviews/", review),
+  getReviews: (type: string, reviewable_id: string) =>
+    requests.getbyvalue<any>(
+      "reviews",
+      "type=" + type + "&reviewable_id=" + reviewable_id
+    ),
+  updateReview: (id: number, review: any) =>
+    requests.put<any>(`reviews/${id}`, review),
+  deleteReview: (id: number) => requests.put<any>(`reviews/${id}/delete`, {}),
+};
+
 const agent = {
   Account,
   Location,
   Language,
   Nurse,
+  Reviews,
 };
 
 export default agent;
