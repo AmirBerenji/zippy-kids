@@ -17,8 +17,14 @@ interface ReviewData {
   total_reviews: number;
 }
 
+interface ReviewsResponse {
+  success: boolean;
+  message: string;
+  data: ReviewsData;
+}
+
 interface ReviewsData {
-  reviews:BaseInfo;
+  reviews: BaseInfo;
   average_rating: number;
   total_reviews: number;
 }
@@ -47,18 +53,18 @@ interface ReviewLink {
   active: boolean;
 }
 
-interface  BaseInfo {
-    current_page: number;
-    data: Review[];
-    first_page_url: string;
-    from: number;
-    last_page: number;
-    last_page_url: string;
-    links: ReviewLink[];
-    next_page_url: string | null;
-    path: string;
-    per_page: number;
-    prev_page_url: string | null;
-    to: number;
-    total: number;
-  };
+interface BaseInfo {
+  current_page: number;
+  data: Review[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: ReviewLink[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+}

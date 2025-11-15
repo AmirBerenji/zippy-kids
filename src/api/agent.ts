@@ -45,16 +45,15 @@ const requests = {
       .get<T>(url + "?" + value)
       .then(responseBody)
       .catch((error) => error.response?.data),
-    
+
   getWithParams: <T>(url: string, params: Record<string, string | number>) =>
     axios
       .get<T, AxiosResponse<T>>(url, { params })
       .then(responseBody)
       .catch((error) => {
-        console.error('GET with params Error:', error);
+        console.error("GET with params Error:", error);
         throw error.response?.data || error;
       }),
-
 
   post: <T>(url: string, body: object) =>
     axios
@@ -117,13 +116,13 @@ const Nurse = {
 const Reviews = {
   addReview: (review: ReviewSubmission) =>
     requests.post<ReviewResponse>("reviews/", review),
-   getReviews: (type: string, reviewable_id: string) =>
-    requests.getWithParams<ReviewsData>("reviews", {
+  getReviews: (type: string, reviewable_id: string) =>
+    requests.getWithParams<ReviewsResponse>("reviews", {
       type,
-      reviewable_id
+      reviewable_id,
     }),
 
-     // Option 2: Fix the original approach
+  // Option 2: Fix the original approach
   // getReviews: (type: string, reviewable_id: string) =>
   //   requests.getbyvalue<any>(
   //     "reviews/check",
