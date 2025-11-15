@@ -16,7 +16,7 @@ export default function NurseProfilePage() {
   const [newReview, setNewReview] = useState({ rating: 0, comment: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
-  const [userReview, setUserReview] = useState<Review | null>(null);
+  const [userReview, setUserReview] = useState<Review|null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -49,8 +49,8 @@ export default function NurseProfilePage() {
   const fetchReviews = async (page = 1) => {
     try {
       const data = await checkReview("nurse", String(id));
-      if (data.success) {
-        setReviewsData(data.data);
+      if (data!= null ) {
+        setReviewsData(data);
       }
     } catch (error) {
       console.error("Error fetching reviews:", error);
@@ -60,13 +60,13 @@ export default function NurseProfilePage() {
   const checkUserReviewStatus = async () => {
     try {
       const data = await checkReview("nurse", String(id));
-      if (data.success) {
-        setHasReviewed(data.data.has_reviewed);
-        setUserReview(data.data.review);
-        if (data.data.review) {
+      if (data != null ) {
+        setHasReviewed(true);
+        setUserReview(null);
+        if (data) {
           setNewReview({
-            rating: data.data.review.rating,
-            comment: data.data.review.comment || "",
+            rating: data.average_rating,
+            comment:  "",
           });
         }
       }
@@ -94,7 +94,7 @@ export default function NurseProfilePage() {
         alert("Review updated successfully!");
       } else {
         const value: ReviewSubmission = {
-          type: "nurse",
+          type: "nurs",
           reviewable_id: Number(id),
           rating: newReview.rating,
           comment: newReview.comment,
@@ -106,7 +106,7 @@ export default function NurseProfilePage() {
       if (data?.success) {
         setHasReviewed(true);
         setIsEditing(false);
-        await fetchReviews();
+        await fetchReviews(Number(id));
         await checkUserReviewStatus();
       }
     } catch (error: any) {
