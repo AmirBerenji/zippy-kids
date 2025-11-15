@@ -11,14 +11,27 @@ export async function addReview(
 }
 
 export async function checkReview(type: string, reviewable_id: string) {
+  console.log(
+    "Checking reviews for type:",
+    type,
+    "and reviewable_id:",
+    reviewable_id
+  );
   const req = await agent.Reviews.getReviews(type, reviewable_id);
   console.log("Fetched reviews:", req);
   return req;
 }
 
-export async function getReviews(id: Number, page: Number) {
-  const req = await agent.Location.getLocations();
-  return req?.data;
+export async function getReviews(type: string, reviewable_id: string) {
+  console.log(
+    "Get  reviews for type:",
+    type,
+    "and reviewable_id:",
+    reviewable_id
+  );
+  const req = await agent.Reviews.getReviews(type, reviewable_id);
+  console.log("Fetched list of reviews:", req);
+  return req;
 }
 
 // export async function updateReview(id: Number, newReview: any) {

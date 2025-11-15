@@ -46,6 +46,15 @@ const requests = {
       .then(responseBody)
       .catch((error) => error.response?.data),
 
+  getWithParams: <T>(url: string, params: Record<string, string | number>) =>
+    axios
+      .get<T, AxiosResponse<T>>(url, { params })
+      .then(responseBody)
+      .catch((error) => {
+        console.error("GET with params Error:", error);
+        throw error.response?.data || error;
+      }),
+
   post: <T>(url: string, body: object) =>
     axios
       .post<T, AxiosResponse<T>>(url, body)
@@ -104,15 +113,21 @@ const Nurse = {
   updateNurseProfile: (profile: Nanny) =>
     requests.put<Nanny>("nannies/update", profile),
 };
-
 const Reviews = {
   addReview: (review: ReviewSubmission) =>
     requests.post<ReviewResponse>("reviews/", review),
   getReviews: (type: string, reviewable_id: string) =>
-    requests.getbyvalue<any>(
-      "reviews",
-      "type=" + type + "&reviewable_id=" + reviewable_id
-    ),
+    requests.getWithParams<ReviewsResponse>("reviews", {
+      type,
+      reviewable_id,
+    }),
+
+  // Option 2: Fix the original approach
+  // getReviews: (type: string, reviewable_id: string) =>
+  //   requests.getbyvalue<any>(
+  //     "reviews/check",
+  //     `type=${encodeURIComponent(type)}&reviewable_id=${encodeURIComponent(reviewable_id)}`
+  //   ),
   updateReview: (id: number, review: any) =>
     requests.put<any>(`reviews/${id}`, review),
   deleteReview: (id: number) => requests.put<any>(`reviews/${id}/delete`, {}),
