@@ -23,11 +23,39 @@ axios.interceptors.request.use(
     //const commonStore = new CommonStore();  //localStorage.getItem('jwt');
     //commonStore.getToken();
     config.headers["Authorization"] = `Bearer ${cookie}`;
+    config.headers["Content-Type"] = "application/json";
+    config.headers["Accept"] = "application/json";
+
+    // ===== ADD THIS DEBUG =====
+    console.log("🔵 Request Config:", {
+      url: config.url,
+      method: config.method,
+      headers: config.headers,
+      data: config.data,
+      baseURL: config.baseURL,
+    });
+    // ===========================
 
     return config;
   },
   (error) => {
     Promise.reject(error);
+  }
+);
+
+axios.interceptors.response.use(
+  (response) => {
+    console.log("🟢 Response Success:", response.data);
+    return response;
+  },
+  (error) => {
+    console.log("🔴 Response Error:", {
+      url: error.config?.url,
+      data: error.config?.data,
+      response: error.response?.data,
+      status: error.response?.status,
+    });
+    return Promise.reject(error);
   }
 );
 
@@ -115,7 +143,7 @@ const Nurse = {
 };
 const Reviews = {
   addReview: (review: ReviewSubmission) =>
-    requests.post<ReviewResponse>("reviews/", review),
+    requests.post<ReviewResponse>("reviews", review),
   getReviews: (type: string, reviewable_id: string) =>
     requests.getWithParams<ReviewsResponse>("reviews", {
       type,
