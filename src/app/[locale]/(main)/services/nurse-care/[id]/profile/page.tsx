@@ -36,10 +36,6 @@ export default function NurseProfilePage() {
 
       setReviewCount(commentList.data.total_reviews || 0);
       setAverageRating(commentList.data.average_rating || 0);
-
-      // TODO: Fetch reviews from your API
-      // const reviewsResponse = await getReviewsByNurseId(Number(id));
-      // setReviews(reviewsResponse);
     } catch (error) {
       console.error("Error fetching nurse profile:", error);
     } finally {
@@ -74,7 +70,9 @@ export default function NurseProfilePage() {
         rating: newReview.rating,
         comment: newReview.comment,
       };
+      console.log("Submitting Review:", value);
       const data = await addReview(value);
+      console.log("Review Submission Response:", data);
 
       if (data?.success) {
         const reviewData = await checkReview("nurse", "1");
