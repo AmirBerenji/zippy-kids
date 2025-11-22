@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import NurseCard from "./component/nurseCard";
 import { getNuresList } from "@/action/nurseApiAction";
 import { getProfile } from "@/action/apiAction";
-import NotUserRegisterPage from "./component/notregister";
+import NotUserRegisterPage from "../../../../component/general/notregister";
 import LoadingPage from "@/app/component/general/Loading";
 
 async function getDataFromBarrer() {

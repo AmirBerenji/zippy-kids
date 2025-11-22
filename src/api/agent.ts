@@ -9,6 +9,7 @@ import {
 } from "@/model/auth";
 import { Languages } from "@/model/language";
 import { Nanny } from "@/model/nany";
+import { ReviewResponse, ReviewsResponse, ReviewSubmission } from "@/model/review";
 
 import axios, { AxiosResponse } from "axios";
 import { get } from "http";
@@ -141,6 +142,7 @@ const Nurse = {
   updateNurseProfile: (profile: Nanny) =>
     requests.put<Nanny>("nannies/update", profile),
 };
+
 const Reviews = {
   addReview: (review: ReviewSubmission) =>
     requests.post<ReviewResponse>("reviews", review),
@@ -161,12 +163,28 @@ const Reviews = {
   deleteReview: (id: number) => requests.put<any>(`reviews/${id}/delete`, {}),
 };
 
+
+
+const Doctor = {
+  addDoctorProfile: (profile: Nanny) => requests.post<Nanny>("nannies", profile),
+  getNurseProfile: (value: string) =>
+    requests.getbyvalue<Profile>("nannies", value),
+  getNurseList: (value: string) =>
+    requests.getbyvalue<Nanny[]>("nannies", value),
+  getNurseById: (id: number) => requests.get<Nanny>(`nannies/${id}`),
+  getNurseByUserId: () => requests.get<Nanny>(`nannies/user/info`),
+  updateNurseProfile: (profile: Nanny) =>
+    requests.put<Nanny>("nannies/update", profile),
+};
+
+
 const agent = {
   Account,
   Location,
   Language,
   Nurse,
   Reviews,
+  Doctor
 };
 
 export default agent;

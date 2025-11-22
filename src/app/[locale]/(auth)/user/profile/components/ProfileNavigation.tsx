@@ -23,7 +23,14 @@ export default function ProfileNavigation({
           // { key: "billing", label: "Billing" },
           // { key: "notifications", label: "Notifications" },
         ]
-      : [];
+      : userInfo?.roles == "doctor" ?
+      [
+          { key: "account", label: "Wesite Account Setting" },
+          { key: "doctortechnicalInfo", label: "Doctor Information" },
+          // { key: "documents", label: "Documents" },
+          // { key: "billing", label: "Billing" },
+          // { key: "notifications", label: "Notifications" },
+      ]:[];
 
   return (
     <nav className="flex flex-wrap border-b border-gray-200 text-xs text-gray-400 mb-6 select-none">

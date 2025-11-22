@@ -24,3 +24,18 @@ export interface NannyTranslation {
   full_name: string;
   specialization: string;
 }
+
+
+export interface NurseFormData {
+  gender: string;
+  location_id: string;
+  years_experience: string;
+  working_hours: string;
+  commitment_type: string;
+  hourly_rate: string;
+  booking_type: string;
+  fixed_package_description: string;
+  video_intro_url: string;
+  resume_url: string;
+  ageGroups: string;
+}

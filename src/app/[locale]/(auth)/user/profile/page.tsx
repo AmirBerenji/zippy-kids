@@ -9,6 +9,7 @@ import NurseProfile from "./components/nurse/nurseprofile";
 import DashboardTopMessage from "@/app/component/general/DashboardTopMessage";
 import { getNuresByUserId } from "@/action/nurseApiAction";
 import { Nanny } from "@/model/nany";
+import DoctorProfile from "./components/doctor/doctorprofile";
 
 async function getDataFromBarrer() {
   const req = await getProfile();
@@ -51,13 +52,16 @@ export default function ProfilePage() {
             onChangeTab={setActiveTab}
             activeTab={activeTab}
           />
-          {activeTab === "account" ? (
+            {activeTab === "account" ? (
             <AccountSetting userInfo={userData!} />
-          ) : activeTab === "technicalInfo" ? (
-            <NurseProfile userInfo={userData!} nurseInfo={nurseData!} />
-          ) : (
+            ) : activeTab === "technicalInfo" ? (   
+              <NurseProfile userInfo={userData!} nurseInfo={nurseData} />
+            ) :  activeTab === "doctortechnicalInfo"?(
+              <DoctorProfile userInfo={userData!} />
+            ):            
+            (
             <>By</>
-          )}
+            )}
         </section>
       </section>
     </>
