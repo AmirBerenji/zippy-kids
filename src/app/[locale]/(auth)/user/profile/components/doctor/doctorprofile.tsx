@@ -1,24 +1,17 @@
 "use client";
 import {
   addDoctorProfile,
-  getDoctorProfile,
   getLanguages,
   getLocation,
   updateDoctorProfile,
 } from "@/action/doctorApiAction";
 import { Profile } from "@/model/auth";
-import { Languages, SelectedLanguageDoctor } from "@/model/language";
+import { Languages, SelectedLanguage } from "@/model/language";
 import { Location } from "@/model/location";
 
 import React, { useEffect, useState } from "react";
-import {
-  ShieldAlert,
-  X,
-  Loader2,
-  Check,
-  Upload,
-} from "lucide-react";
-import { Doctor, DoctorTranslation } from "@/model/doctor";
+import { ShieldAlert, X, Loader2, Check } from "lucide-react";
+import { Doctor, DoctorTranslation, DoctorFormData } from "@/model/doctor";
 import LoadingPage from "@/app/component/general/Loading";
 
 interface Props {
@@ -26,32 +19,30 @@ interface Props {
   doctorInfo?: Doctor;
 }
 
-interface DoctorFormData {
-  email: string;
-  phone: string;
-  specialization: string;
-  experience_years: string;
-  license_number: string;
-  location_id: string;
-  status: string;
+interface DoctorSelectedLanguage {
+  id: string;
+  code: string;
+  name: string;
+  doctorName: string;
+  bio: string;
+  education: string;
+  address: string;
 }
 
 export default function DoctorProfile(prop: Props) {
   const [listLocation, setLocation] = useState<Location[]>([]);
   const [listLanguages, setLanguages] = useState<Languages[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<
-    SelectedLanguageDoctor[]
+    DoctorSelectedLanguage[]
   >([]);
   const [isLoading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<DoctorFormData>({
-    email: prop.userInfo?.email || "",
+    email: "",
     phone: "",
     specialization: "",
     experience_years: "",
@@ -82,13 +73,8 @@ export default function DoctorProfile(prop: Props) {
       status: doctorData.status || "active",
     });
 
-    // Set image preview if exists
-    if (doctorData.image) {
-      setImagePreview(doctorData.image);
-    }
-
     if (doctorData.translations && Array.isArray(doctorData.translations)) {
-      const mappedLanguages: SelectedLanguageDoctor[] = doctorData.translations
+      const mappedLanguages: DoctorSelectedLanguage[] = doctorData.translations
         .map((trans: any) => {
           const language = listLanguages.find((lang) => {
             return (
@@ -110,15 +96,16 @@ export default function DoctorProfile(prop: Props) {
             id: String(language.id),
             code: language.code,
             name: language.name || trans.language_code,
-            fullName: trans.name || "",
+            doctorName: trans.name || "",
             bio: trans.bio || "",
             education: trans.education || "",
             address: trans.address || "",
           };
         })
         .filter(
-          (lang: SelectedLanguageDoctor | null): lang is SelectedLanguageDoctor =>
-            lang !== null
+          (
+            lang: DoctorSelectedLanguage | null
+          ): lang is DoctorSelectedLanguage => lang !== null
         );
 
       setSelectedLanguages(mappedLanguages);
@@ -163,26 +150,6 @@ export default function DoctorProfile(prop: Props) {
     }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 2048 * 1024) {
-        setSubmitError("Image size must be less than 2MB");
-        return;
-      }
-      if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
-        setSubmitError("Only JPEG, PNG, and JPG images are allowed");
-        return;
-      }
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleLanguageChange = (
     langId: string,
     langCode: string,
@@ -196,7 +163,7 @@ export default function DoctorProfile(prop: Props) {
           id: langId,
           code: langCode,
           name: langName,
-          fullName: "",
+          doctorName: "",
           bio: "",
           education: "",
           address: "",
@@ -209,7 +176,7 @@ export default function DoctorProfile(prop: Props) {
 
   const handleLanguageDetailChange = (
     langId: string,
-    field: "fullName" | "bio" | "education" | "address",
+    field: "doctorName" | "bio" | "education" | "address",
     value: string
   ) => {
     setSelectedLanguages((prev) =>
@@ -225,15 +192,27 @@ export default function DoctorProfile(prop: Props) {
 
   const validateForm = (): string | null => {
     if (!formData.email) return "Email is required";
+    if (!formData.phone) return "Phone is required";
     if (!formData.specialization) return "Specialization is required";
-    if (!formData.experience_years) return "Years of experience is required";
+    if (!formData.experience_years) return "Experience years is required";
+    if (!formData.license_number) return "License number is required";
     if (!formData.location_id) return "Location is required";
+    if (!formData.status) return "Status is required";
     if (selectedLanguages.length === 0)
       return "At least one language must be selected";
 
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      return "Please enter a valid email address";
+    }
+
     for (const lang of selectedLanguages) {
-      if (!lang.fullName.trim())
-        return `Full name is required for ${lang.name}`;
+      if (!lang.doctorName.trim()) return `Name is required for ${lang.name}`;
+      if (!lang.bio.trim()) return `Bio is required for ${lang.name}`;
+      if (!lang.education.trim())
+        return `Education is required for ${lang.name}`;
+      if (!lang.address.trim()) return `Address is required for ${lang.name}`;
     }
 
     return null;
@@ -252,10 +231,10 @@ export default function DoctorProfile(prop: Props) {
         );
         return {
           language_id: parseInt(lang.id),
-          name: lang.fullName.trim(),
-          bio: lang.bio?.trim() || "",
-          education: lang.education?.trim() || "",
-          address: lang.address?.trim() || "",
+          name: lang.doctorName.trim(),
+          bio: lang.bio.trim(),
+          education: lang.education.trim(),
+          address: lang.address.trim(),
         };
       }
     );
@@ -264,14 +243,13 @@ export default function DoctorProfile(prop: Props) {
 
     const doctorData: Doctor = {
       id: prop.doctorInfo?.id || 0,
-      user_id: 0,
-      email: formData.email,
-      phone: formData.phone || "",
-      specialization: formData.specialization,
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      specialization: formData.specialization.trim(),
       experience_years: parseInt(formData.experience_years),
-      license_number: formData.license_number || "",
+      license_number: formData.license_number.trim(),
       location_id: parseInt(formData.location_id),
-      status: formData.status as "active" | "inactive" | "suspended",
+      status: formData.status,
       translations: doctorTranslations,
     };
 
@@ -286,33 +264,12 @@ export default function DoctorProfile(prop: Props) {
   const submitToAPI = async (doctorData: Doctor) => {
     console.log("Submitting doctor data:", doctorData);
 
-    // Create FormData for multipart/form-data
-    const formDataToSend = new FormData();
-    
-    // Add all doctor fields
-    formDataToSend.append("user_id", doctorData.user_id.toString());
-    formDataToSend.append("email", doctorData.email);
-    formDataToSend.append("phone", doctorData.phone || "");
-    formDataToSend.append("specialization", doctorData.specialization);
-    formDataToSend.append("experience_years", doctorData.experience_years.toString());
-    formDataToSend.append("license_number", doctorData.license_number || "");
-    formDataToSend.append("location_id", doctorData.location_id.toString());
-    formDataToSend.append("status", doctorData.status);
-
-    // Add image if exists
-    if (imageFile) {
-      formDataToSend.append("image", imageFile);
-    }
-
-    // Add translations as JSON string
-    formDataToSend.append("translations", JSON.stringify(doctorData.translations));
-
     if (isEditMode && prop.doctorInfo?.id) {
-      const req = await updateDoctorProfile(prop.doctorInfo.id, formDataToSend);
+      const req = await updateDoctorProfile(prop.doctorInfo.id, doctorData);
       console.log("Update API Response:", req);
       return req;
     } else {
-      const req = await addDoctorProfile(formDataToSend);
+      const req = await addDoctorProfile(doctorData);
       console.log("Create API Response:", req);
       return req;
     }
@@ -360,7 +317,7 @@ export default function DoctorProfile(prop: Props) {
 
   const resetForm = () => {
     setFormData({
-      email: prop.userInfo?.email || "",
+      email: "",
       phone: "",
       specialization: "",
       experience_years: "",
@@ -369,8 +326,6 @@ export default function DoctorProfile(prop: Props) {
       status: "active",
     });
     setSelectedLanguages([]);
-    setImageFile(null);
-    setImagePreview(null);
     setSubmitSuccess(false);
     setSubmitError(null);
     setIsEditMode(false);
@@ -385,7 +340,9 @@ export default function DoctorProfile(prop: Props) {
       <div className="max-w-7xl mx-auto">
         <form onSubmit={handleSubmit} className="">
           <div className="mb-4">
-            
+            <h2 className="text-lg font-semibold text-gray-800">
+              {isEditMode ? "Update" : "Create"} Doctor Profile
+            </h2>
             {isEditMode && (
               <p className="text-sm text-gray-600">
                 You are editing an existing profile
@@ -414,6 +371,7 @@ export default function DoctorProfile(prop: Props) {
               </div>
             </div>
           )}
+
           {/* Language Selection Section */}
           <div className="mb-6">
             <label className="block text-gray-700 font-medium mb-2">
@@ -487,19 +445,19 @@ export default function DoctorProfile(prop: Props) {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-600 mb-1">
-                            Full Name *
+                            Name *
                           </label>
                           <input
                             type="text"
-                            value={lang.fullName}
+                            value={lang.doctorName}
                             onChange={(e) =>
                               handleLanguageDetailChange(
                                 lang.id,
-                                "fullName",
+                                "doctorName",
                                 e.target.value
                               )
                             }
-                            placeholder={`Full name in ${lang.name}`}
+                            placeholder={`Name in ${lang.name}`}
                             className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
                             required
                           />
@@ -507,7 +465,7 @@ export default function DoctorProfile(prop: Props) {
 
                         <div>
                           <label className="block text-sm font-medium text-gray-600 mb-1">
-                            Education
+                            Education *
                           </label>
                           <input
                             type="text"
@@ -521,12 +479,13 @@ export default function DoctorProfile(prop: Props) {
                             }
                             placeholder={`Education in ${lang.name}`}
                             className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
+                            required
                           />
                         </div>
 
                         <div className="md:col-span-2">
                           <label className="block text-sm font-medium text-gray-600 mb-1">
-                            Bio
+                            Bio *
                           </label>
                           <textarea
                             value={lang.bio}
@@ -540,12 +499,13 @@ export default function DoctorProfile(prop: Props) {
                             placeholder={`Bio in ${lang.name}`}
                             className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent resize-y min-h-[80px]"
                             rows={3}
+                            required
                           />
                         </div>
 
                         <div className="md:col-span-2">
                           <label className="block text-sm font-medium text-gray-600 mb-1">
-                            Address
+                            Address *
                           </label>
                           <input
                             type="text"
@@ -559,6 +519,7 @@ export default function DoctorProfile(prop: Props) {
                             }
                             placeholder={`Address in ${lang.name}`}
                             className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
+                            required
                           />
                         </div>
                       </div>
@@ -583,6 +544,7 @@ export default function DoctorProfile(prop: Props) {
                 id="email"
                 name="email"
                 type="email"
+                placeholder="doctor@example.com"
                 value={formData.email}
                 onChange={handleInputChange}
                 required
@@ -594,16 +556,17 @@ export default function DoctorProfile(prop: Props) {
                 htmlFor="phone"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Phone
+                Phone *
               </label>
               <input
                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
                 id="phone"
                 name="phone"
                 type="tel"
-                placeholder="+374 XX XXX XXX"
+                placeholder="+37412345678"
                 value={formData.phone}
                 onChange={handleInputChange}
+                required
               />
             </div>
 
@@ -618,8 +581,8 @@ export default function DoctorProfile(prop: Props) {
                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
                 id="specialization"
                 name="specialization"
-                placeholder="e.g., Cardiology, Pediatrics"
                 type="text"
+                placeholder="e.g., Cardiology"
                 value={formData.specialization}
                 onChange={handleInputChange}
                 required
@@ -637,7 +600,7 @@ export default function DoctorProfile(prop: Props) {
                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
                 id="experience_years"
                 name="experience_years"
-                placeholder="e.g., 5"
+                placeholder="e.g., 10"
                 type="number"
                 min="0"
                 value={formData.experience_years}
@@ -651,16 +614,17 @@ export default function DoctorProfile(prop: Props) {
                 htmlFor="license_number"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                License Number
+                License Number *
               </label>
               <input
                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
                 id="license_number"
                 name="license_number"
-                placeholder="e.g., LIC12345"
                 type="text"
+                placeholder="e.g., LIC12345"
                 value={formData.license_number}
                 onChange={handleInputChange}
+                required
               />
             </div>
 
@@ -693,7 +657,7 @@ export default function DoctorProfile(prop: Props) {
                 htmlFor="status"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Status
+                Status *
               </label>
               <select
                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
@@ -701,10 +665,11 @@ export default function DoctorProfile(prop: Props) {
                 name="status"
                 value={formData.status}
                 onChange={handleInputChange}
+                required
               >
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
-                <option value="suspended">Suspended</option>
+                <option value="pending">Pending</option>
               </select>
             </div>
           </div>

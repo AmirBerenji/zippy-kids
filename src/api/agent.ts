@@ -7,15 +7,20 @@ import {
   UpdateProfile,
   UpdateProfileImage,
 } from "@/model/auth";
+import { Doctor, DoctorDetails, DoctorResponse } from "@/model/doctor";
 import { Languages } from "@/model/language";
 import { Nanny } from "@/model/nany";
-import { ReviewResponse, ReviewsResponse, ReviewSubmission } from "@/model/review";
+import {
+  ReviewResponse,
+  ReviewsResponse,
+  ReviewSubmission,
+} from "@/model/review";
 
 import axios, { AxiosResponse } from "axios";
 import { get } from "http";
 
-axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
-//axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+//axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -163,20 +168,18 @@ const Reviews = {
   deleteReview: (id: number) => requests.put<any>(`reviews/${id}/delete`, {}),
 };
 
-
-
-const Doctor = {
-  addDoctorProfile: (profile: Nanny) => requests.post<Nanny>("nannies", profile),
-  getNurseProfile: (value: string) =>
-    requests.getbyvalue<Profile>("nannies", value),
-  getNurseList: (value: string) =>
-    requests.getbyvalue<Nanny[]>("nannies", value),
-  getNurseById: (id: number) => requests.get<Nanny>(`nannies/${id}`),
-  getNurseByUserId: () => requests.get<Nanny>(`nannies/user/info`),
-  updateNurseProfile: (profile: Nanny) =>
-    requests.put<Nanny>("nannies/update", profile),
+const DoctorApi = {
+  addDoctorProfile: (profile: Doctor) =>
+    requests.post<DoctorResponse>("doctors", profile),
+  getDoctorProfile: (value: string) =>
+    requests.getbyvalue<Profile>("doctors", value),
+  getDoctorList: (value: string) =>
+    requests.getbyvalue<DoctorDetails[]>("doctors", value),
+  getDoctorById: (id: number) => requests.get<Doctor>(`doctor/${id}`),
+  getDoctorByUserId: () => requests.get<Doctor>(`doctor/user/info`),
+  updateDoctorProfile: (profile: Doctor) =>
+    requests.put<Doctor>("doctor/update", profile),
 };
-
 
 const agent = {
   Account,
@@ -184,7 +187,7 @@ const agent = {
   Language,
   Nurse,
   Reviews,
-  Doctor
+  DoctorApi,
 };
 
 export default agent;
