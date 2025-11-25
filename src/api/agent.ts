@@ -19,8 +19,8 @@ import {
 import axios, { AxiosResponse } from "axios";
 import { get } from "http";
 
-//axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
-axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
+//axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -29,7 +29,7 @@ axios.interceptors.request.use(
     //const commonStore = new CommonStore();  //localStorage.getItem('jwt');
     //commonStore.getToken();
     config.headers["Authorization"] = `Bearer ${cookie}`;
-    config.headers["Content-Type"] = "application/json";
+    //config.headers["Content-Type"] = "application/json";
     config.headers["Accept"] = "application/json";
 
     // ===== ADD THIS DEBUG =====
