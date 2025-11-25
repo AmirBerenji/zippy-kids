@@ -1,35 +1,35 @@
-interface ReviewSubmission {
+export interface ReviewSubmission {
   type: string; // e.g., "nurse"
   reviewable_id: number; // ID of the nurse being reviewed,
   rating: number; // Rating given by the user (1-5),
   comment: string; // Review comment,
 }
 
-interface ReviewResponse {
+export interface ReviewResponse {
   success: boolean;
   message: string;
   data: ReviewData;
 }
 
-interface ReviewData {
+export interface ReviewData {
   review: Review;
   average_rating: number;
   total_reviews: number;
 }
 
-interface ReviewsResponse {
+export interface ReviewsResponse {
   success: boolean;
   message: string;
   data: ReviewsData;
 }
 
-interface ReviewsData {
+export interface ReviewsData {
   reviews: BaseInfo;
   average_rating: number;
   total_reviews: number;
 }
 
-interface Review {
+export interface Review {
   id: number;
   reviewable_type: string;
   reviewable_id: number;
@@ -41,19 +41,19 @@ interface Review {
   user: ReviewUser;
 }
 
-interface ReviewUser {
+export interface ReviewUser {
   id: number;
   name: string;
   email: string;
 }
 
-interface ReviewLink {
+export interface ReviewLink {
   url: string | null;
   label: string;
   active: boolean;
 }
 
-interface BaseInfo {
+export interface BaseInfo {
   current_page: number;
   data: Review[];
   first_page_url: string;

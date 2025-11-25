@@ -4,6 +4,7 @@ import { getNuresById } from "@/action/nurseApiAction";
 import { addReview, checkReview, getReviews } from "@/action/reviewApiAction";
 import LoadingPage from "@/app/component/general/Loading";
 import StarRating from "@/app/component/general/StarRating";
+import { Review, ReviewsData, ReviewSubmission } from "@/model/review";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 

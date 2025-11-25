@@ -7,8 +7,14 @@ import {
   UpdateProfile,
   UpdateProfileImage,
 } from "@/model/auth";
+import { Doctor, DoctorDetails, DoctorResponse } from "@/model/doctor";
 import { Languages } from "@/model/language";
 import { Nanny } from "@/model/nany";
+import {
+  ReviewResponse,
+  ReviewsResponse,
+  ReviewSubmission,
+} from "@/model/review";
 
 import axios, { AxiosResponse } from "axios";
 import { get } from "http";
@@ -23,7 +29,7 @@ axios.interceptors.request.use(
     //const commonStore = new CommonStore();  //localStorage.getItem('jwt');
     //commonStore.getToken();
     config.headers["Authorization"] = `Bearer ${cookie}`;
-    config.headers["Content-Type"] = "application/json";
+    //config.headers["Content-Type"] = "application/json";
     config.headers["Accept"] = "application/json";
 
     // ===== ADD THIS DEBUG =====
@@ -141,6 +147,7 @@ const Nurse = {
   updateNurseProfile: (profile: Nanny) =>
     requests.put<Nanny>("nannies/update", profile),
 };
+
 const Reviews = {
   addReview: (review: ReviewSubmission) =>
     requests.post<ReviewResponse>("reviews", review),
@@ -161,12 +168,26 @@ const Reviews = {
   deleteReview: (id: number) => requests.put<any>(`reviews/${id}/delete`, {}),
 };
 
+const DoctorApi = {
+  addDoctorProfile: (profile: Doctor) =>
+    requests.post<DoctorResponse>("doctors", profile),
+  getDoctorProfile: (value: string) =>
+    requests.getbyvalue<Profile>("doctors", value),
+  getDoctorList: (value: string) =>
+    requests.getbyvalue<DoctorDetails[]>("doctors", value),
+  getDoctorById: (id: number) => requests.get<Doctor>(`doctor/${id}`),
+  getDoctorByUserId: () => requests.get<Doctor>(`doctor/user/info`),
+  updateDoctorProfile: (profile: Doctor) =>
+    requests.put<Doctor>("doctor/update", profile),
+};
+
 const agent = {
   Account,
   Location,
   Language,
   Nurse,
   Reviews,
+  DoctorApi,
 };
 
 export default agent;

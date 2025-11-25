@@ -1,5 +1,6 @@
 "use server";
 import agent from "@/api/agent";
+import { ReviewResponse, ReviewSubmission } from "@/model/review";
 
 export async function addReview(
   review: ReviewSubmission

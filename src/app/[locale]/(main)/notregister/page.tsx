@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import NotUserRegisterPage from '../services/nurse-care/component/notregister'
+import NotUserRegisterPage from '../../../component/general/notregister'
 
 export default function NotRegisterPage() {
   return (
