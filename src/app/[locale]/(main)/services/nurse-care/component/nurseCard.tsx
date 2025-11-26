@@ -21,7 +21,7 @@ export default function NurseCard(prop: Props) {
 
   return (
     <div
-      className="rounded-lg shadow-md p-3 flex flex-col 
+      className="rounded-lg shadow-md p-3 flex flex-col lg:mx-2 md:mx-2
     shadow-gray/20 hover:shadow-lg 
     hover:shadow-[#ff9a5a]/40 
     transition-shadow duration-300 bg-white my-3  "
@@ -47,9 +47,9 @@ export default function NurseCard(prop: Props) {
         Email: <span className={`${blurClass}`}>{prop.email} </span>
       </p>
 
-      <p className="text-[#2f3e4e] text-left">
+      {/* <p className="text-[#2f3e4e] text-left">
         Description: {prop.description}
-      </p>
+      </p> */}
 
       <p className="w-full items-center  justify-between flex mt-3 ">
         <StarRating rating={3.6} reviewCount={232} size="sm" />
