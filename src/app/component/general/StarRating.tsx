@@ -86,9 +86,9 @@ const StarRating: React.FC<StarRatingProps> = ({
       <div className={`ml-3 flex items-center ${config.gap} ${config.text}`}>
         <span className="font-semibold text-gray-800">{rating.toFixed(1)}</span>
         <span className="text-gray-500 text-xs">
-          ({reviewCount.toLocaleString()}{""}
-          {/* {reviewCount === 1 ? "review" : "reviews"}) */}
-          )
+          ({reviewCount.toLocaleString()}{" "}
+          {reviewCount === 1 ? "review" : "reviews"})
+          
         </span>
       </div>
     </div>

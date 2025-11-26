@@ -27,6 +27,7 @@ export default function Nursepage() {
     getProfileInfo();
     const fetchNurses = async () => {
       const data = await getNuresList("");
+      console.log("Nurses Data:", data);
       setNurses(data.nannies || []);
       setLoading(false);
     };
@@ -38,7 +39,7 @@ export default function Nursepage() {
   } else {
     return (
       <>
-        <div className="w-11/12 mx-auto justify-center space-x-5 pt-3  pb-3 grid grid-cols-1 lg:grid-cols-4  md:grid-cols-4  ">
+        <div className="w-11/12 mx-auto justify-center pt-3  pb-3 grid grid-cols-1 lg:grid-cols-4  md:grid-cols-4 ">
           {nurses.map((nurse: any) => (
             <NurseCard
               key={nurse.id}
