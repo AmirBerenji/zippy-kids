@@ -114,10 +114,10 @@ export default function NotUserRegisterPage() {
                       <p className="text-sm font-medium text-gray-900">Registration includes:</p>
                     </div>
                     <div className="space-y-3">
-                      <div className="flex items-center text-sm">
+                      {/* <div className="flex items-center text-sm">
                         <CheckCircle className="w-4 h-4 mr-3 text-green-500 flex-shrink-0" />
                         <span className="text-gray-600">Access to 500+ verified nurses</span>
-                      </div>
+                      </div> */}
                       <div className="flex items-center text-sm">
                         <CheckCircle className="w-4 h-4 mr-3 text-green-500 flex-shrink-0" />
                         <span className="text-gray-600">Direct booking & messaging</span>
@@ -181,7 +181,7 @@ export default function NotUserRegisterPage() {
                 </div>
 
                 {/* Stats */}
-                <div className="grid grid-cols-3 gap-6 pt-6">
+                {/* <div className="grid grid-cols-3 gap-6 pt-6">
                   <div className="text-center">
                     <div className="text-3xl font-bold text-[#ff9a5a]" >500+</div>
                     <div className="text-sm text-gray-600">Qualified Nurses</div>
@@ -194,7 +194,7 @@ export default function NotUserRegisterPage() {
                     <div className="text-3xl font-bold text-[#ff9a5a]">24/7</div>
                     <div className="text-sm text-gray-600">Support</div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
