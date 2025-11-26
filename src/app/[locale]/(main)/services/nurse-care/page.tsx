@@ -20,7 +20,6 @@ export default function Nursepage() {
     setLoading(true);
     const getProfileInfo = async () => {
       const userData = await getDataFromBarrer();
-      console.log("User Data nurse:", userData);
       if (!userData) {
         setRegister(false);
       }
@@ -28,7 +27,6 @@ export default function Nursepage() {
     getProfileInfo();
     const fetchNurses = async () => {
       const data = await getNuresList("");
-      console.log("Nurses data:", data.nannies);
       setNurses(data.nannies || []);
       setLoading(false);
     };
