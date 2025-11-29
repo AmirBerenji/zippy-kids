@@ -17,7 +17,6 @@ import {
 } from "@/model/review";
 
 import axios, { AxiosResponse } from "axios";
-import { get } from "http";
 
 axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
 //axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
@@ -26,21 +25,44 @@ axios.interceptors.request.use(
   async (config) => {
     const _cookieConfig = new CookieConfig();
     const cookie = await _cookieConfig.getToken("jwt");
-    //const commonStore = new CommonStore();  //localStorage.getItem('jwt');
-    //commonStore.getToken();
+
     config.headers["Authorization"] = `Bearer ${cookie}`;
-    //config.headers["Content-Type"] = "application/json";
     config.headers["Accept"] = "application/json";
 
-    // ===== ADD THIS DEBUG =====
+    // ===== AUTOMATIC CONTENT-TYPE HANDLING =====
+    // Only set Content-Type for non-FormData requests
+    // For FormData, axios will automatically set multipart/form-data with boundary
+    if (!(config.data instanceof FormData)) {
+      config.headers["Content-Type"] = "application/json";
+    } else {
+      // CRITICAL: Delete Content-Type header for FormData
+      // Let the browser/axios set it with the correct boundary
+      delete config.headers["Content-Type"];
+    }
+    // ==========================================
+
     console.log("🔵 Request Config:", {
       url: config.url,
       method: config.method,
       headers: config.headers,
-      data: config.data,
+      data: config.data instanceof FormData ? "[FormData]" : config.data,
       baseURL: config.baseURL,
+      isFormData: config.data instanceof FormData,
     });
-    // ===========================
+
+    // Debug FormData contents
+    if (config.data instanceof FormData) {
+      console.log("📎 FormData Contents:");
+      for (const [key, value] of config.data.entries()) {
+        if (value instanceof File) {
+          console.log(
+            `  ${key}: File(${value.name}, ${value.size} bytes, ${value.type})`
+          );
+        } else {
+          console.log(`  ${key}:`, value);
+        }
+      }
+    }
 
     return config;
   },
@@ -156,13 +178,6 @@ const Reviews = {
       type,
       reviewable_id,
     }),
-
-  // Option 2: Fix the original approach
-  // getReviews: (type: string, reviewable_id: string) =>
-  //   requests.getbyvalue<any>(
-  //     "reviews/check",
-  //     `type=${encodeURIComponent(type)}&reviewable_id=${encodeURIComponent(reviewable_id)}`
-  //   ),
   updateReview: (id: number, review: any) =>
     requests.put<any>(`reviews/${id}`, review),
   deleteReview: (id: number) => requests.put<any>(`reviews/${id}/delete`, {}),
