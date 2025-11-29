@@ -17,6 +17,8 @@ export interface Nanny {
   photoes: File[];
   nannytranslation: NannyTranslation[];
   age_groups: string;
+  reviews_count: number;
+  average_rating: number | null;
 }
 
 export interface NannyTranslation {
@@ -24,7 +26,6 @@ export interface NannyTranslation {
   full_name: string;
   specialization: string;
 }
-
 
 export interface NurseFormData {
   gender: string;

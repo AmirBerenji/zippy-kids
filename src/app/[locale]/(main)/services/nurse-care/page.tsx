@@ -44,9 +44,9 @@ export default function Nursepage() {
             <NurseCard
               key={nurse.id}
               image={
-                "https://zippy.elrincondsabor.com/storage/app/public/" +
-                  nurse.user.photo ||
-                "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
+                nurse?.user?.photo
+                  ? `https://zippy.elrincondsabor.com/storage/app/public/${nurse.user.photo}`
+                  : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
               }
               title={nurse.translations[0].full_name || "Nurse Name"}
               description={
@@ -56,6 +56,8 @@ export default function Nursepage() {
               phone={nurse.user.phone || "N/A"}
               email={nurse.user.email || "N/A"}
               id={nurse.id}
+              reviewsCount={nurse.reviews_count}
+              averageRating={nurse.average_rating ?? 0}
             />
           ))}
         </div>
