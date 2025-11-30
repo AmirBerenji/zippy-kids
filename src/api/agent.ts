@@ -8,6 +8,7 @@ import {
   UpdateProfileImage,
 } from "@/model/auth";
 import { Doctor, DoctorDetails, DoctorResponse } from "@/model/doctor";
+import { ApiResponse } from "@/model/general";
 import { Languages } from "@/model/language";
 import { Nanny } from "@/model/nany";
 import {
@@ -18,8 +19,8 @@ import {
 
 import axios, { AxiosResponse } from "axios";
 
-axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
-//axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+//axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -186,10 +187,12 @@ const Reviews = {
 const DoctorApi = {
   addDoctorProfile: (profile: Doctor) =>
     requests.post<DoctorResponse>("doctors", profile),
+  getDoctorList: (value: string) =>
+    requests.getbyvalue<ApiResponse<DoctorDetails[]>>("doctors", value),
+
   getDoctorProfile: (value: string) =>
     requests.getbyvalue<Profile>("doctors", value),
-  getDoctorList: (value: string) =>
-    requests.getbyvalue<DoctorDetails[]>("doctors", value),
+
   getDoctorById: (id: number) => requests.get<Doctor>(`doctor/${id}`),
   getDoctorByUserId: () => requests.get<Doctor>(`doctor/user/info`),
   updateDoctorProfile: (profile: Doctor) =>
