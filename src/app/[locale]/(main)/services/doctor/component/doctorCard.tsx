@@ -1,6 +1,7 @@
+"use client";
 import StarRating from "@/app/component/general/StarRating";
-import { Link } from "lucide-react";
-import React from "react";
+import Link from "next/link";
+import React, { useState } from "react";
 
 interface Props {
   id: number;
@@ -10,15 +11,19 @@ interface Props {
   isRegistered?: boolean;
   phone?: string;
   email?: string;
+  reviewsCount?: number;
+  averageRating?: number;
 }
 
 export default function DoctorCard(prop: Props) {
+  const [isLoading, setLoading] = useState(true);
+
   // If not registered, apply blur class
   const blurClass = prop.isRegistered ? "" : " blur-xs select-none";
 
   return (
     <div
-      className="rounded-lg shadow-md p-3 flex flex-col 
+      className="rounded-lg shadow-md p-3 flex flex-col lg:mx-2 md:mx-2
     shadow-gray/20 hover:shadow-lg 
     hover:shadow-[#ff9a5a]/40 
     transition-shadow duration-300 bg-white my-3  "
@@ -44,15 +49,17 @@ export default function DoctorCard(prop: Props) {
         Email: <span className={`${blurClass}`}>{prop.email} </span>
       </p>
 
-      <p className="text-[#2f3e4e] text-left">
-        Description: {prop.description}
-      </p>
+      <p className="text-[#2f3e4e] text-left">Bio: {prop.description}</p>
 
       <p className="w-full items-center  justify-between flex mt-3 ">
-        <StarRating rating={3.6} reviewCount={232} size="sm" />
+        <StarRating
+          rating={prop.averageRating}
+          reviewCount={prop.reviewsCount}
+          size="sm"
+        />
         {prop.isRegistered ? (
           <Link
-            href={`/services/doctor/${prop.id}/profile`}
+            href={`/services/nurse-care/${prop.id}/profile`}
             className="bg-[#ff9a5a] text-white px-4 py-2 rounded-lg mt-0 hover:bg-[#ff7a3a] transition-colors"
           >
             More Info

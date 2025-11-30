@@ -21,7 +21,6 @@ export default function Doctorpage() {
     setLoading(true);
     const getProfileInfo = async () => {
       const userData = await getDataFromBarrer();
-      console.log("User Data nurse:", userData);
       if (!userData) {
         setRegister(false);
       }
@@ -51,9 +50,9 @@ export default function Doctorpage() {
                 phone={doctor.phone}
                 title={doctor.specialization}
                 image={
-                  "https://zippy.elrincondsabor.com/storage/app/public/" +
-                    doctor.user.photo ||
-                  "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
+                  doctor?.image
+                    ? `https://zippy.elrincondsabor.com/storage/app/public/${doctor?.image}`
+                    : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
                 }
                 email={doctor.email}
                 isRegistered={register}
