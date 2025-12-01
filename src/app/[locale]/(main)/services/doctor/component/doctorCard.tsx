@@ -13,6 +13,7 @@ interface Props {
   email?: string;
   reviewsCount?: number;
   averageRating?: number;
+  specialization?: string;
 }
 
 export default function DoctorCard(prop: Props) {
@@ -37,8 +38,11 @@ export default function DoctorCard(prop: Props) {
           src={prop.image}
           width="400"
         />
-        <h3 className="text-xl font-semibold text-[#ff9a5a] mb-2 text-center">
+        <h3 className="text-xl font-semibold text-[#ff9a5a]  text-center">
           {prop.title}
+        </h3>
+        <h3 className="text-xs font-semibold text-[#70777e] mb-2 text-center">
+          {prop.specialization}
         </h3>
       </Link>
       {/* Phone and Email with blur if not registered */}
@@ -59,7 +63,7 @@ export default function DoctorCard(prop: Props) {
         />
         {prop.isRegistered ? (
           <Link
-            href={`/services/nurse-care/${prop.id}/profile`}
+            href={`/services/doctor/${prop.id}/profile`}
             className="bg-[#ff9a5a] text-white px-4 py-2 rounded-lg mt-0 hover:bg-[#ff7a3a] transition-colors"
           >
             More Info
