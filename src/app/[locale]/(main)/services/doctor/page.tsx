@@ -48,7 +48,8 @@ export default function Doctorpage() {
                 id={doctor.id}
                 description={doctor.bio}
                 phone={doctor.phone}
-                title={doctor.specialization}
+                title={doctor.name}
+                specialization={doctor.specialization}
                 image={
                   doctor?.image
                     ? `https://zippy.elrincondsabor.com/storage/app/public/${doctor?.image}`
@@ -56,6 +57,10 @@ export default function Doctorpage() {
                 }
                 email={doctor.email}
                 isRegistered={register}
+                reviewsCount={0}
+                averageRating={0}
+                
+                  
               />
             </>
           ))}
