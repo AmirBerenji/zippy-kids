@@ -652,7 +652,7 @@ export default function DoctorProfile(prop: Props) {
               </select>
             </div>
 
-            <div>
+            <div className="hidden">
               <label
                 htmlFor="status"
                 className="block text-sm font-medium text-gray-700 mb-1"

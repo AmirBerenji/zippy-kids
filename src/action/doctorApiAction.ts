@@ -27,3 +27,8 @@ export async function getDoctorList(value: string) {
 export async function updateDoctorProfile(id: number, data: Doctor) {
   // Your API call implementation
 }
+
+export async function getDoctorProfile(id: number) {
+  const req = await agent.DoctorApi.getDoctorProfile(id);
+  return req?.data;
+}
