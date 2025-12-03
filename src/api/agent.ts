@@ -190,8 +190,8 @@ const DoctorApi = {
   getDoctorList: (value: string) =>
     requests.getbyvalue<ApiResponse<DoctorDetails[]>>("doctors", value),
 
-  getDoctorProfile: (value: string) =>
-    requests.getbyvalue<Profile>("doctors", value),
+  getDoctorProfile: (id: number) =>
+    requests.get<Profile>(`doctors/${id}`),
 
   getDoctorById: (id: number) => requests.get<Doctor>(`doctor/${id}`),
   getDoctorByUserId: () => requests.get<Doctor>(`doctor/user/info`),
