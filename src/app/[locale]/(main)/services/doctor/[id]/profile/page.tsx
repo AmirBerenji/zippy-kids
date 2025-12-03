@@ -153,7 +153,7 @@ export default function DoctorProfilepage() {
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
               />
             </svg>
-            Nurse not found
+            Doctor not found
           </span>
         </div>
       </div>
@@ -197,16 +197,57 @@ return (
                 {doctor.specialization}
               </p>
             </div>
+            <div>
+              <h3 className="font-medium">Education</h3>
+              <p className="text-gray-600">
+                {doctor.education}
+              </p>
+            </div>
+
             
             <div>
               <h3 className="font-medium">Experience</h3>
               <p className="text-[#2f3e4e]">{doctor.experience_years} years</p>
             </div>
+            
+            <div>
+              <h3 className="font-medium">Email</h3>
+              <p className="text-gray-600">
+                {doctor.email}
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="font-medium">Phone</h3>
+              <p className="text-gray-600">
+                {doctor.phone}
+              </p>
+            </div>
+
+            
+
+
             <div>
               <h3 className="font-medium">Location:</h3>
               <p className="text-gray-600">{doctor.location.city}</p>
             </div>
             
+            
+            <div>
+              <h3 className="font-medium">Address</h3>
+              <p className="text-gray-600">
+                {doctor.address}
+              </p>
+            </div>
+
+
+            <div>
+              <h3 className="font-medium">Description</h3>
+              <p className="text-gray-600">
+                {doctor.bio}
+              </p>
+            </div>
+
           </div>
         </div>
 
