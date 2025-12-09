@@ -45,17 +45,14 @@ export default function Dashboard() {
                 <div className="flex-1 pt-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-lg font-bold text-white">
-                      Complete your professional profile.
+                      Enhance Your Professional Profile
                     </h3>
                     {/* <span className="px-3 py-1 bg-amber-400 text-amber-900 text-xs font-semibold rounded-full shadow-lg">
                     60% Complete
                   </span> */}
                   </div>
                   <p className="text-white/90 text-sm mb-3 leading-relaxed ">
-                    Present your qualifications, certifications, and experience
-                    to stand out as a trusted childcare professional. A complete
-                    profile increases your visibility and helps families
-                    confidently connect with you.
+                    Add your information and experience to complete your profile. A full profile helps you stand out and connect more effectively.
                   </p>
 
                   {/* Progress Bar */}
