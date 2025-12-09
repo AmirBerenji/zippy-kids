@@ -45,7 +45,7 @@ export default function Dashboard() {
                 <div className="flex-1 pt-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-lg font-bold text-white">
-                      Enhance Your Professional Profile
+                      Enhance Your Professional Profile.
                     </h3>
                     {/* <span className="px-3 py-1 bg-amber-400 text-amber-900 text-xs font-semibold rounded-full shadow-lg">
                     60% Complete
