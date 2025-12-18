@@ -1,6 +1,7 @@
 "use client";
 import {
   addDoctorProfile,
+  getDoctorByUserId,
   getLanguages,
   getLocation,
   updateDoctorProfile,
@@ -14,11 +15,6 @@ import { ShieldAlert, X, Loader2, Check } from "lucide-react";
 import { Doctor, DoctorTranslation, DoctorFormData } from "@/model/doctor";
 import LoadingPage from "@/app/component/general/Loading";
 
-interface Props {
-  userInfo: Profile;
-  doctorInfo?: Doctor;
-}
-
 interface DoctorSelectedLanguage {
   id: string;
   code: string;
@@ -29,7 +25,7 @@ interface DoctorSelectedLanguage {
   address: string;
 }
 
-export default function DoctorProfile(prop: Props) {
+export default function DoctorProfile() {
   const [listLocation, setLocation] = useState<Location[]>([]);
   const [listLanguages, setLanguages] = useState<Languages[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<
@@ -40,6 +36,7 @@ export default function DoctorProfile(prop: Props) {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [doctorId, setDoctorId] = useState<number | null>(null);
 
   const [formData, setFormData] = useState<DoctorFormData>({
     email: "",
@@ -52,43 +49,66 @@ export default function DoctorProfile(prop: Props) {
   });
 
   useEffect(() => {
-    console.log("DoctorInfoProps in Doctor File", prop.doctorInfo);
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (prop.doctorInfo && listLanguages.length > 0) {
-      populateFormWithExistingData(prop.doctorInfo);
+  const populateFormWithExistingData = (
+    doctorData: any,
+    languages: Languages[]
+  ) => {
+    if (!doctorData) {
+      console.log("No existing doctor data found");
+      setLoading(false);
+      return;
     }
-  }, [prop.doctorInfo, listLanguages]);
 
-  const populateFormWithExistingData = (doctorData: any) => {
+    console.log("Populating form with doctor data:", doctorData);
+    console.log("Available languages:", languages);
+
+    // Store the doctor ID for updates
+    if (doctorData.id) {
+      setDoctorId(doctorData.id);
+    }
+
     setFormData({
       email: doctorData.email || "",
       phone: doctorData.phone || "",
       specialization: doctorData.specialization || "",
       experience_years: doctorData.experience_years?.toString() || "",
       license_number: doctorData.license_number || "",
-      location_id: doctorData.location?.id?.toString() || "",
+      location_id:
+        doctorData.location?.id?.toString() ||
+        doctorData.location_id?.toString() ||
+        "",
       status: doctorData.status || "active",
     });
 
-    if (doctorData.translations && Array.isArray(doctorData.translations)) {
+    if (
+      doctorData.translations &&
+      Array.isArray(doctorData.translations) &&
+      languages.length > 0
+    ) {
+      console.log("Doctor translations:", doctorData.translations);
+
       const mappedLanguages: DoctorSelectedLanguage[] = doctorData.translations
         .map((trans: any) => {
-          const language = listLanguages.find((lang) => {
-            return (
+          console.log("Processing translation:", trans);
+
+          // Try multiple ways to match the language
+          const language = languages.find((lang) => {
+            const match =
               lang.code === trans.language_code ||
               String(lang.id) === String(trans.language_code) ||
-              String(lang.id) === String(trans.language_id)
-            );
+              String(lang.id) === String(trans.language_id) ||
+              lang.id === trans.language_id;
+            if (match) {
+              console.log("Found matching language:", lang);
+            }
+            return match;
           });
 
           if (!language) {
-            console.warn(
-              `Language not found for translation:`,
-              trans.language_code
-            );
+            console.warn(`Language not found for translation:`, trans);
             return null;
           }
 
@@ -108,8 +128,8 @@ export default function DoctorProfile(prop: Props) {
           ): lang is DoctorSelectedLanguage => lang !== null
         );
 
+      console.log("Mapped languages:", mappedLanguages);
       setSelectedLanguages(mappedLanguages);
-      console.log("Populated languages:", mappedLanguages);
     }
 
     setIsEditMode(true);
@@ -117,23 +137,35 @@ export default function DoctorProfile(prop: Props) {
 
   const fetchData = async () => {
     try {
-      const locations = await getLocation();
+      // Fetch locations and languages first
+      const [locations, languages] = await Promise.all([
+        getLocation(),
+        getLanguages(),
+      ]);
+
+      console.log("Fetched languages:", languages);
       setLocation(locations || []);
-      const languages = await getLanguages();
       setLanguages(languages || []);
 
-      console.log(
-        "Available languages:",
-        languages?.map((lang: Languages) => ({
-          id: lang.id,
-          code: lang.code,
-          name: lang.name,
-        }))
-      );
+      // Then fetch doctor data using the API
+      try {
+        const doctor = await getDoctorByUserId();
+        console.log("Fetched doctor:", doctor);
+
+        if (doctor && doctor.id) {
+          // Pass languages directly to avoid timing issues
+          populateFormWithExistingData(doctor, languages || []);
+        } else {
+          console.log("No existing doctor profile found");
+        }
+      } catch (doctorError) {
+        console.log("No existing doctor profile found or error:", doctorError);
+      }
 
       setLoading(false);
     } catch (error) {
       console.error("Error loading data:", error);
+      setSubmitError("Failed to load data. Please refresh the page.");
       setLoading(false);
     }
   };
@@ -242,7 +274,7 @@ export default function DoctorProfile(prop: Props) {
     console.log("Doctor translations to submit:", doctorTranslations);
 
     const doctorData: Doctor = {
-      id: prop.doctorInfo?.id || 0,
+      id: doctorId || 0,
       email: formData.email.trim(),
       phone: formData.phone.trim(),
       specialization: formData.specialization.trim(),
@@ -253,19 +285,16 @@ export default function DoctorProfile(prop: Props) {
       translations: doctorTranslations,
     };
 
-    if (isEditMode && prop.doctorInfo?.id) {
-      (doctorData as any).id = prop.doctorInfo.id;
-    }
-
-    console.log("Mapped Doctor Data:", doctorData);
     return doctorData;
   };
 
   const submitToAPI = async (doctorData: Doctor) => {
     console.log("Submitting doctor data:", doctorData);
+    console.log("Is edit mode:", isEditMode);
+    console.log("Doctor ID:", doctorId);
 
-    if (isEditMode && prop.doctorInfo?.id) {
-      const req = await updateDoctorProfile(prop.doctorInfo.id, doctorData);
+    if (isEditMode && doctorId) {
+      const req = await updateDoctorProfile(doctorId, doctorData);
       console.log("Update API Response:", req);
       return req;
     } else {
@@ -296,6 +325,13 @@ export default function DoctorProfile(prop: Props) {
       const result = await submitToAPI(doctorData);
 
       console.log("API Response:", result);
+
+      // If it was a create operation, update to edit mode
+      if (!isEditMode && result && result.id) {
+        setDoctorId(result.id);
+        setIsEditMode(true);
+      }
+
       setSubmitSuccess(true);
 
       setTimeout(() => {
@@ -329,6 +365,7 @@ export default function DoctorProfile(prop: Props) {
     setSubmitSuccess(false);
     setSubmitError(null);
     setIsEditMode(false);
+    setDoctorId(null);
   };
 
   if (isLoading) {

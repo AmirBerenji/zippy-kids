@@ -1,137 +1,135 @@
-"use client"
-import { getDoctorProfile } from '@/action/doctorApiAction';
-import { addReview, checkReview, getReviews } from '@/action/reviewApiAction';
-import ComingSoonPage from '@/app/component/general/commingsoon'
-import LoadingPage from '@/app/component/general/Loading';
-import StarRating from '@/app/component/general/StarRating';
-import { Review, ReviewsData, ReviewSubmission } from '@/model/review';
-import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+"use client";
+import { getDoctorProfile } from "@/action/doctorApiAction";
+import { addReview, checkReview, getReviews } from "@/action/reviewApiAction";
+import ComingSoonPage from "@/app/component/general/commingsoon";
+import LoadingPage from "@/app/component/general/Loading";
+import StarRating from "@/app/component/general/StarRating";
+import { Review, ReviewsData, ReviewSubmission } from "@/model/review";
+import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function DoctorProfilepage() {
+  const { id } = useParams();
+  const [doctor, setDoctor] = useState<any>();
+  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [newReview, setNewReview] = useState({
+    rating: 0,
+    comment: "",
+  });
+  const [reviewCount, setReviewCount] = useState(0);
+  const [averageRating, setAverageRating] = useState(0);
+  const [reviewData, setReviewData] = useState<ReviewsData>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const fetchDoctorProfile = async () => {
+    try {
+      const response = await getDoctorProfile(Number(id));
+      console.log("DoctorProfliResponse", response);
+      setDoctor(response);
 
-    const { id } = useParams();
-    const [doctor, setDoctor] = useState<any>();
-    const [loading, setLoading] = useState(true);
-    const [mounted, setMounted] = useState(false);
-    const [reviews, setReviews] = useState<Review[]>([]);
-    const [newReview, setNewReview] = useState({
-      rating: 0,
-      comment: "",
-    });
-    const [reviewCount, setReviewCount] = useState(0);
-    const [averageRating, setAverageRating] = useState(0);
-    const [reviewData, setReviewData] = useState<ReviewsData>();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-  
-    const fetchDoctorProfile = async () => {
-      try {
-        const response = await getDoctorProfile(Number(id));
-        console.log("DoctorProfliResponse", response);
-        setDoctor(response);
-  
-        var commentList = await getReviews("doctor", id as string);
-        console.log("CommentList", commentList.data);
-  
-        setReviewData(commentList.data);
-        setReviews(commentList.data.reviews.data);
-  
-        setReviewCount(commentList.data.total_reviews || 0);
-        setAverageRating(commentList.data.average_rating || 0);
-      } catch (error) {
-        console.error("Error fetching doctor profile:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    useEffect(() => {
-      setLoading(true);
-      setMounted(true);
-    }, []);
-  
-    useEffect(() => {
-      if (!mounted) return;
-      fetchDoctorProfile();
-    }, [id, mounted]);
-  
-    const handleSubmitReview = async (e: React.FormEvent) => {
-      e.preventDefault();
-  
-      if (newReview.rating === 0 || newReview.comment.trim() === "") {
-        alert("Please provide both rating and comment");
-        return;
-      }
-  
-      setIsSubmitting(true);
-  
-      try {
-        const value: ReviewSubmission = {
-          type: "doctor",
-          reviewable_id: Number(id),
-          rating: newReview.rating,
-          comment: newReview.comment,
-        };
-        console.log("Submitting Review:", value);
-        const data = await addReview(value);
-        console.log("Review Submission Response:", data);
-  
-        if (data?.success) {
-          const reviewData = await checkReview("doctor", "1");
-          setReviewData(reviewData.data);
-          setReviews(reviewData.data.reviews.data);
-  
-          setReviewCount(reviewData.data.total_reviews || 0);
-          setAverageRating(reviewData.data.average_rating || 0);
-        }
-  
-        // setReviews([review, ...reviews]);
-        setNewReview({ rating: 0, comment: "" });
-  
-        alert("Review submitted successfully!");
-      } catch (error) {
-        console.error("Error submitting review:", error);
-        alert("Failed to submit review");
-      } finally {
-        setIsSubmitting(false);
-      }
-    };
-  
-    const renderStars = (rating: number, interactive: boolean = false) => {
-      return (
-        <div className="flex gap-1">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              type="button"
-              disabled={!interactive}
-              onClick={() =>
-                interactive && setNewReview({ ...newReview, rating: star })
-              }
-              className={`text-2xl ${
-                interactive
-                  ? "cursor-pointer hover:scale-110 transition-transform"
-                  : ""
-              } ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
-            >
-              ★
-            </button>
-          ))}
-        </div>
-      );
-    };
-  
-    // Prevent hydration mismatch by not rendering until mounted
-    if (!mounted) {
-      return null;
+      var commentList = await getReviews("doctor", id as string);
+      console.log("CommentList", commentList.data);
+
+      setReviewData(commentList.data);
+      setReviews(commentList.data.reviews.data);
+
+      setReviewCount(commentList.data.total_reviews || 0);
+      setAverageRating(commentList.data.average_rating || 0);
+    } catch (error) {
+      console.error("Error fetching doctor profile:", error);
+    } finally {
+      setLoading(false);
     }
-  
-    if (loading) {
-      return <LoadingPage />;
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    fetchDoctorProfile();
+  }, [id, mounted]);
+
+  const handleSubmitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (newReview.rating === 0 || newReview.comment.trim() === "") {
+      alert("Please provide both rating and comment");
+      return;
     }
 
-     if (!doctor) {
+    setIsSubmitting(true);
+
+    try {
+      const value: ReviewSubmission = {
+        type: "doctor",
+        reviewable_id: Number(id),
+        rating: newReview.rating,
+        comment: newReview.comment,
+      };
+      console.log("Submitting Review:", value);
+      const data = await addReview(value);
+      console.log("Review Submission Response:", data);
+
+      if (data?.success) {
+        const reviewData = await checkReview("doctor", "1");
+        setReviewData(reviewData.data);
+        setReviews(reviewData.data.reviews.data);
+
+        setReviewCount(reviewData.data.total_reviews || 0);
+        setAverageRating(reviewData.data.average_rating || 0);
+      }
+
+      // setReviews([review, ...reviews]);
+      setNewReview({ rating: 0, comment: "" });
+
+      alert("Review submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      alert("Failed to submit review");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const renderStars = (rating: number, interactive: boolean = false) => {
+    return (
+      <div className="flex gap-1">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <button
+            key={star}
+            type="button"
+            disabled={!interactive}
+            onClick={() =>
+              interactive && setNewReview({ ...newReview, rating: star })
+            }
+            className={`text-2xl ${
+              interactive
+                ? "cursor-pointer hover:scale-110 transition-transform"
+                : ""
+            } ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
+          >
+            ★
+          </button>
+        ))}
+      </div>
+    );
+  };
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return null;
+  }
+
+  if (loading) {
+    return <LoadingPage />;
+  }
+
+  if (!doctor) {
     return (
       <div className="min-h-96 flex items-center justify-center">
         <div
@@ -160,9 +158,7 @@ export default function DoctorProfilepage() {
     );
   }
 
-
-
-return (
+  return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
         <div className="flex flex-col items-center ">
@@ -193,61 +189,42 @@ return (
           <div className="space-y-4">
             <div>
               <h3 className="font-medium">Specialization</h3>
-              <p className="text-gray-600">
-                {doctor.specialization}
-              </p>
+              <p className="text-gray-600">{doctor.specialization}</p>
             </div>
             <div>
               <h3 className="font-medium">Education</h3>
-              <p className="text-gray-600">
-                {doctor.education}
-              </p>
+              <p className="text-gray-600">{doctor.education}</p>
             </div>
 
-            
             <div>
               <h3 className="font-medium">Experience</h3>
               <p className="text-[#2f3e4e]">{doctor.experience_years} years</p>
             </div>
-            
+
             <div>
               <h3 className="font-medium">Email</h3>
-              <p className="text-gray-600">
-                {doctor.email}
-              </p>
+              <p className="text-gray-600">{doctor.email}</p>
             </div>
-            
+
             <div>
               <h3 className="font-medium">Phone</h3>
-              <p className="text-gray-600">
-                {doctor.phone}
-              </p>
+              <p className="text-gray-600">{doctor.phone}</p>
             </div>
-
-            
-
 
             <div>
               <h3 className="font-medium">Location:</h3>
               <p className="text-gray-600">{doctor.location.city}</p>
             </div>
-            
-            
+
             <div>
               <h3 className="font-medium">Address</h3>
-              <p className="text-gray-600">
-                {doctor.address}
-              </p>
+              <p className="text-gray-600">{doctor.address}</p>
             </div>
-
 
             <div>
               <h3 className="font-medium">Description</h3>
-              <p className="text-gray-600">
-                {doctor.bio}
-              </p>
+              <p className="text-gray-600">{doctor.bio}</p>
             </div>
-
           </div>
         </div>
 
@@ -332,5 +309,5 @@ return (
     <>
       <ComingSoonPage />
     </>
-  )
+  );
 }
