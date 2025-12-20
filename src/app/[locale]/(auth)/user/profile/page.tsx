@@ -52,16 +52,15 @@ export default function ProfilePage() {
             onChangeTab={setActiveTab}
             activeTab={activeTab}
           />
-            {activeTab === "account" ? (
+          {activeTab === "account" ? (
             <AccountSetting userInfo={userData!} />
-            ) : activeTab === "technicalInfo" ? (   
-              <NurseProfile userInfo={userData!} nurseInfo={nurseData} />
-            ) :  activeTab === "doctortechnicalInfo"?(
-              <DoctorProfile userInfo={userData!} />
-            ):            
-            (
+          ) : activeTab === "technicalInfo" ? (
+            <NurseProfile userInfo={userData!} nurseInfo={nurseData} />
+          ) : activeTab === "doctortechnicalInfo" ? (
+            <DoctorProfile />
+          ) : (
             <>By</>
-            )}
+          )}
         </section>
       </section>
     </>

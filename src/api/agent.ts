@@ -30,14 +30,9 @@ axios.interceptors.request.use(
     config.headers["Authorization"] = `Bearer ${cookie}`;
     config.headers["Accept"] = "application/json";
 
-    // ===== AUTOMATIC CONTENT-TYPE HANDLING =====
-    // Only set Content-Type for non-FormData requests
-    // For FormData, axios will automatically set multipart/form-data with boundary
     if (!(config.data instanceof FormData)) {
       config.headers["Content-Type"] = "application/json";
     } else {
-      // CRITICAL: Delete Content-Type header for FormData
-      // Let the browser/axios set it with the correct boundary
       delete config.headers["Content-Type"];
     }
     // ==========================================
