@@ -32,3 +32,8 @@ export async function getDoctorProfile(id: number) {
   const req = await agent.DoctorApi.getDoctorProfile(id);
   return req?.data;
 }
+
+export async function getDoctorByUserId() {
+  const req = await agent.DoctorApi.getDoctorByUserId();
+  return req?.data;
+}
