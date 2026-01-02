@@ -19,8 +19,8 @@ import {
 
 import axios, { AxiosResponse } from "axios";
 
-axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
-//axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+//axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -30,14 +30,9 @@ axios.interceptors.request.use(
     config.headers["Authorization"] = `Bearer ${cookie}`;
     config.headers["Accept"] = "application/json";
 
-    // ===== AUTOMATIC CONTENT-TYPE HANDLING =====
-    // Only set Content-Type for non-FormData requests
-    // For FormData, axios will automatically set multipart/form-data with boundary
     if (!(config.data instanceof FormData)) {
       config.headers["Content-Type"] = "application/json";
     } else {
-      // CRITICAL: Delete Content-Type header for FormData
-      // Let the browser/axios set it with the correct boundary
       delete config.headers["Content-Type"];
     }
     // ==========================================
@@ -195,7 +190,7 @@ const DoctorApi = {
   getDoctorById: (id: number) => requests.get<Doctor>(`doctors/${id}`),
   getDoctorByUserId: () => requests.get<Doctor>(`doctors/user/info`),
   updateDoctorProfile: (profile: Doctor) =>
-    requests.put<Doctor>("doctor/update", profile),
+    requests.put<Doctor>(`doctors/${profile.id}`, profile),
 };
 
 const agent = {

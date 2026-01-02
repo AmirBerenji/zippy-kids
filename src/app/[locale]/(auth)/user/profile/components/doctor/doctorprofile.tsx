@@ -88,12 +88,8 @@ export default function DoctorProfile() {
       Array.isArray(doctorData.translations) &&
       languages.length > 0
     ) {
-      console.log("Doctor translations:", doctorData.translations);
-
       const mappedLanguages: DoctorSelectedLanguage[] = doctorData.translations
         .map((trans: any) => {
-          console.log("Processing translation:", trans);
-
           // Try multiple ways to match the language
           const language = languages.find((lang) => {
             const match =
@@ -101,9 +97,7 @@ export default function DoctorProfile() {
               String(lang.id) === String(trans.language_code) ||
               String(lang.id) === String(trans.language_id) ||
               lang.id === trans.language_id;
-            if (match) {
-              console.log("Found matching language:", lang);
-            }
+
             return match;
           });
 
@@ -128,7 +122,6 @@ export default function DoctorProfile() {
           ): lang is DoctorSelectedLanguage => lang !== null
         );
 
-      console.log("Mapped languages:", mappedLanguages);
       setSelectedLanguages(mappedLanguages);
     }
 
@@ -143,20 +136,15 @@ export default function DoctorProfile() {
         getLanguages(),
       ]);
 
-      console.log("Fetched languages:", languages);
       setLocation(locations || []);
       setLanguages(languages || []);
 
       // Then fetch doctor data using the API
       try {
         const doctor = await getDoctorByUserId();
-        console.log("Fetched doctor:", doctor);
-
         if (doctor && doctor.id) {
           // Pass languages directly to avoid timing issues
           populateFormWithExistingData(doctor, languages || []);
-        } else {
-          console.log("No existing doctor profile found");
         }
       } catch (doctorError) {
         console.log("No existing doctor profile found or error:", doctorError);
@@ -253,14 +241,6 @@ export default function DoctorProfile() {
   const mapFormDataToDoctorModel = (): Doctor => {
     const doctorTranslations: DoctorTranslation[] = selectedLanguages.map(
       (lang) => {
-        console.log(
-          "Mapping language - ID:",
-          lang.id,
-          "Code:",
-          lang.code,
-          "Name:",
-          lang.name
-        );
         return {
           language_id: parseInt(lang.id),
           name: lang.doctorName.trim(),
@@ -270,8 +250,6 @@ export default function DoctorProfile() {
         };
       }
     );
-
-    console.log("Doctor translations to submit:", doctorTranslations);
 
     const doctorData: Doctor = {
       id: doctorId || 0,
@@ -289,17 +267,11 @@ export default function DoctorProfile() {
   };
 
   const submitToAPI = async (doctorData: Doctor) => {
-    console.log("Submitting doctor data:", doctorData);
-    console.log("Is edit mode:", isEditMode);
-    console.log("Doctor ID:", doctorId);
-
     if (isEditMode && doctorId) {
       const req = await updateDoctorProfile(doctorId, doctorData);
-      console.log("Update API Response:", req);
       return req;
     } else {
       const req = await addDoctorProfile(doctorData);
-      console.log("Create API Response:", req);
       return req;
     }
   };
@@ -320,12 +292,7 @@ export default function DoctorProfile() {
 
     try {
       const doctorData = mapFormDataToDoctorModel();
-      console.log("Submitting doctor data:", doctorData);
-
       const result = await submitToAPI(doctorData);
-
-      console.log("API Response:", result);
-
       // If it was a create operation, update to edit mode
       if (!isEditMode && result && result.id) {
         setDoctorId(result.id);
