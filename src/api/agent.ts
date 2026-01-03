@@ -19,8 +19,8 @@ import {
 
 import axios, { AxiosResponse } from "axios";
 
-//axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
-axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
+//axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -193,6 +193,11 @@ const DoctorApi = {
     requests.put<Doctor>(`doctors/${profile.id}`, profile),
 };
 
+const ChildApi = {
+  checkChildId: (childId: string) =>
+    requests.get<boolean>(`childes/checkregister/${childId}`),
+};
+
 const agent = {
   Account,
   Location,
@@ -200,6 +205,7 @@ const agent = {
   Nurse,
   Reviews,
   DoctorApi,
+  ChildApi,
 };
 
 export default agent;
