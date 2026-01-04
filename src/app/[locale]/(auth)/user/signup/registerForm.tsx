@@ -5,7 +5,7 @@ import ErrorMessage from "@/app/component/general/ErrorMessage";
 import LoadingPage from "@/app/component/general/Loading";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
-import { User, Stethoscope, HeartPulse } from "lucide-react";
+import { User, Stethoscope, HeartPulse, ArrowRightIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function RegisterForm() {
@@ -156,7 +156,7 @@ export default function RegisterForm() {
                 className="w-full bg-[#ff9a5a] hover:bg-orange-500 text-white font-semibold py-3 rounded-xl transition"
                 type="submit"
               >
-                {t("signupbtn")}
+                {t("signupbtn")} <ArrowRightIcon size={50} />
               </button>
             </motion.div>
           )}

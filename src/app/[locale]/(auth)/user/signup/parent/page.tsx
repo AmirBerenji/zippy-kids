@@ -1,24 +1,41 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { ArrowRight, CheckCircle2, Loader2, Eye, EyeOff } from "lucide-react";
+import { parentregister, register } from "@/action/apiAction";
+import LoadingPage from "@/app/component/general/Loading";
+import { AnimatePresence, motion } from "framer-motion";
+import { useLocale, useTranslations } from "next-intl";
+import ErrorMessage from "@/app/component/general/ErrorMessage";
+import Link from "next/link";
 
 export default function NfcActivationPage() {
+  const locale = useLocale();
+  const t = useTranslations("SignUp");
+
   const [isDetected, setIsDetected] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     // Mimic the "Scanning" feel on load
-    const timer = setTimeout(() => setIsDetected(true), 800);
+    const timer = setTimeout(() => setIsDetected(true), 1800);
     return () => clearTimeout(timer);
   }, []);
 
-  const handleSubmit = () => {
-    //preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setLoading(true);
-    setTimeout(() => setLoading(false), 2000); // Simulate API call
-  };
 
+    const formData = new FormData(event.currentTarget);
+    formData.append("role", "parent");
+
+    const result = await parentregister(formData);
+    if (!result.success) {
+      setMessage(result.message);
+    }
+
+    setLoading(false);
+  };
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row font-sans">
       {/* --- LEFT SIDE: Brand & Visuals (Hidden on mobile, visible on LG+) --- */}
@@ -33,7 +50,9 @@ export default function NfcActivationPage() {
               <img src="/assets/images/logo.png" />
             </div>
             <span className="text-white font-bold text-4xl tracking-tight mt-5">
-              KidooHub
+              <h2 className="text-3xl font-extrabold text-[#2f3e4e]">
+                <span className="text-[#ff9a5a]">Kidoo</span>Hub
+              </h2>
             </span>
           </div>
 
@@ -55,7 +74,12 @@ export default function NfcActivationPage() {
             <div className="w-8 h-8 rounded-lg flex items-center justify-center ">
               <img src="/assets/images/logo.png" />
             </div>
-            <span className="font-bold text-lg text-slate-800">KidooHub</span>
+            <span className="font-bold text-lg text-slate-800">
+              {" "}
+              <h2 className="text-3xl font-extrabold text-[#2f3e4e]">
+                <span className="text-[#ff9a5a]">Kidoo</span>Hub
+              </h2>
+            </span>
           </div>
         </header>
 
@@ -91,70 +115,115 @@ export default function NfcActivationPage() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700 ml-1">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="John Doe"
-                  className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all outline-none"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700 ml-1">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  placeholder="name@example.com"
-                  className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all outline-none"
-                />
-              </div>
-            </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-slate-700 ml-1">
-                Create Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Min. 8 characters"
-                  className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all outline-none"
-                />
+          <form onSubmit={handleSubmit} className="space-y-6" method="POST">
+            {isLoading && <LoadingPage />}
+
+            {/* Animated Form Fields */}
+            <AnimatePresence>
+              <motion.div
+                key="form-fields"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+                className="space-y-6"
+              >
+                {/* Full Name */}
+                <div>
+                  <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
+                    {t("fullname")}
+                  </label>
+                  <input
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+                    id="fullname"
+                    name="fullname"
+                    placeholder="John Doe"
+                    type="text"
+                  />
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
+                    {t("email")}
+                  </label>
+                  <input
+                    autoComplete="email"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+                    id="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    type="email"
+                  />
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
+                    {t("phone")}
+                  </label>
+                  <input
+                    autoComplete="phone"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+                    id="phone"
+                    name="phone"
+                    placeholder="+12222222222"
+                    type="tel"
+                  />
+                </div>
+
+                {/* Password */}
+                <div>
+                  <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
+                    {t("password")}
+                  </label>
+                  <input
+                    autoComplete="current-password"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+                    id="password"
+                    name="password"
+                    placeholder={t("placeholder")}
+                    type="password"
+                  />
+                </div>
+
+                {/* Confirm Password */}
+                <div>
+                  <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
+                    {t("confirmPassword")}
+                  </label>
+                  <input
+                    autoComplete="current-password"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+                    id="confirmpassword"
+                    name="confirmpassword"
+                    placeholder={t("placeholder")}
+                    type="password"
+                  />
+                </div>
+
+                <ErrorMessage message={message} />
+
+                {/* Submit */}
                 <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  className="w-full bg-[#ff9a5a] hover:bg-orange-500 text-white font-semibold py-3 rounded-xl transition"
+                  type="submit"
                 >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {t("signupbtn")}
                 </button>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-orange-500 hover:bg-orange-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-100 flex items-center justify-center gap-2 transition-all transform active:scale-[0.99] "
-            >
-              {loading ? (
-                <Loader2 className="animate-spin" />
-              ) : (
-                <>
-                  Complete Activation <ArrowRight size={18} />
-                </>
-              )}
-            </button>
+              </motion.div>
+            </AnimatePresence>
           </form>
 
-          <p className="mt-8 text-center text-sm text-slate-500">
-            Already have an account?{" "}
-            <button className="text-orange-500 font-bold hover:underline">
-              Log in
-            </button>
+          <p className="mt-6 text-center text-sm text-[#4f5c69]">
+            {t("alreadyHaveAccount")}
+            <Link
+              className="text-[#2f3e4e] ml-1 font-semibold"
+              href={`/${locale}/user/login`}
+            >
+              {t("signin")}
+            </Link>
           </p>
         </div>
       </div>
