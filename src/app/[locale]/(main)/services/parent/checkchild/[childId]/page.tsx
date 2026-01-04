@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { checkChildId } from "@/action/parentApiAction";
+import LoadingPage from "@/app/component/general/Loading";
 
 export default function CheckChildPage() {
   const params = useParams();
@@ -32,10 +33,6 @@ export default function CheckChildPage() {
       </div>
     );
   } else {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-red-50">
-        not register
-      </div>
-    );
+    return <LoadingPage />;
   }
 }
