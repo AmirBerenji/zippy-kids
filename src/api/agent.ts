@@ -7,6 +7,7 @@ import {
   UpdateProfile,
   UpdateProfileImage,
 } from "@/model/auth";
+import { ChildFormData } from "@/model/child";
 import { Doctor, DoctorDetails, DoctorResponse } from "@/model/doctor";
 import { ApiResponse } from "@/model/general";
 import { Languages } from "@/model/language";
@@ -19,8 +20,8 @@ import {
 
 import axios, { AxiosResponse } from "axios";
 
-axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
-//axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+//axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -196,6 +197,8 @@ const DoctorApi = {
 const ChildApi = {
   checkChildId: (childId: string) =>
     requests.get<boolean>(`childes/checkregister/${childId}`),
+  addChildProfile: (profile: FormData) =>
+    requests.post<ChildFormData>("childes", profile),
 };
 
 const agent = {

@@ -13,9 +13,7 @@ export default function ProfileNavigation({
   onChangeTab,
 }: Props) {
   const tabs =
-    userInfo?.roles == "parent"
-      ? [{ key: "account", label: "Account Settings" }]
-      : userInfo?.roles == "nurse"
+    userInfo?.roles == "nurse"
       ? [
           { key: "account", label: "Wesite Account Setting" },
           { key: "technicalInfo", label: "Nurse Information" },
@@ -23,14 +21,23 @@ export default function ProfileNavigation({
           // { key: "billing", label: "Billing" },
           // { key: "notifications", label: "Notifications" },
         ]
-      : userInfo?.roles == "doctor" ?
-      [
+      : userInfo?.roles == "doctor"
+      ? [
           { key: "account", label: "Wesite Account Setting" },
           { key: "doctortechnicalInfo", label: "Doctor Information" },
           // { key: "documents", label: "Documents" },
           // { key: "billing", label: "Billing" },
           // { key: "notifications", label: "Notifications" },
-      ]:[];
+        ]
+      : userInfo?.roles == "parent"
+      ? [
+          { key: "account", label: "Wesite Account Setting" },
+          { key: "parenttechnicalInfo", label: "Child Information" },
+          // { key: "documents", label: "Documents" },
+          // { key: "billing", label: "Billing" },
+          // { key: "notifications", label: "Notifications" },
+        ]
+      : [];
 
   return (
     <nav className="flex flex-wrap border-b border-gray-200 text-xs text-gray-400 mb-6 select-none">
