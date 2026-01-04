@@ -156,7 +156,7 @@ export default function RegisterForm() {
                 className="w-full bg-[#ff9a5a] hover:bg-orange-500 text-white font-semibold py-3 rounded-xl transition"
                 type="submit"
               >
-                {t("signupbtn")} <ArrowRightIcon size={50} />
+                {t("signupbtn")}
               </button>
             </motion.div>
           )}

@@ -18,7 +18,7 @@ export default function NfcActivationPage() {
 
   useEffect(() => {
     // Mimic the "Scanning" feel on load
-    const timer = setTimeout(() => setIsDetected(true), 1800);
+    const timer = setTimeout(() => setIsDetected(true), 500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -39,10 +39,10 @@ export default function NfcActivationPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row font-sans">
       {/* --- LEFT SIDE: Brand & Visuals (Hidden on mobile, visible on LG+) --- */}
-      <div className="hidden lg:flex lg:w-1/2 bg-orange-300 p-12 flex-col justify-between relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-slate-50 p-12 flex-col justify-between relative overflow-hidden">
         {/* Abstract Background Decoration */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600 rounded-full -mr-20 -mt-20 opacity-50 blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-orange-600 rounded-full -ml-20 -mb-20 opacity-50 blur-2xl"></div>
+        <div className="absolute top-0 right-0 w-80 h-80 bg-orange-500 rounded-full -mr-20 -mt-20 opacity-80 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-orange-500 rounded-full -ml-20 -mb-20 opacity-80 blur-2xl"></div>
 
         <div className="z-10">
           <div className="flex items-center gap-2 mb-12">
@@ -56,10 +56,10 @@ export default function NfcActivationPage() {
             </span>
           </div>
 
-          <h1 className="text-5xl font-extrabold text-white leading-tight mb-6">
+          <h1 className="text-5xl font-extrabold text-[#2f3e4e] leading-tight mb-6">
             Connecting physical safety <br /> with digital care.
           </h1>
-          <p className="text-blue-100 text-xl max-w-md leading-relaxed">
+          <p className="text-[#2f3e4e] text-xl max-w-md leading-relaxed">
             Your new KidooHub Smart Tag is ready to be linked. Join thousands of
             parents protecting their children with our NFC technology.
           </p>
@@ -105,10 +105,10 @@ export default function NfcActivationPage() {
           </div>
 
           <div className="mb-10">
-            <h2 className="text-3xl font-bold text-slate-900 mb-3 lg:text-4xl">
+            <h2 className="text-3xl font-bold text-[#ff9a5a] mb-3 lg:text-4xl">
               Activate Your Tag
             </h2>
-            <p className="text-slate-500">
+            <p className="text-[#2f3e4e]">
               Create your parent account to link this tag and set up your
               child's safety profile.
             </p>
