@@ -19,6 +19,7 @@ export default function CheckChildPage() {
       return;
     } else {
       setIsRegistered(response);
+      router.push(`/child/10`);
     }
   };
 
@@ -28,9 +29,7 @@ export default function CheckChildPage() {
 
   if (isRegistered) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-green-50">
-        Register
-      </div>
+      <div className="min-h-screen flex items-center justify-center bg-green-50"></div>
     );
   } else {
     return <LoadingPage />;
