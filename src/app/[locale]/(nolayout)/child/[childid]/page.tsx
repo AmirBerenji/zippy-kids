@@ -14,10 +14,10 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-8 flex justify-center items-start">
+    <div className="min-h-screen bg-gray-100 p-5 md:p-8 flex justify-center items-start">
       <div className="bg-white shadow-xl rounded-2xl overflow-hidden w-full max-w-4xl">
         {/* Header Section */}
-        <div className="bg-orange-400 p-6 text-[#2f3e4e]  flex flex-col items-center md:flex-row md:space-x-6">
+        <div className="bg-[#ff9a5a] p-6 text-[#2f3e4e]  flex flex-col items-center md:flex-row md:space-x-6">
           <div className="w-24 h-24 bg-slate-600 rounded-full flex items-center justify-center border-4 border-slate-700 mb-4 md:mb-0">
             <User size={48} />
           </div>
