@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AlertCircle, CheckCircle, Upload, X } from "lucide-react";
 import { ChildFormData, childMessage } from "@/model/child";
 import { addChildProfile } from "@/action/parentApiAction";
@@ -75,14 +75,17 @@ export default function ChildrenForm() {
         formPayload.append("blood_type", formData.blood_type);
       if (formData.gender) formPayload.append("gender", formData.gender);
 
-      if (formData.uuid) formPayload.append("uuid", formData.uuid);
+      const savedTagId = localStorage.getItem("childTagId");
+
+      if (savedTagId) {
+        formPayload.append("uuid", savedTagId);
+      } else if (formData.uuid) formPayload.append("uuid", formData.uuid);
 
       if (formData.image) formPayload.append("image", formData.image);
 
       const response = await addChildProfile(formPayload);
-      const data = await response.json();
 
-      if (response.success) {
+      if (response.success == true) {
         setMessage({
           type: "success",
           text: "Child information saved successfully!",
@@ -101,7 +104,7 @@ export default function ChildrenForm() {
       } else {
         setMessage({
           type: "error",
-          text: data.message || "Failed to save data. Please try again.",
+          text: "Failed to save data. Please try again.",
         });
       }
     } catch (error) {
@@ -276,7 +279,7 @@ export default function ChildrenForm() {
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full bg-orange-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition"
+          className="w-full bg-orange-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition"
         >
           {loading ? "Saving..." : "Save Information"}
         </button>
