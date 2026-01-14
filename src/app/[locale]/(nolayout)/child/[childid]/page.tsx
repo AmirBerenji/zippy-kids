@@ -170,17 +170,6 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                 {calculateAge(child.birthday)} Years
               </p>
             </div>
-
-            {child.birthday && (
-              <div>
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  Birthday
-                </label>
-                <p className="text-lg font-medium text-gray-900">
-                  {new Date(child.birthday).toLocaleDateString()}
-                </p>
-              </div>
-            )}
           </div>
 
           {/* Column 2: Vitals & Contact */}
