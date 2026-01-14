@@ -7,7 +7,7 @@ import {
   UpdateProfile,
   UpdateProfileImage,
 } from "@/model/auth";
-import { ChildFormData } from "@/model/child";
+import { Child, ChildFormData } from "@/model/child";
 import { Doctor, DoctorDetails, DoctorResponse } from "@/model/doctor";
 import { ApiResponse } from "@/model/general";
 import { Languages } from "@/model/language";
@@ -197,6 +197,8 @@ const DoctorApi = {
 const ChildApi = {
   checkChildId: (childId: string) =>
     requests.get<boolean>(`childes/checkregister/${childId}`),
+  getchildByToken: (childId: string) =>
+    requests.get<Child>(`childes/getchildbytoken/${childId}`),
   addChildProfile: (profile: FormData) =>
     requests.post<ChildFormData>("childes", profile),
 };

@@ -13,13 +13,15 @@ export default function CheckChildPage() {
 
   const isTagRegistered = async (id: string) => {
     var response = await checkChildId(id);
-    console.log("response check tag", response);
+
+    localStorage.setItem("childTagId", id);
+
     if (response === false) {
       router.push(`/user/signup/parent`);
       return;
     } else {
       setIsRegistered(response);
-      router.push(`/child/10`);
+      router.push(`/child/${id}`);
     }
   };
 

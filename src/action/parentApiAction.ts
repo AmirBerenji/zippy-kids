@@ -8,9 +8,12 @@ export async function checkChildId(childId: string) {
   return req?.data;
 }
 
-export async function addChildProfile(profile: FormData) {
-  console.log("addChildProfile profile:", profile);
-  const req = await agent.ChildApi.addChildProfile(profile);
-  console.log("addChildProfile req:", req);
+export async function getchildByToken(childId: string) {
+  const req = await agent.ChildApi.getchildByToken(childId);
   return req?.data;
+}
+
+export async function addChildProfile(profile: FormData) {
+  const req = await agent.ChildApi.addChildProfile(profile);
+  return req;
 }
