@@ -5,9 +5,7 @@ import { Child } from "@/model/child";
 import { getchildByToken } from "@/action/parentApiAction";
 
 interface ProfilePageProps {
-  params:
-    | { locale: string; childid: string }
-    | Promise<{ locale: string; childid: string }>;
+  params: Promise<{ locale: string; childid: string }>;
 }
 
 export default function ProfilePage({ params }: ProfilePageProps) {
