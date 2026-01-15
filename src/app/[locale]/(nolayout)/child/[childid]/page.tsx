@@ -170,22 +170,19 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                 {calculateAge(child.birthday)} Years
               </p>
             </div>
-
-            {child.birthday && (
-              <div>
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  Birthday
-                </label>
-                <p className="text-lg font-medium text-gray-900">
-                  {new Date(child.birthday).toLocaleDateString()}
-                </p>
-              </div>
-            )}
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                PARENT NAME
+              </label>
+              <p className="text-lg font-medium text-gray-900">
+                {child.user.name}
+              </p>
+            </div>
           </div>
 
           {/* Column 2: Vitals & Contact */}
           <div className="space-y-4">
-            {child.phone && (
+            {child.user.phone && (
               <div className="flex items-start space-x-3">
                 <Phone className="text-blue-500 mt-1" size={20} />
                 <div>
@@ -193,7 +190,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                     Phone
                   </label>
                   <p className="text-lg font-medium text-blue-600 cursor-pointer hover:underline">
-                    {child.phone}
+                    {child.user.phone}
                   </p>
                 </div>
               </div>

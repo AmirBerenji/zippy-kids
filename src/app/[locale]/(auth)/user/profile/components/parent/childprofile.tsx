@@ -20,7 +20,16 @@ export default function ChildrenForm() {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<childMessage>({ type: "", text: "" });
 
-  const bloodTypes = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+  const bloodTypes = [
+    "(1)O+",
+    "(1)O-",
+    "(2)A+",
+    "(2)A-",
+    "(3)B+",
+    "(3)B-",
+    "(4)AB+",
+    "(4)AB-",
+  ];
 
   const gender = ["Male", "Female"];
 
