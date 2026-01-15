@@ -148,7 +148,18 @@ export default function ProfilePage({ params }: ProfilePageProps) {
         {/* Header Section */}
         <div className="bg-[#ff9a5a] p-6 text-[#2f3e4e] flex flex-col items-center md:flex-row md:space-x-6">
           <div className="w-24 h-24 bg-slate-600 rounded-full flex items-center justify-center border-4 border-slate-700 mb-4 md:mb-0">
-            <User size={48} className="text-white" />
+            {child.image ? (
+              <img
+                src={
+                  "https://zippy.elrincondsabor.com/storage/app/public/" +
+                  child.image
+                }
+                alt="Child"
+                className="w-full h-full object-cover rounded-full"
+              />
+            ) : (
+              <User size={48} className="text-white" />
+            )}
           </div>
           <div className="text-center md:text-left">
             <h1 className="text-3xl font-bold">
