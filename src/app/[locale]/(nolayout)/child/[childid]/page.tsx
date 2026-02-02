@@ -183,7 +183,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
             </div>
             <div>
               <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                PARENT NAME
+                Parent name
               </label>
               <p className="text-lg font-medium text-gray-900">
                 {child.user.name}
@@ -195,12 +195,12 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           <div className="space-y-4">
             {child.user.phone && (
               <div className="flex items-start space-x-3">
-                <Phone className="text-blue-500 mt-1" size={20} />
+                <Phone className="text-[#ff9a5a]" size={20} />
                 <div>
                   <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Phone
                   </label>
-                  <p className="text-lg font-medium text-blue-600 cursor-pointer hover:underline">
+                  <p className="text-lg font-medium text-[#ff9a5a] cursor-pointer hover:underline">
                     {child.user.phone}
                   </p>
                 </div>
@@ -209,7 +209,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 
             {child.address && (
               <div className="flex items-start space-x-3">
-                <MapPin className="text-gray-400 mt-1" size={20} />
+                <MapPin className="text-[#ff9a5a] mt-1" size={20} />
                 <div>
                   <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Address
@@ -224,10 +224,10 @@ export default function ProfilePage({ params }: ProfilePageProps) {
             {child.blood_type && (
               <div className="mt-4 p-4 bg-red-50 rounded-xl border border-red-100 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <Droplets className="text-red-600" size={24} />
-                  <span className="font-bold text-red-900">BLOOD TYPE</span>
+                  <Droplets className="text-[#ff9a5a]" size={24} />
+                  <span className="font-bold text-[#f96a11]">BLOOD TYPE</span>
                 </div>
-                <span className="text-2xl font-black text-red-600">
+                <span className="text-2xl font-black text-[#ff9a5a]">
                   {child.blood_type}
                 </span>
               </div>
