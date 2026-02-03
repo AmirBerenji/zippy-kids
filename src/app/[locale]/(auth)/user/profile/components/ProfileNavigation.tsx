@@ -32,7 +32,9 @@ export default function ProfileNavigation({
       : userInfo?.roles == "parent"
       ? [
           { key: "account", label: "Wesite Account Setting" },
+          { key: "parentchildList", label: "Child List" },
           { key: "parenttechnicalInfo", label: "Child Information" },
+
           // { key: "documents", label: "Documents" },
           // { key: "billing", label: "Billing" },
           // { key: "notifications", label: "Notifications" },

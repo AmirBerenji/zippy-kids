@@ -17,3 +17,8 @@ export async function addChildProfile(profile: FormData) {
   const req = await agent.ChildApi.addChildProfile(profile);
   return req;
 }
+
+export async function getChildrenByUser() {
+  const req = await agent.ChildApi.getchildByuser();
+  return req?.data;
+}

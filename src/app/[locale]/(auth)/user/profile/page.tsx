@@ -11,6 +11,7 @@ import { getNuresByUserId } from "@/action/nurseApiAction";
 import { Nanny } from "@/model/nany";
 import DoctorProfile from "./components/doctor/doctorprofile";
 import ChildProfile from "./components/parent/childprofile";
+import ChildList from "./components/parent/childlist";
 
 async function getDataFromBarrer() {
   const req = await getProfile();
@@ -61,6 +62,8 @@ export default function ProfilePage() {
             <DoctorProfile />
           ) : activeTab === "parenttechnicalInfo" ? (
             <ChildProfile />
+          ) : activeTab === "parentchildList" ? (
+            <ChildList />
           ) : (
             <>By</>
           )}
