@@ -53,7 +53,7 @@ axios.interceptors.request.use(
       for (const [key, value] of config.data.entries()) {
         if (value instanceof File) {
           console.log(
-            `  ${key}: File(${value.name}, ${value.size} bytes, ${value.type})`
+            `  ${key}: File(${value.name}, ${value.size} bytes, ${value.type})`,
           );
         } else {
           console.log(`  ${key}:`, value);
@@ -65,7 +65,7 @@ axios.interceptors.request.use(
   },
   (error) => {
     Promise.reject(error);
-  }
+  },
 );
 
 axios.interceptors.response.use(
@@ -81,7 +81,7 @@ axios.interceptors.response.use(
       status: error.response?.status,
     });
     return Promise.reject(error);
-  }
+  },
 );
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
@@ -201,6 +201,7 @@ const ChildApi = {
     requests.get<Child>(`childes/getchildbytoken/${childId}`),
   addChildProfile: (profile: FormData) =>
     requests.post<ChildFormData>("childes", profile),
+  getchildByuser: () => requests.get<Child[]>(`childes`),
 };
 
 const agent = {

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Phone, MapPin, Droplets, User } from "lucide-react";
+import { Phone, MapPin, Droplets, User, Calendar } from "lucide-react";
 import { Child } from "@/model/child";
 import { getchildByToken } from "@/action/parentApiAction";
 
@@ -174,6 +174,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           {/* Column 1: Personal Info */}
           <div className="space-y-4">
             <div>
+              <Calendar className="text-[#ff9a5a] mt-1" size={20} />
               <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                 Age
               </label>
@@ -182,6 +183,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
               </p>
             </div>
             <div>
+              <User className="text-[#ff9a5a] mt-1" size={20} />
               <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                 Parent name
               </label>
@@ -214,7 +216,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                   <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Address
                   </label>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-lg font-medium text-gray-700 leading-relaxed">
                     {child.address}
                   </p>
                 </div>
