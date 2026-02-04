@@ -25,7 +25,10 @@ export default function childCard(prop: Props) {
           className="rounded-lg mb-4 w-50 h-50 object-cover m-auto"
           height="300"
           loading="lazy"
-          src=""
+          src={
+            "https://zippy.elrincondsabor.com/storage/app/public/" +
+            prop.child?.image
+          }
           width="400"
         />
         <h3 className="text-xl font-semibold text-[#ff9a5a]  text-center">

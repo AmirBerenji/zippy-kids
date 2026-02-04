@@ -214,12 +214,15 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                   <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Phone
                   </label>
-                  <a
-                    href={`tel:${child.user.phone}`}
-                    className="text-lg font-medium text-gray-700 hover:underline"
-                  >
-                    {child.user.phone}
-                  </a>
+                  <p className="text-lg font-medium text-gray-700">
+                    <a
+                      href={`tel:${child.user.phone}`}
+                      className=" hover:underline"
+                    >
+                      {child.user.phone}
+                    </a>
+                  </p>
+
                   <div className="text-[#ff9a5a] text-xs -mt-1">
                     Click the number to call the parent.
                   </div>
