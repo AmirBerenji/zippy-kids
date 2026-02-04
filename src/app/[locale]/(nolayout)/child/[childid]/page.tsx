@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Phone, MapPin, Droplets, User, Calendar } from "lucide-react";
 import { Child } from "@/model/child";
 import { getchildByToken } from "@/action/parentApiAction";
+import LoadingPage from "@/app/component/general/Loading";
 
 interface ProfilePageProps {
   params: Promise<{ locale: string; childid: string }>;
@@ -64,17 +65,21 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 p-5 md:p-8 flex justify-center items-center">
-        <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-4xl">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading child data...</p>
-            <p className="text-sm text-gray-400 mt-2">
-              ID: {childId || "Loading..."}
-            </p>
+      <>
+        <LoadingPage />
+        {/* 
+        <div className="min-h-screen bg-gray-100 p-5 md:p-8 flex justify-center items-center">
+          <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-4xl">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+              <p className="mt-4 text-gray-600">Loading child data...</p>
+              <p className="text-sm text-gray-400 mt-2">
+                ID: {childId || "Loading..."}
+              </p>
+            </div>
           </div>
-        </div>
-      </div>
+        </div> */}
+      </>
     );
   }
 
@@ -144,7 +149,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 
   return (
     <div className="min-h-screen bg-gray-100 p-5 md:p-8 flex justify-center items-start">
-      <div className="bg-white shadow-xl rounded-2xl overflow-hidden w-full max-w-4xl">
+      <div className="bg-white  shadow-xl rounded-2xl overflow-hidden w-full max-w-4xl">
         {/* Header Section */}
         <div className="bg-[#ff9a5a] p-6 text-[#2f3e4e] flex flex-col items-center md:flex-row md:space-x-6">
           <div className="w-24 h-24 bg-slate-600 rounded-full flex items-center justify-center border-4 border-slate-700 mb-4 md:mb-0">
