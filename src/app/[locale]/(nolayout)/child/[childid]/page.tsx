@@ -173,23 +173,30 @@ export default function ProfilePage({ params }: ProfilePageProps) {
         <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Column 1: Personal Info */}
           <div className="space-y-4">
-            <div>
+            <div></div>
+
+            <div className="flex items-start space-x-3">
               <Calendar className="text-[#ff9a5a] mt-1" size={20} />
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Age
-              </label>
-              <p className="text-lg font-medium text-gray-900">
-                {calculateAge(child.birthday)} Years
-              </p>
+              <div>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Age
+                </label>
+                <p className="text-lg font-medium text-gray-700">
+                  {calculateAge(child.birthday)} Years
+                </p>
+              </div>
             </div>
-            <div>
+
+            <div className="flex items-start space-x-3">
               <User className="text-[#ff9a5a] mt-1" size={20} />
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Parent name
-              </label>
-              <p className="text-lg font-medium text-gray-900">
-                {child.user.name}
-              </p>
+              <div>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Parent name
+                </label>
+                <p className="text-lg font-medium text-gray-700">
+                  {child.user.name}
+                </p>
+              </div>
             </div>
           </div>
 
@@ -202,9 +209,12 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                   <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Phone
                   </label>
-                  <p className="text-lg font-medium text-[#ff9a5a] cursor-pointer hover:underline">
+                  <p className="text-lg font-medium text-gray-700 cursor-pointer hover:underline">
                     {child.user.phone}
                   </p>
+                  <div className="text-[#ff9a5a] text-xs -mt-1">
+                    Click the number to call the parent.
+                  </div>
                 </div>
               </div>
             )}
@@ -227,9 +237,9 @@ export default function ProfilePage({ params }: ProfilePageProps) {
               <div className="mt-4 p-4 bg-red-50 rounded-xl border border-red-100 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Droplets className="text-[#ff9a5a]" size={24} />
-                  <span className="font-bold text-[#f96a11]">BLOOD TYPE</span>
+                  <span className="font-bold text-[#ff9a5a]">Blood type</span>
                 </div>
-                <span className="text-2xl font-black text-[#ff9a5a]">
+                <span className="text-lg font-black text-[#ff9a5a]">
                   {child.blood_type}
                 </span>
               </div>
