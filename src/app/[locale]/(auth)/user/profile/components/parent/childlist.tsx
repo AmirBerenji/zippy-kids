@@ -15,7 +15,7 @@ export default function ChildList() {
 
   return (
     <>
-      <div className=" grid grid-cols-3">
+      <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 ">
         {childs.map((child) => (
           <Childcard key={child.id} id={child.id} child={child} />
         ))}
