@@ -12,7 +12,7 @@ export default function ChildrenForm() {
     birthday: "",
     blood_type: "",
     gender: "",
-    uuid: "",
+    uuid: localStorage.getItem("childTagId") ?? "",
     image: null,
   });
 
@@ -34,7 +34,7 @@ export default function ChildrenForm() {
   const gender = ["Male", "Female"];
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -110,6 +110,7 @@ export default function ChildrenForm() {
           image: null,
         });
         setImagePreview(null);
+        localStorage.removeItem("childTagId");
       } else {
         setMessage({
           type: "error",
@@ -149,7 +150,7 @@ export default function ChildrenForm() {
         {/* Image Upload */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Photo (Optional)
+            Photo <span className="text-xs text-orange-500">(Optional)</span>
           </label>
           <div className="flex items-center gap-4">
             {imagePreview ? (
@@ -218,7 +219,7 @@ export default function ChildrenForm() {
         {/* Address */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Address (Optional)
+            Address <span className="text-xs text-orange-500">(Optional)</span>
           </label>
           <input
             type="text"
@@ -234,7 +235,8 @@ export default function ChildrenForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Birthday (Optional)
+              Birthday{" "}
+              <span className="text-xs text-orange-500">(Optional)</span>
             </label>
             <input
               type="date"
@@ -247,7 +249,8 @@ export default function ChildrenForm() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Blood Type (Optional)
+              Blood Type{" "}
+              <span className="text-xs text-orange-500">(Optional)</span>
             </label>
             <select
               name="blood_type"
@@ -266,7 +269,7 @@ export default function ChildrenForm() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Gender (Optional)
+              Gender <span className="text-xs text-orange-500">(Optional)</span>
             </label>
             <select
               name="gender"
@@ -281,6 +284,24 @@ export default function ChildrenForm() {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Tag info{" "}
+              <span className="text-xs text-orange-500">
+                (this is the unique identifier for the child's tag)
+              </span>
+            </label>
+            <input
+              type="text"
+              name="uuid"
+              value={formData.uuid}
+              onChange={handleInputChange}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              placeholder="Enter tag id"
+            />
           </div>
         </div>
 
