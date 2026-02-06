@@ -1,6 +1,7 @@
 "use client";
 import StarRating from "@/app/component/general/StarRating";
 import { Child } from "@/model/child";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -20,14 +21,16 @@ export default function childCard(prop: Props) {
     transition-shadow duration-300 bg-white my-3  "
     >
       <Link href={`/services/nurse-care/${prop.id}/profile`}>
-        <img
+        <Image
           alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"
           className="rounded-lg mb-4 w-50 h-50 object-cover m-auto"
           height="300"
           loading="lazy"
           src={
-            "https://zippy.elrincondsabor.com/storage/app/public/" +
             prop.child?.image
+              ? "https://zippy.elrincondsabor.com/storage/app/public/" +
+                prop.child.image
+              : "/assets/images/kids-sample.jpg"
           }
           width="400"
         />

@@ -114,7 +114,7 @@ export default function ChildrenForm() {
       } else {
         setMessage({
           type: "error",
-          text: "Failed to save data. Please try again.",
+          text: response?.message || "Failed to save data. Please try again.",
         });
       }
     } catch (error) {
