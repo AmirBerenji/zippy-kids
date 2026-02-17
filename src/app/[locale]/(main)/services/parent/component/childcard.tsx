@@ -4,6 +4,7 @@ import { Child } from "@/model/child";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   id: number;
@@ -12,6 +13,7 @@ interface Props {
 
 export default function childCard(prop: Props) {
   const [isLoading, setLoading] = useState(true);
+  const router = useRouter();
 
   return (
     <div
@@ -50,6 +52,18 @@ export default function childCard(prop: Props) {
       </p>
 
       <p className="text-[#2f3e4e] text-left">Address: {prop.child?.address}</p>
+
+      <div>
+        {/* <button
+          className="mt-4 w-full bg-[#ff9a5a] text-white py-2 px-4 rounded hover:bg-[#e88b4f] transition-colors duration-300"
+          onClick={() => {
+            const childId = prop.child?.uuid;
+            router.push(`/parent/${childId}`);
+          }}
+        >
+          Edit Child
+        </button> */}
+      </div>
     </div>
   );
 }

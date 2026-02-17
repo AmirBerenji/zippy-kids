@@ -15,30 +15,30 @@ export default function ProfileNavigation({
   const tabs =
     userInfo?.roles == "nurse"
       ? [
-          { key: "account", label: "Wesite Account Setting" },
-          { key: "technicalInfo", label: "Nurse Information" },
+          { key: "account", label: "Website Account Setting" },
+          { key: "technicalInfo", label: "Nanny Information" },
           // { key: "documents", label: "Documents" },
           // { key: "billing", label: "Billing" },
           // { key: "notifications", label: "Notifications" },
         ]
       : userInfo?.roles == "doctor"
-      ? [
-          { key: "account", label: "Wesite Account Setting" },
-          { key: "doctortechnicalInfo", label: "Doctor Information" },
-          // { key: "documents", label: "Documents" },
-          // { key: "billing", label: "Billing" },
-          // { key: "notifications", label: "Notifications" },
-        ]
-      : userInfo?.roles == "parent"
-      ? [
-          { key: "parenttechnicalInfo", label: "Child Information" },
-          { key: "parentchildList", label: "Child List" },
-          { key: "account", label: "Wesite Account Setting" },
-          // { key: "documents", label: "Documents" },
-          // { key: "billing", label: "Billing" },
-          // { key: "notifications", label: "Notifications" },
-        ]
-      : [];
+        ? [
+            { key: "account", label: "Website Account Setting" },
+            { key: "doctortechnicalInfo", label: "Doctor Information" },
+            // { key: "documents", label: "Documents" },
+            // { key: "billing", label: "Billing" },
+            // { key: "notifications", label: "Notifications" },
+          ]
+        : userInfo?.roles == "parent"
+          ? [
+              { key: "parenttechnicalInfo", label: "Child Information" },
+              { key: "parentchildList", label: "Child List" },
+              { key: "account", label: "Website Account Setting" },
+              // { key: "documents", label: "Documents" },
+              // { key: "billing", label: "Billing" },
+              // { key: "notifications", label: "Notifications" },
+            ]
+          : [];
 
   return (
     <nav className="flex flex-wrap border-b border-gray-200 text-xs text-gray-400 mb-6 select-none">
@@ -47,7 +47,7 @@ export default function ProfileNavigation({
           key={tab.key}
           className={`mr-4 mb-2 pb-2 transition-colors ${
             activeTab === tab.key
-              ? "border-b-2 text-[#ff9a5a] text-[#ff9a5a] font-semibold"
+              ? "border-b-2 text-[#ff9a5a]  font-semibold"
               : "hover:text-[#ff9a5a]"
           }`}
           onClick={() => onChangeTab(tab.key)}
