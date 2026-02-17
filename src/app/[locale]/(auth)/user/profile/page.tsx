@@ -32,7 +32,7 @@ export default function ProfilePage() {
         ]);
         setUserData(profileData);
         setNurseData(nurseInfo);
-        if (!nurseInfo && profileData?.roles !== 'parent') {
+        if (!nurseInfo && profileData?.roles == "parent") {
           setActiveTab("parenttechnicalInfo");
         }
       } catch (err) {
@@ -45,7 +45,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      {!nurseData && userData?.roles != 'parent' && <DashboardTopMessage />  }
+      {!nurseData && userData?.roles != "parent" && <DashboardTopMessage />}
 
       <section className="flex flex-col md:flex-row p-4 sm:p-6 md:p-8 mb-12 gap-6 md:gap-8">
         <LeftProfileSide userInfo={userData!} />
