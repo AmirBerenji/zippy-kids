@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 interface Props {
   id: number;
   child?: Child;
+  onEdit: (childId: number) => void;
 }
 
 export default function childCard(prop: Props) {
@@ -54,15 +55,15 @@ export default function childCard(prop: Props) {
       <p className="text-[#2f3e4e] text-left">Address: {prop.child?.address}</p>
 
       <div>
-        {/* <button
+        <button
           className="mt-4 w-full bg-[#ff9a5a] text-white py-2 px-4 rounded hover:bg-[#e88b4f] transition-colors duration-300"
           onClick={() => {
-            const childId = prop.child?.uuid;
-            router.push(`/parent/${childId}`);
+            const childId = prop.child?.id;
+            prop.onEdit(childId!);
           }}
         >
           Edit Child
-        </button> */}
+        </button>
       </div>
     </div>
   );

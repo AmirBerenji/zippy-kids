@@ -22,6 +22,14 @@ export default function ProfilePage() {
   const [userData, setUserData] = useState<Profile>();
   const [activeTab, setActiveTab] = useState("account");
   const [nurseData, setNurseData] = useState<Nanny>();
+  const [selectedChildId, setSelectedChildId] = useState<number | null>(null);
+
+const handleEditChild = (childId: number) => {
+  setSelectedChildId(childId);
+  setActiveTab("parenttechnicalInfo");
+}
+
+
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -63,9 +71,9 @@ export default function ProfilePage() {
           ) : activeTab === "doctortechnicalInfo" ? (
             <DoctorProfile />
           ) : activeTab === "parenttechnicalInfo" ? (
-            <ChildProfile />
+            <ChildProfile selectedChildId={selectedChildId} />
           ) : activeTab === "parentchildList" ? (
-            <ChildList />
+            <ChildList  onEditChild={handleEditChild}  />
           ) : (
             <>By</>
           )}
