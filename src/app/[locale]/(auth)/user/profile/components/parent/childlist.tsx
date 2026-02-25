@@ -3,7 +3,12 @@ import Childcard from "@/app/[locale]/(main)/services/parent/component/childcard
 import { Child } from "@/model/child";
 import React, { useEffect, useState } from "react";
 
-export default function ChildList() {
+interface ChildListProps {
+  onEditChild: (childId: number) => void;
+}
+
+
+export default function ChildList(prop: ChildListProps ) {
   const [childs, setChilds] = useState<Child[]>([]);
   useEffect(() => {
     async function fetchChildren() {
@@ -17,7 +22,7 @@ export default function ChildList() {
     <>
       <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 ">
         {childs.map((child) => (
-          <Childcard key={child.id} id={child.id} child={child} />
+          <Childcard key={child.id} id={child.id} child={child} onEdit={prop.onEditChild} />
         ))}
       </div>
     </>

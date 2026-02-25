@@ -202,6 +202,9 @@ const ChildApi = {
   addChildProfile: (profile: FormData) =>
     requests.post<ChildFormData>("childes", profile),
   getchildByuser: () => requests.get<Child[]>(`childes`),
+  getchildById: (id: number) => requests.get<Child>(`childes/${id}`),
+  updateChildProfile: (childId: number, profile: FormData) =>
+    requests.post<Child>(`childes/${childId}`, profile),
 };
 
 const agent = {
