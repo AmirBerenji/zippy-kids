@@ -20,8 +20,8 @@ import {
 
 import axios, { AxiosResponse } from "axios";
 
-axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
-//axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+//axios.defaults.baseURL = "https://zippy.elrincondsabor.com/api/";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -202,6 +202,9 @@ const ChildApi = {
   addChildProfile: (profile: FormData) =>
     requests.post<ChildFormData>("childes", profile),
   getchildByuser: () => requests.get<Child[]>(`childes`),
+  getchildById: (id: number) => requests.get<Child>(`childes/${id}`),
+  updateChildProfile: (childId: number, profile: FormData) =>
+    requests.post<Child>(`childes/${childId}`, profile),
 };
 
 const agent = {
