@@ -164,9 +164,10 @@ export default function NurseProfilePage() {
         <div className="flex flex-col items-center ">
           <img
             src={
-              "https://zippy.elrincondsabor.com/storage/app/public/" +
-              nurse.user.photo
-            }
+                nurse?.user?.photo
+                  ? `https://zippy.elrincondsabor.com/storage/app/public/${nurse.user.photo}`
+                  : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
+              }
             alt={nurse.translations[0].full_name}
             className="w-48 h-48  object-cover mb-4 rounded-lg shadow-md"
           />
