@@ -208,7 +208,7 @@ export default function NurseProfilePage() {
             </div>
             <div className="w-full">
               <h3 className="font-medium">Available Days:</h3>
-              <p className="text-gray-600 break-words whitespace-normal">
+              <p className="text-gray-600 break-word whitespace-normal">
                 {nurse.days_available}
               </p>
             </div>
