@@ -770,15 +770,6 @@ export default function NannyProfile(prop: Props) {
               )}
             </button>
 
-            {(submitSuccess || submitError) && (
-              <button
-                type="button"
-                onClick={resetForm}
-                className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-6 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
-              >
-                Reset Form
-              </button>
-            )}
           </div>
         </form>
       </div>

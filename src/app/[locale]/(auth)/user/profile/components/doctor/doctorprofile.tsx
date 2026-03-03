@@ -57,13 +57,9 @@ export default function DoctorProfile() {
     languages: Languages[]
   ) => {
     if (!doctorData) {
-      console.log("No existing doctor data found");
       setLoading(false);
       return;
     }
-
-    console.log("Populating form with doctor data:", doctorData);
-    console.log("Available languages:", languages);
 
     // Store the doctor ID for updates
     if (doctorData.id) {
@@ -215,7 +211,7 @@ export default function DoctorProfile() {
     if (!formData.phone) return "Phone is required";
     if (!formData.specialization) return "Specialization is required";
     if (!formData.experience_years) return "Experience years is required";
-    if (!formData.license_number) return "License number is required";
+    if (!formData.license_number) {formData.license_number ="-"};
     if (!formData.location_id) return "Location is required";
     if (!formData.status) return "Status is required";
     if (selectedLanguages.length === 0)
@@ -618,7 +614,7 @@ export default function DoctorProfile() {
                 htmlFor="license_number"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                License Number *
+                License Number
               </label>
               <input
                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
@@ -695,15 +691,6 @@ export default function DoctorProfile() {
               )}
             </button>
 
-            {(submitSuccess || submitError) && (
-              <button
-                type="button"
-                onClick={resetForm}
-                className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-6 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
-              >
-                Reset Form
-              </button>
-            )}
           </div>
         </form>
       </div>
