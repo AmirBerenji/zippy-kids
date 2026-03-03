@@ -614,7 +614,7 @@ export default function DoctorProfile() {
                 htmlFor="license_number"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                License Number 
+                License Number
               </label>
               <input
                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
