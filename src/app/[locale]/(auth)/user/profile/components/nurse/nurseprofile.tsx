@@ -3,6 +3,7 @@ import {
   addNuresProfile,
   getLanguages,
   getLocation,
+  getNuresByUserId,
   updateNuresProfile,
 } from "@/action/nurseApiAction";
 import { Profile } from "@/model/auth";
@@ -148,14 +149,10 @@ export default function NannyProfile(prop: Props) {
       const languages = await getLanguages();
       setLanguages(languages || []);
 
-      console.log(
-        "Available languages:",
-        languages?.map((lang: Languages) => ({
-          id: lang.id,
-          code: lang.code,
-          name: lang.name,
-        }))
-      );
+      var nurse = await getNuresByUserId();
+      if (!nurse) {
+        populateFormWithExistingData(nurse);
+      }
 
       setLoading(false);
     } catch (error) {
