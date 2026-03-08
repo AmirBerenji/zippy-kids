@@ -27,7 +27,7 @@ export default function Nursepage() {
     getProfileInfo();
     const fetchNurses = async () => {
       const data = await getNuresList("");
-      console.log("Nurses Data:", data);
+      console.log("Nurses Data list:", data);
       setNurses(data.nannies || []);
       setLoading(false);
     };

@@ -26,11 +26,9 @@ export default function NurseProfilePage() {
   const fetchNurseProfile = async () => {
     try {
       const response = await getNuresById(Number(id));
-      console.log("NurseProfileResponse", response);
       setNurse(response);
 
       var commentList = await getReviews("nurse", id as string);
-      console.log("CommentList", commentList.data);
 
       setReviewData(commentList.data);
       setReviews(commentList.data.reviews.data);
@@ -71,9 +69,8 @@ export default function NurseProfilePage() {
         rating: newReview.rating,
         comment: newReview.comment,
       };
-      console.log("Submitting Review:", value);
+
       const data = await addReview(value);
-      console.log("Review Submission Response:", data);
 
       if (data?.success) {
         const reviewData = await checkReview("nurse", "1");
@@ -87,10 +84,10 @@ export default function NurseProfilePage() {
       // setReviews([review, ...reviews]);
       setNewReview({ rating: 0, comment: "" });
 
-      alert("Review submitted successfully!");
+      //alert("Review submitted successfully!");
     } catch (error) {
       console.error("Error submitting review:", error);
-      alert("Failed to submit review");
+      //alert("Failed to submit review");
     } finally {
       setIsSubmitting(false);
     }
@@ -164,10 +161,10 @@ export default function NurseProfilePage() {
         <div className="flex flex-col items-center ">
           <img
             src={
-                nurse?.user?.photo
-                  ? `https://zippy.elrincondsabor.com/storage/app/public/${nurse.user.photo}`
-                  : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
-              }
+              nurse?.user?.photo
+                ? `https://zippy.elrincondsabor.com/storage/app/public/${nurse.user.photo}`
+                : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
+            }
             alt={nurse.translations[0].full_name}
             className="w-48 h-48  object-cover mb-4 rounded-lg shadow-md"
           />
