@@ -28,9 +28,6 @@ interface Props {
   nurseInfo?: Nanny;
 }
 
-
-
-
 export default function NannyProfile(prop: Props) {
   const [listLocation, setLocation] = useState<Location[]>([]);
   const [listLanguages, setLanguages] = useState<Languages[]>([]);
@@ -69,13 +66,26 @@ export default function NannyProfile(prop: Props) {
   ];
 
   useEffect(() => {
-    console.log("NurseInfoProps in Nurse File", prop.nurseInfo);
     fetchData();
   }, []);
 
   useEffect(() => {
-    if (prop.nurseInfo && listLanguages.length > 0) {
-      populateFormWithExistingData(prop.nurseInfo);
+    const fetchNurseData = async () => {
+      const nurse = await getNuresByUserId();
+      if (nurse) {
+        populateFormWithExistingData(nurse);
+      }
+    };
+
+    // Call it when listLanguages is loaded and no nurseInfo prop is provided
+    if (listLanguages.length > 0 && !prop.nurseInfo) {
+      fetchNurseData();
+    } else if (listLanguages.length > 0) {
+      if (prop.nurseInfo) {
+        populateFormWithExistingData(prop.nurseInfo);
+      } else {
+        fetchNurseData();
+      }
     }
   }, [prop.nurseInfo, listLanguages]);
 
@@ -115,10 +125,6 @@ export default function NannyProfile(prop: Props) {
           });
 
           if (!language) {
-            console.warn(
-              `Language not found for translation:`,
-              trans.language_code
-            );
             return null;
           }
 
@@ -132,11 +138,10 @@ export default function NannyProfile(prop: Props) {
         })
         .filter(
           (lang: SelectedLanguage | null): lang is SelectedLanguage =>
-            lang !== null
+            lang !== null,
         );
 
       setSelectedLanguages(mappedLanguages);
-      console.log("Populated languages:", mappedLanguages);
     }
 
     setIsEditMode(true);
@@ -149,14 +154,8 @@ export default function NannyProfile(prop: Props) {
       const languages = await getLanguages();
       setLanguages(languages || []);
 
-      var nurse = await getNuresByUserId();
-      if (!nurse) {
-        populateFormWithExistingData(nurse);
-      }
-
       setLoading(false);
     } catch (error) {
-      console.error("Error loading data:", error);
       setLoading(false);
     }
   };
@@ -164,7 +163,7 @@ export default function NannyProfile(prop: Props) {
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -177,7 +176,7 @@ export default function NannyProfile(prop: Props) {
     langId: string,
     langCode: string,
     langName: string,
-    isChecked: boolean
+    isChecked: boolean,
   ) => {
     if (isChecked) {
       setSelectedLanguages((prev) => [
@@ -198,12 +197,12 @@ export default function NannyProfile(prop: Props) {
   const handleLanguageDetailChange = (
     langId: string,
     field: "fullName" | "specialization",
-    value: string
+    value: string,
   ) => {
     setSelectedLanguages((prev) =>
       prev.map((lang) =>
-        lang.id === langId ? { ...lang, [field]: value } : lang
-      )
+        lang.id === langId ? { ...lang, [field]: value } : lang,
+      ),
     );
   };
 
@@ -245,24 +244,13 @@ export default function NannyProfile(prop: Props) {
     // Backend expects language_code to be the language ID (integer)
     const nannytranslation: NannyTranslation[] = selectedLanguages.map(
       (lang) => {
-        console.log(
-          "Mapping language - ID:",
-          lang.id,
-          "Code:",
-          lang.code,
-          "Name:",
-          lang.name
-        );
         return {
           language_code: lang.id, // Send language ID as string/number
           full_name: lang.fullName.trim(),
           specialization: lang.specialization.trim(),
         };
-      }
+      },
     );
-
-    console.log("Nanny translations to submit:", nannytranslation);
-
     const nannyData: Nanny = {
       id: prop.nurseInfo?.id || 0,
       gender: formData.gender,
@@ -288,20 +276,17 @@ export default function NannyProfile(prop: Props) {
       (nannyData as any).id = prop.nurseInfo.id;
     }
 
-    console.log("Mapped Nanny Data:", nannyData);
     return nannyData;
   };
 
   const submitToAPI = async (nannyData: Nanny) => {
-    console.log("Submitting nanny data:", nannyData);
-
     if (isEditMode && prop.nurseInfo?.id) {
       const req = await updateNuresProfile(prop.nurseInfo.id, nannyData);
-      console.log("Update API Response:", req);
+
       return req;
     } else {
       const req = await addNuresProfile(nannyData);
-      console.log("Create API Response:", req);
+
       return req;
     }
   };
@@ -322,24 +307,21 @@ export default function NannyProfile(prop: Props) {
 
     try {
       const nannyData = mapFormDataToNannyModel();
-      console.log("Submitting nanny data:", nannyData);
 
       const result = await submitToAPI(nannyData);
 
-      console.log("API Response:", result);
       setSubmitSuccess(true);
 
       setTimeout(() => {
         setSubmitSuccess(false);
       }, 3000);
     } catch (error) {
-      console.error("Error submitting form:", error);
       setSubmitError(
         error instanceof Error
           ? error.message
           : `An error occurred while ${
               isEditMode ? "updating" : "saving"
-            } your profile`
+            } your profile`,
       );
     } finally {
       setIsSubmitting(false);
@@ -435,14 +417,14 @@ export default function NannyProfile(prop: Props) {
                       value={langId}
                       className="w-4 h-4 text-[#ff9a5a] border-gray-300 rounded focus:ring-[#fdb68a] focus:ring-2"
                       checked={selectedLanguages.some(
-                        (selected) => selected.id === langId
+                        (selected) => selected.id === langId,
                       )}
                       onChange={(e) => {
                         handleLanguageChange(
                           langId,
                           langCode,
                           lang.name || "",
-                          e.target.checked
+                          e.target.checked,
                         );
                       }}
                     />
@@ -490,7 +472,7 @@ export default function NannyProfile(prop: Props) {
                               handleLanguageDetailChange(
                                 lang.id,
                                 "fullName",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             placeholder={`Full name in ${lang.name}`}
@@ -510,7 +492,7 @@ export default function NannyProfile(prop: Props) {
                               handleLanguageDetailChange(
                                 lang.id,
                                 "specialization",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             placeholder={`Specialization in ${lang.name}`}
@@ -724,7 +706,7 @@ export default function NannyProfile(prop: Props) {
                 Selected:{" "}
                 {selectedDays
                   .map(
-                    (dayId) => daysOfWeek.find((day) => day.id === dayId)?.name
+                    (dayId) => daysOfWeek.find((day) => day.id === dayId)?.name,
                   )
                   .join(", ")}
               </div>
@@ -766,7 +748,6 @@ export default function NannyProfile(prop: Props) {
                 <>{isEditMode ? "Update Profile" : "Save Profile"}</>
               )}
             </button>
-
           </div>
         </form>
       </div>
