@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { Nanny, NannyTranslation, NurseFormData } from "@/model/nany";
 import LoadingPage from "@/app/component/general/Loading";
+import { useToast } from "@/app/component/toast/ToastProvider";
 
 interface Props {
   userInfo: Profile;
@@ -29,6 +30,7 @@ interface Props {
 }
 
 export default function NannyProfile(prop: Props) {
+  const toast = useToast();
   const [listLocation, setLocation] = useState<Location[]>([]);
   const [listLanguages, setLanguages] = useState<Languages[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<
@@ -304,25 +306,30 @@ export default function NannyProfile(prop: Props) {
     }
 
     setIsSubmitting(true);
-
+    const id = toast.info("Saving your data...");
     try {
       const nannyData = mapFormDataToNannyModel();
 
       const result = await submitToAPI(nannyData);
 
-      setSubmitSuccess(true);
+      toast.remove(id);
+      toast.success("Saved successfully!", { title: "Done" });
 
-      setTimeout(() => {
-        setSubmitSuccess(false);
-      }, 3000);
+      // setSubmitSuccess(true);
+
+      // setTimeout(() => {
+      //   setSubmitSuccess(false);
+      // }, 3000);
     } catch (error) {
-      setSubmitError(
-        error instanceof Error
-          ? error.message
-          : `An error occurred while ${
-              isEditMode ? "updating" : "saving"
-            } your profile`,
-      );
+      toast.remove(id);
+      toast.error("Something went wrong. Please try again.");
+      // setSubmitError(
+      //   error instanceof Error
+      //     ? error.message
+      //     : `An error occurred while ${
+      //         isEditMode ? "updating" : "saving"
+      //       } your profile`,
+      // );
     } finally {
       setIsSubmitting(false);
     }
@@ -369,7 +376,7 @@ export default function NannyProfile(prop: Props) {
           </div>
 
           {submitSuccess && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">
+            <div className="mb-6 p-4  bg-green-50 border border-green-200 rounded-md">
               <div className="flex items-center">
                 <Check className="h-4 w-4 text-green-400 mr-2" />
                 <p className="text-sm font-medium text-green-800">

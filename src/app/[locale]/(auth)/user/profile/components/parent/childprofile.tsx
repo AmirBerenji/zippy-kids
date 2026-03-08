@@ -3,11 +3,16 @@
 import React, { useEffect, useState } from "react";
 import { AlertCircle, CheckCircle, Upload, X } from "lucide-react";
 import { ChildFormData, childMessage } from "@/model/child";
-import { addChildProfile, updateChildProfile, getChildById } from "@/action/parentApiAction";
+import {
+  addChildProfile,
+  updateChildProfile,
+  getChildById,
+} from "@/action/parentApiAction";
+import { useToast } from "@/app/component/toast/ToastProvider";
 
 interface ChildProfileProps {
-  selectedChildId: number | null;  // null = Add mode, number = Edit mode
-  onSuccess?: () => void;          // optional: called after save (e.g. switch tab back)
+  selectedChildId: number | null; // null = Add mode, number = Edit mode
+  onSuccess?: () => void; // optional: called after save (e.g. switch tab back)
 }
 
 const EMPTY_FORM: ChildFormData = {
@@ -21,9 +26,13 @@ const EMPTY_FORM: ChildFormData = {
   image: null,
 };
 
-export default function ChildrenForm({ selectedChildId, onSuccess }: ChildProfileProps) {
+export default function ChildrenForm({
+  selectedChildId,
+  onSuccess,
+}: ChildProfileProps) {
   const isEditMode = selectedChildId !== null;
 
+  const toast = useToast();
   const [formData, setFormData] = useState<ChildFormData>({
     ...EMPTY_FORM,
     uuid: localStorage.getItem("childTagId") ?? "",
@@ -38,7 +47,10 @@ export default function ChildrenForm({ selectedChildId, onSuccess }: ChildProfil
   useEffect(() => {
     if (!isEditMode) {
       // Reset to empty form when switching to Add mode
-      setFormData({ ...EMPTY_FORM, uuid: localStorage.getItem("childTagId") ?? "" });
+      setFormData({
+        ...EMPTY_FORM,
+        uuid: localStorage.getItem("childTagId") ?? "",
+      });
       setImagePreview(null);
       setMessage({ type: "", text: "" });
       return;
@@ -70,7 +82,9 @@ export default function ChildrenForm({ selectedChildId, onSuccess }: ChildProfil
   }, [selectedChildId]);
 
   // ─── Handlers (unchanged from your original) ──────────────────────────────
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -98,29 +112,27 @@ export default function ChildrenForm({ selectedChildId, onSuccess }: ChildProfil
     setLoading(true);
     setMessage({ type: "", text: "" });
 
+    const id = toast.info("Saving your data...");
     try {
       const formPayload = new FormData();
       formPayload.append("name", formData.name);
       formPayload.append("last_name", formData.last_name);
-      if (formData.address)    formPayload.append("address", formData.address);
-      if (formData.birthday)   formPayload.append("birthday", formData.birthday);
-      if (formData.blood_type) formPayload.append("blood_type", formData.blood_type);
-      if (formData.gender)     formPayload.append("gender", formData.gender);
-      if (formData.uuid)       formPayload.append("uuid", formData.uuid);
-      if (formData.image)      formPayload.append("image", formData.image);
+      if (formData.address) formPayload.append("address", formData.address);
+      if (formData.birthday) formPayload.append("birthday", formData.birthday);
+      if (formData.blood_type)
+        formPayload.append("blood_type", formData.blood_type);
+      if (formData.gender) formPayload.append("gender", formData.gender);
+      if (formData.uuid) formPayload.append("uuid", formData.uuid);
+      if (formData.image) formPayload.append("image", formData.image);
 
       // ↓ Key difference: call different API based on mode
       const response = isEditMode
-        ? await updateChildProfile(selectedChildId, formPayload)  // your update action
+        ? await updateChildProfile(selectedChildId, formPayload) // your update action
         : await addChildProfile(formPayload);
 
       if (response.success) {
-        setMessage({
-          type: "success",
-          text: isEditMode
-            ? "Child updated successfully!"
-            : "Child added successfully!",
-        });
+        toast.remove(id);
+        toast.success("Saved successfully!", { title: "Done" });
 
         if (!isEditMode) {
           // Only reset form on Add, not Edit
@@ -131,19 +143,27 @@ export default function ChildrenForm({ selectedChildId, onSuccess }: ChildProfil
 
         onSuccess?.(); // e.g. switch tab back to list
       } else {
-        setMessage({
-          type: "error",
-          text: response?.message || "Failed to save data. Please try again.",
-        });
+        toast.remove(id);
+        toast.warning("Failed to save data. Please try again.");
       }
     } catch {
-      setMessage({ type: "error", text: "Network error. Please try again." });
+      toast.remove(id);
+      toast.error("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const bloodTypes = ["(1)O+", "(1)O-", "(2)A+", "(2)A-", "(3)B+", "(3)B-", "(4)AB+", "(4)AB-"];
+  const bloodTypes = [
+    "(1)O+",
+    "(1)O-",
+    "(2)A+",
+    "(2)A-",
+    "(3)B+",
+    "(3)B-",
+    "(4)AB+",
+    "(4)AB-",
+  ];
   const genderOptions = ["Male", "Female"];
 
   // ─── Loading skeleton while fetching edit data ────────────────────────────
@@ -158,14 +178,18 @@ export default function ChildrenForm({ selectedChildId, onSuccess }: ChildProfil
   return (
     <div className="bg-white p-8">
       {message.text && (
-        <div className={`mb-6 p-4 rounded-lg flex items-start gap-3 ${
-          message.type === "success"
-            ? "bg-green-50 text-green-800 border border-green-200"
-            : "bg-red-50 text-red-800 border border-red-200"
-        }`}>
-          {message.type === "success"
-            ? <CheckCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
-            : <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />}
+        <div
+          className={`mb-6 p-4 rounded-lg flex items-start gap-3 ${
+            message.type === "success"
+              ? "bg-green-50 text-green-800 border border-green-200"
+              : "bg-red-50 text-red-800 border border-red-200"
+          }`}
+        >
+          {message.type === "success" ? (
+            <CheckCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+          ) : (
+            <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+          )}
           <span>{message.text}</span>
         </div>
       )}
@@ -179,8 +203,16 @@ export default function ChildrenForm({ selectedChildId, onSuccess }: ChildProfil
           <div className="flex items-center gap-4">
             {imagePreview ? (
               <div className="relative">
-                <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded-lg border-2 border-gray-200" />
-                <button type="button" onClick={removeImage} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="w-32 h-32 object-cover rounded-lg border-2 border-gray-200"
+                />
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                >
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -188,7 +220,12 @@ export default function ChildrenForm({ selectedChildId, onSuccess }: ChildProfil
               <label className="flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 transition">
                 <Upload className="w-8 h-8 text-gray-400 mb-2" />
                 <span className="text-xs text-gray-500">Upload</span>
-                <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
               </label>
             )}
           </div>
@@ -197,63 +234,126 @@ export default function ChildrenForm({ selectedChildId, onSuccess }: ChildProfil
         {/* Name Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">First Name <span className="text-red-500">*</span></label>
-            <input type="text" name="name" value={formData.name} onChange={handleInputChange} required
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              First Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              placeholder="Enter first name" />
+              placeholder="Enter first name"
+            />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Last Name <span className="text-red-500">*</span></label>
-            <input type="text" name="last_name" value={formData.last_name} onChange={handleInputChange} required
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Last Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              name="last_name"
+              value={formData.last_name}
+              onChange={handleInputChange}
+              required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              placeholder="Enter last name" />
+              placeholder="Enter last name"
+            />
           </div>
         </div>
 
         {/* Address */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Address <span className="text-xs text-orange-500">(Optional)</span></label>
-          <input type="text" name="address" value={formData.address} onChange={handleInputChange}
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Address <span className="text-xs text-orange-500">(Optional)</span>
+          </label>
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleInputChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-            placeholder="Enter address" />
+            placeholder="Enter address"
+          />
         </div>
 
         {/* Birthday, Blood Type, Gender, UUID */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Birthday <span className="text-xs text-orange-500">(Optional)</span></label>
-            <input type="date" name="birthday" value={formData.birthday} onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Birthday{" "}
+              <span className="text-xs text-orange-500">(Optional)</span>
+            </label>
+            <input
+              type="date"
+              name="birthday"
+              value={formData.birthday}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Blood Type <span className="text-xs text-orange-500">(Optional)</span></label>
-            <select name="blood_type" value={formData.blood_type} onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Blood Type{" "}
+              <span className="text-xs text-orange-500">(Optional)</span>
+            </label>
+            <select
+              name="blood_type"
+              value={formData.blood_type}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            >
               <option value="">Select blood type</option>
-              {bloodTypes.map((type) => <option key={type} value={type}>{type}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Gender <span className="text-xs text-orange-500">(Optional)</span></label>
-            <select name="gender" value={formData.gender} onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-              <option value="">Select gender</option>
-              {genderOptions.map((type) => <option key={type} value={type}>{type}</option>)}
+              {bloodTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
             </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Tag info <span className="text-xs text-orange-500">(unique identifier)</span>
+              Gender <span className="text-xs text-orange-500">(Optional)</span>
             </label>
-            <input type="text" name="uuid" value={formData.uuid} onChange={handleInputChange}
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            >
+              <option value="">Select gender</option>
+              {genderOptions.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Tag info{" "}
+              <span className="text-xs text-orange-500">
+                (unique identifier)
+              </span>
+            </label>
+            <input
+              type="text"
+              name="uuid"
+              value={formData.uuid}
+              onChange={handleInputChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              placeholder="Enter tag id" />
+              placeholder="Enter tag id"
+            />
           </div>
         </div>
 
         {/* Submit */}
-        <button onClick={handleSubmit} disabled={loading}
-          className="w-full bg-orange-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition">
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="w-full bg-orange-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition"
+        >
           {loading ? "Saving..." : isEditMode ? "Update Child" : "Save Child"}
         </button>
       </div>
