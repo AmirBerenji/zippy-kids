@@ -23,6 +23,7 @@ import {
 import { Nanny, NannyTranslation, NurseFormData } from "@/model/nany";
 import LoadingPage from "@/app/component/general/Loading";
 import { useToast } from "@/app/component/toast/ToastProvider";
+import { useRouter } from "next/navigation";
 
 interface Props {
   userInfo: Profile;
@@ -42,6 +43,7 @@ export default function NannyProfile(prop: Props) {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const router = useRouter();
 
   const [formData, setFormData] = useState<NurseFormData>({
     gender: "",
@@ -55,6 +57,7 @@ export default function NannyProfile(prop: Props) {
     video_intro_url: "",
     resume_url: "",
     ageGroups: "",
+    id: 0,
   });
 
   const daysOfWeek = [
@@ -92,6 +95,7 @@ export default function NannyProfile(prop: Props) {
   }, [prop.nurseInfo, listLanguages]);
 
   const populateFormWithExistingData = (nurseData: any) => {
+    console.log("Populating form with existing nurse data:", nurseData);
     setFormData({
       gender: nurseData.gender || "",
       location_id: nurseData.location?.id?.toString() || "",
@@ -104,6 +108,7 @@ export default function NannyProfile(prop: Props) {
       video_intro_url: nurseData.video_intro_url || "",
       resume_url: nurseData.resume_url || "",
       ageGroups: nurseData.age_groups || "",
+      id: nurseData.id || 0,
     });
 
     if (nurseData.days_available) {
@@ -146,6 +151,12 @@ export default function NannyProfile(prop: Props) {
       setSelectedLanguages(mappedLanguages);
     }
 
+    console.log(
+      "Form data populated with existing nurse data:",
+      formData,
+      selectedLanguages,
+      selectedDays,
+    );
     setIsEditMode(true);
   };
 
@@ -254,7 +265,7 @@ export default function NannyProfile(prop: Props) {
       },
     );
     const nannyData: Nanny = {
-      id: prop.nurseInfo?.id || 0,
+      id: formData.id || 0,
       gender: formData.gender,
       location_id: parseInt(formData.location_id),
       years_experience: parseInt(formData.years_experience),
@@ -274,21 +285,24 @@ export default function NannyProfile(prop: Props) {
       photoes: [],
     };
 
-    if (isEditMode && prop.nurseInfo?.id) {
-      (nannyData as any).id = prop.nurseInfo.id;
+    if (isEditMode && formData.id) {
+      (nannyData as any).id = formData.id; // Include ID for update operations
     }
 
     return nannyData;
   };
 
   const submitToAPI = async (nannyData: Nanny) => {
-    if (isEditMode && prop.nurseInfo?.id) {
-      const req = await updateNuresProfile(prop.nurseInfo.id, nannyData);
+    console.log("Submitting the following data to API:", nannyData);
+
+    if (isEditMode && formData.id) {
+      console.log("Updating existing nurse profile with ID:", formData.id);
+      const req = await updateNuresProfile(formData.id, nannyData);
 
       return req;
     } else {
+      console.log("Creating new nurse profile");
       const req = await addNuresProfile(nannyData);
-
       return req;
     }
   };
@@ -313,7 +327,19 @@ export default function NannyProfile(prop: Props) {
       const result = await submitToAPI(nannyData);
 
       toast.remove(id);
-      toast.success("Saved successfully!", { title: "Done" });
+      toast.success("Saved successfully!", { title: "you'r profile is saved" });
+
+      console.log("API response:", result);
+      console.log("Nurse profile saved with ID:", result.id);
+      router.push(`/services/nurse-care/${result.id}/profile`);
+
+      // console.log("API response:", result);
+
+      // const nurse = await getNuresByUserId();
+      // if (nurse) {
+      //   populateFormWithExistingData(nurse);
+      //   setIsEditMode(true);
+      // }
 
       // setSubmitSuccess(true);
 
@@ -348,6 +374,7 @@ export default function NannyProfile(prop: Props) {
       video_intro_url: "",
       resume_url: "",
       ageGroups: "",
+      id: 0,
     });
     setSelectedLanguages([]);
     setSelectedDays([]);

@@ -10,6 +10,7 @@ export interface Register {
 }
 
 export interface Profile {
+  id: number;
   email: string;
   name: string;
   phone: string;

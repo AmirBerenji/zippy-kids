@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { Toast } from "./toast.types";
 import type { JSX } from "react";
+import LoadingPage from "../general/Loading";
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 const icons: Record<Toast["type"], JSX.Element> = {
@@ -131,105 +132,108 @@ export function ToastItem({ toast, onRemove }: ToastItemProps) {
   }, [toast.id, toast.duration, onRemove]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        background: bg,
-        border: `1px solid ${border}`,
-        borderRadius: "12px",
-        overflow: "hidden",
-        width: "340px",
-        maxWidth: "calc(100vw - 40px)",
-        boxShadow: `0 8px 32px #00000066, 0 0 0 1px ${bar}18`,
-        animation: toast.leaving
-          ? "toastOut 0.4s cubic-bezier(.4,0,.2,1) forwards"
-          : "toastIn 0.4s cubic-bezier(.16,1,.3,1) forwards",
-        fontFamily: "'Geist', 'DM Sans', 'Segoe UI', sans-serif",
-      }}
-    >
-      {/* Content row */}
+    <>
       <div
         style={{
           display: "flex",
-          alignItems: "flex-start",
-          gap: "12px",
-          padding: "14px 14px 12px",
+          flexDirection: "column",
+          background: bg,
+          border: `1px solid ${border}`,
+          borderRadius: "12px",
+          overflow: "hidden",
+          width: "340px",
+          maxWidth: "calc(100vw - 40px)",
+          boxShadow: `0 8px 32px #00000066, 0 0 0 1px ${bar}18`,
+          animation: toast.leaving
+            ? "toastOut 0.4s cubic-bezier(.4,0,.2,1) forwards"
+            : "toastIn 0.4s cubic-bezier(.16,1,.3,1) forwards",
+          fontFamily: "'Geist', 'DM Sans', 'Segoe UI', sans-serif",
+          zIndex: 100,
         }}
       >
-        <div style={{ flexShrink: 0, marginTop: "1px" }}>
-          {icons[toast.type]}
-        </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <p
-            style={{
-              margin: 0,
-              color: label,
-              fontSize: "13px",
-              fontWeight: 600,
-              letterSpacing: "0.01em",
-              marginBottom: "3px",
-            }}
-          >
-            {toast.title}
-          </p>
-          <p
-            style={{
-              margin: 0,
-              color: "#94a3b8",
-              fontSize: "13px",
-              lineHeight: 1.5,
-              wordBreak: "break-word",
-            }}
-          >
-            {toast.message}
-          </p>
-        </div>
-        <button
-          onClick={() => onRemove(toast.id)}
-          aria-label="Dismiss notification"
-          style={{
-            flexShrink: 0,
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            color: "#475569",
-            padding: "2px",
-            borderRadius: "4px",
-            lineHeight: 1,
-            transition: "color .15s",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.color = "#94a3b8";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.color = "#475569";
-          }}
-        >
-          <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
-            <path
-              d="M6 6l12 12M18 6L6 18"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
-      </div>
-
-      {/* Progress bar */}
-      <div style={{ height: "3px", background: "#ffffff08" }}>
+        {/* Content row */}
         <div
           style={{
-            height: "100%",
-            width: `${progress}%`,
-            background: bar,
-            boxShadow: `0 0 8px ${bar}99`,
-            borderRadius: "0 2px 2px 0",
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "12px",
+            padding: "14px 14px 12px",
           }}
-        />
+        >
+          <div style={{ flexShrink: 0, marginTop: "1px" }}>
+            {icons[toast.type]}
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p
+              style={{
+                margin: 0,
+                color: label,
+                fontSize: "13px",
+                fontWeight: 600,
+                letterSpacing: "0.01em",
+                marginBottom: "3px",
+              }}
+            >
+              {toast.title}
+            </p>
+            <p
+              style={{
+                margin: 0,
+                color: "#94a3b8",
+                fontSize: "13px",
+                lineHeight: 1.5,
+                wordBreak: "break-word",
+              }}
+            >
+              {toast.message}
+            </p>
+          </div>
+          <button
+            onClick={() => onRemove(toast.id)}
+            aria-label="Dismiss notification"
+            style={{
+              flexShrink: 0,
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: "#475569",
+              padding: "2px",
+              borderRadius: "4px",
+              lineHeight: 1,
+              transition: "color .15s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.color = "#94a3b8";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.color = "#475569";
+            }}
+          >
+            <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
+              <path
+                d="M6 6l12 12M18 6L6 18"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Progress bar */}
+        <div style={{ height: "3px", background: "#ffffff08" }}>
+          <div
+            style={{
+              height: "100%",
+              width: `${progress}%`,
+              background: bar,
+              boxShadow: `0 0 8px ${bar}99`,
+              borderRadius: "0 2px 2px 0",
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -46,7 +46,10 @@ export async function register(formdata: FormData) {
       return { message: req.message, success: false };
     }
     new CookieConfig().setToken("jwt", req.data.token);
-    if (req.data.user.roles.includes("nurse")) {
+    if (
+      req.data.user.roles.includes("nurse") ||
+      req.data.user.roles.includes("doctor")
+    ) {
       redirect("/user/profile");
     }
     redirect("/");
@@ -186,7 +189,7 @@ export async function updateProfileImage(input: FormData | File) {
     for (const [key, value] of formData.entries()) {
       if (value instanceof File) {
         console.log(
-          `  File details: ${value.name}, ${value.size} bytes, ${value.type}`
+          `  File details: ${value.name}, ${value.size} bytes, ${value.type}`,
         );
       }
     }

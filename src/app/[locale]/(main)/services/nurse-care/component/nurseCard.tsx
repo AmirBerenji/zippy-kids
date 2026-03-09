@@ -13,6 +13,7 @@ interface Props {
   email?: string;
   reviewsCount?: number;
   averageRating?: number;
+  userid?: number;
 }
 
 export default function NurseCard(prop: Props) {
@@ -61,7 +62,7 @@ export default function NurseCard(prop: Props) {
         />
         {prop.isRegistered ? (
           <Link
-            href={`/services/nurse-care/${prop.id}/profile`}
+            href={`/services/nurse-care/${prop.id}/profile?userid=${prop.userid}`}
             className="bg-[#ff9a5a] text-white px-4 py-2 rounded-lg mt-0 hover:bg-[#ff7a3a] transition-colors"
           >
             More Info

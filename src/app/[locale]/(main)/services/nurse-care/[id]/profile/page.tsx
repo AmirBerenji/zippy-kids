@@ -5,11 +5,18 @@ import { addReview, checkReview, getReviews } from "@/action/reviewApiAction";
 import LoadingPage from "@/app/component/general/Loading";
 import StarRating from "@/app/component/general/StarRating";
 import { Review, ReviewsData, ReviewSubmission } from "@/model/review";
+import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
-export default function NurseProfilePage() {
+interface Props {
+  searchParams: Promise<{
+    userid?: string;
+  }>;
+}
+export default async function NurseProfilePage({ searchParams }: Props) {
   const { id } = useParams();
+  const { userid } = await searchParams;
   const [nurse, setNurse] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
@@ -158,6 +165,33 @@ export default function NurseProfilePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
+        {userid == nurse?.user?.id && (
+          <div className="grid grid-cols-2">
+            <div className="text-[#ff9a5a] text-xs"></div>
+
+            <div className="flex justify-end">
+              <Link
+                href={`/user/profile`}
+                className="text-gray-500 hover:text-[#ff8a4a] transition-colors"
+              >
+                <svg
+                  className="w-7 h-7"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        )}
+
         <div className="flex flex-col items-center ">
           <img
             src={
