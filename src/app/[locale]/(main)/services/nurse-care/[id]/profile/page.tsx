@@ -10,13 +10,13 @@ import { useParams } from "next/navigation";
 import { use, useEffect, useState } from "react";
 
 interface Props {
-  searchParams: Promise<{
+  searchParams: {
     userid?: string;
-  }>;
+  };
 }
-export default async function NurseProfilePage({ searchParams }: Props) {
+export default async function NurseProfilePage(prop: Props) {
   const { id } = useParams();
-  const { userid } = await searchParams;
+  const userid = prop.searchParams.userid;
   const [nurse, setNurse] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
