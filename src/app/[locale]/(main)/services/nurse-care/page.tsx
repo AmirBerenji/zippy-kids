@@ -15,13 +15,17 @@ export default function Nursepage() {
   const [nurses, setNurses] = useState([]);
   const [register, setRegister] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
     setLoading(true);
     const getProfileInfo = async () => {
       const userData = await getDataFromBarrer();
+      console.log("User Data:", userData);
       if (!userData) {
         setRegister(false);
+      } else {
+        setUserData(userData);
       }
     };
     getProfileInfo();
@@ -58,6 +62,7 @@ export default function Nursepage() {
               id={nurse.id}
               reviewsCount={nurse.reviews_count}
               averageRating={nurse.average_rating ?? 0}
+              userid={userData?.id}
             />
           ))}
         </div>

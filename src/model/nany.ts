@@ -37,4 +37,5 @@ export interface NurseFormData {
   video_intro_url: string;
   resume_url: string;
   ageGroups: string;
+  id: number;
 }

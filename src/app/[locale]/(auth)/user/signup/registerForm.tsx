@@ -29,6 +29,8 @@ export default function RegisterForm() {
     formData.append("role", selectedRole);
 
     const result = await register(formData);
+    console.log("register response", result);
+
     if (!result.success) {
       setMessage(result.message);
     }
