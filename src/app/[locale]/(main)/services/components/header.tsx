@@ -5,7 +5,7 @@ export default function Serviceheader() {
   const t = useTranslations("Services");
   return (
     <>
-      <section className="py-16 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
+      <section className="py-8 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
         <h1 className="text-3xl sm:text-5xl font-extrabold text-[#2f3e4e] max-w-4xl mx-auto leading-tight">
           {t("header")} <span className="text-[#ff9a5a]">Kidoo</span>Hub
         </h1>
@@ -16,11 +16,11 @@ export default function Serviceheader() {
           <div className="rounded-[50%_50%_50%_50%/40%_40%_60%_60%] border-8 border-[#c6d9e3] overflow-hidden">
             <img
               alt="Children playing and learning in a colorful classroom with bright decorations and toys"
-              className="rounded-lg shadow-lg w-full max-w-4xl object-cover"
-              height="300"
+              className="rounded-lg shadow-lg "
+              height="200"
               loading="lazy"
               src="/assets/images/service/our-service.jpg"
-              width="600"
+              width="400"
             />
           </div>
         </div>
