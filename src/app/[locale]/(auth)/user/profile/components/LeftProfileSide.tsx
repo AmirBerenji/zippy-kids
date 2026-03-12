@@ -1,7 +1,9 @@
 "use client";
 import { updateProfileImage } from "@/action/apiAction";
+import { useUserContext } from "@/app/context/UserContext";
 import { Profile } from "@/model/auth";
 import React, { useState, useRef, useEffect } from "react";
+
 
 interface Props {
   userInfo: Profile;
@@ -10,6 +12,7 @@ interface Props {
 
 export default function LeftProfileSide(prop: Props) {
  const [profileImage, setProfileImage] = useState<string>("");
+ const { setProfileImage: setUserProfileImage } = useUserContext();
   //
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -45,32 +48,35 @@ export default function LeftProfileSide(prop: Props) {
     reader.readAsDataURL(file);
   };
 
-  const handleSaveImage = async () => {
-    if (!selectedFile) return;
+ const handleSaveImage = async () => {
+  if (!selectedFile) return;
+  setIsSaving(true);
+  try {
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    const result = await updateProfileImage(formData);
 
-    setIsSaving(true);
+    // ✅ Update context with the new saved image
+    // If your API returns the new URL:
+    setUserProfileImage(result?.photo
+      ? `https://zippy.elrincondsabor.com/storage/app/public/${result.photo}`
+      : profileImage
+    );
 
-    try {
-      // Call parent callback if provided
-      const formData = new FormData();
-      formData.append("image", selectedFile);
-      await updateProfileImage(formData);
-
-      if (prop.onProfileImageChange) {
-        await prop.onProfileImageChange(selectedFile);
-      }
-      setSelectedFile(null);
-      setHasUnsavedChanges(false);
-    } catch (error) {
-      alert("Failed to save image. Please try again.");
-    } finally {
-      setIsSaving(false);
-    }
-  };
+    if (prop.onProfileImageChange) await prop.onProfileImageChange(selectedFile);
+    setSelectedFile(null);
+    setHasUnsavedChanges(false);
+  } catch (error) {
+    alert("Failed to save image. Please try again.");
+  } finally {
+    setIsSaving(false);
+  }
+};
 
   const handleCancelChanges = () => {
     if (prop.userInfo?.photoUrl) {
       setProfileImage(prop.userInfo.photoUrl);
+      
     } else {
       setProfileImage(
         "https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg"
@@ -85,13 +91,17 @@ export default function LeftProfileSide(prop: Props) {
   };
 
 
+const BASE_URL = "https://zippy.elrincondsabor.com/storage/app/public/";
+const FALLBACK = "https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg";
+
 useEffect(() => {
-  if (prop.userInfo?.photoUrl) {
-    setProfileImage("https://zippy.elrincondsabor.com/storage/app/public/"+prop.userInfo.photo);
-  } else {
-    setProfileImage("https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg");
-  }
-}, [prop.userInfo?.photoUrl]);
+  const url = prop.userInfo?.photo
+    ? `${BASE_URL}${prop.userInfo.photo}`
+    : FALLBACK;
+
+  setProfileImage(url);
+  setUserProfileImage(url); // ✅ always keep context in sync
+}, [prop.userInfo?.photo]);
 
 
 

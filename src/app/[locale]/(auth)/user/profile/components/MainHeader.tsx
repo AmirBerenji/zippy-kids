@@ -1,4 +1,5 @@
 "use client";
+import { useUserContext } from "@/app/context/UserContext";
 import { Profile } from "@/model/auth";
 import React, { useEffect, useState } from "react";
 
@@ -6,15 +7,17 @@ interface Props {
   user: Profile;
 }
 
-export default function MainHeader(prop: Props) {
-  const [profileImage, setProfileImage] = useState<string>("");
+export default function MainHeader({ user }: { user: any }) {
+  const { profileImage } = useUserContext(); // ✅ reads live context
+
+  const [profileImage1, setProfileImage] = useState<string>("");
   useEffect(() => {
-    if (prop.user?.photo) {
-      setProfileImage("https://zippy.elrincondsabor.com/storage/app/public/"+prop.user.photo);
+    if (user?.photo) {
+      setProfileImage("https://zippy.elrincondsabor.com/storage/app/public/"+user.photo);
     } else {
       setProfileImage("https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg");
     }
-  }, [prop.user?.photo]);
+  }, [user?.photo]);
 
   return (
     <header className="flex items-center justify-between h-14 px-6 border-b border-gray-200 text-sm text-[#1f2a56]">
@@ -31,14 +34,14 @@ export default function MainHeader(prop: Props) {
         </button> */}
         <div className="flex items-center gap-2 cursor-pointer select-none">
           <img
-            alt={prop.user?.name || "Profile picture"}
+            alt={user?.name || "Profile picture"}
             className="w-8 h-8 rounded-full object-cover"
             height="32"
             src={profileImage}
             width="32"
           />
           <span className="text-sm text-[#1f2a56] font-semibold">
-            {prop.user?.name}
+            {user?.name}
           </span>
           <i className="fas fa-chevron-down text-xs text-gray-400"></i>
         </div>
