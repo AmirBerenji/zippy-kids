@@ -15,7 +15,7 @@ interface Props {
 export default function childCard(prop: Props) {
   const [isLoading, setLoading] = useState(true);
   const router = useRouter();
-
+console.log("childCard", prop.child);
   return (
     <div
       className="rounded-lg shadow-md p-3 flex flex-col lg:mx-2 md:mx-2
