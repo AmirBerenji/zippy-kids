@@ -11,15 +11,7 @@ import { Languages, SelectedLanguage } from "@/model/language";
 import { Location } from "@/model/location";
 
 import React, { useEffect, useRef, useState } from "react";
-import {
-  ShieldAlert,
-  X,
-  Loader2,
-  Check,
-  Camera,
-  Upload,
-  AlertCircle,
-} from "lucide-react";
+import { ShieldAlert, X, Loader2, Check } from "lucide-react";
 import { Nanny, NannyTranslation, NurseFormData } from "@/model/nany";
 import LoadingPage from "@/app/component/general/Loading";
 import { useToast } from "@/app/component/toast/ToastProvider";
@@ -272,7 +264,7 @@ export default function NannyProfile(prop: Props) {
       working_hours: formData.working_hours || "9:00-17:00",
       days_available: selectedDays.join(","),
       commitment_type: formData.commitment_type,
-      hourly_rate: parseFloat(formData.hourly_rate),
+      hourly_rate: formData.hourly_rate,
       fixed_package_description: formData.fixed_package_description,
       contact_enabled: true,
       booking_type: formData.booking_type,
@@ -672,16 +664,21 @@ export default function NannyProfile(prop: Props) {
                 htmlFor="hourly_rate"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Hourly Rate($)*
+                Hourly Rate*
+              </label>
+              <label
+                htmlFor="hourly_rate"
+                className="block text-xs text-orange-500 mb-1"
+              >
+                Note: Please specify your hourly rate in your currency. This
+                will help parents understand your pricing and make informed
+                decisions when booking your services.
               </label>
               <input
                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
                 id="hourly_rate"
                 name="hourly_rate"
-                placeholder="e.g., 25"
-                type="number"
-                min="0"
-                step="0.01"
+                placeholder="e.g., $25"
                 value={formData.hourly_rate}
                 onChange={handleInputChange}
                 required
