@@ -4,18 +4,20 @@ import { getNuresById } from "@/action/nurseApiAction";
 import { addReview, checkReview, getReviews } from "@/action/reviewApiAction";
 import LoadingPage from "@/app/component/general/Loading";
 import StarRating from "@/app/component/general/StarRating";
+import { useToast } from "@/app/component/toast/ToastProvider";
 import { Review, ReviewsData, ReviewSubmission } from "@/model/review";
+import { ArrowLeft, StepBack } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { use, useEffect, useState } from "react";
 
-
-interface Props {  
-    id:string;
-    userid?: string;
+interface Props {
+  id: string;
+  userid?: string;
 }
-export default function NurseProfileClient(prop : Props) {
-  const  id  =prop.id;
+export default function NurseProfileClient(prop: Props) {
+  const toast = useToast();
+  const id = prop.id;
   const userid = prop.userid;
   const [nurse, setNurse] = useState<any>();
   const [loading, setLoading] = useState(true);
@@ -70,6 +72,7 @@ export default function NurseProfileClient(prop : Props) {
 
     setIsSubmitting(true);
 
+    const toastid = toast.info("Saving your review...");
     try {
       const value: ReviewSubmission = {
         type: "nurse",
@@ -89,13 +92,19 @@ export default function NurseProfileClient(prop : Props) {
         setAverageRating(reviewData.data.average_rating || 0);
       }
 
-      // setReviews([review, ...reviews]);
-      setNewReview({ rating: 0, comment: "" });
+      //setReviews([review, ...reviews]);
+
+      //setNewReview({ rating: 0, comment: "" });
+
+      toast.remove(toastid);
+      toast.success("Saved successfully!", { title: "you'r review is saved" });
 
       //alert("Review submitted successfully!");
     } catch (error) {
       console.error("Error submitting review:", error);
       //alert("Failed to submit review");
+      toast.remove(toastid);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -166,11 +175,14 @@ export default function NurseProfileClient(prop : Props) {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-        {userid == nurse?.user?.id && (
-          <div className="grid grid-cols-2">
-            <div className="text-[#ff9a5a] text-xs"></div>
-
-            <div className="flex justify-end">
+        <div className="grid grid-cols-2">
+          <div className="text-[#ff9a5a] text-xs">
+            <Link href={"/services/nurse-care"}>
+              <ArrowLeft className="" />
+            </Link>
+          </div>
+          {userid == nurse?.user?.id && (
+            <div className="flex justify-end ">
               <Link
                 href={`/user/profile`}
                 className="text-gray-500 hover:text-[#ff8a4a] transition-colors"
@@ -190,8 +202,8 @@ export default function NurseProfileClient(prop : Props) {
                 </svg>
               </Link>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         <div className="flex flex-col items-center ">
           <img
