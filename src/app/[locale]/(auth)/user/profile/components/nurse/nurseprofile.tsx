@@ -331,7 +331,9 @@ export default function NannyProfile(prop: Props) {
 
       console.log("API response:", result);
       console.log("Nurse profile saved with ID:", result.id);
-      router.push(`/services/nurse-care/${result.id}/profile?userid=${prop.userInfo.id}`);
+      router.push(
+        `/services/nurse-care/${result.id}/profile?userid=${prop.userInfo.id}`,
+      );
 
       // console.log("API response:", result);
 
@@ -702,9 +704,9 @@ export default function NannyProfile(prop: Props) {
                 required
               >
                 <option value="">Select booking type</option>
-                <option value="direct">Direct</option>
+                <option value="Direct">Direct</option>
                 <option value="Interview">Interview</option>
-                <option value="on_request">On Request</option>
+                <option value="On Request">On Request</option>
               </select>
             </div>
           </div>
