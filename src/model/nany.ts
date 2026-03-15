@@ -6,7 +6,7 @@ export interface Nanny {
   working_hours: string;
   days_available: string;
   commitment_type: string;
-  hourly_rate: number;
+  hourly_rate: string;
   fixed_package_description: string;
   contact_enabled: true;
   booking_type: string;

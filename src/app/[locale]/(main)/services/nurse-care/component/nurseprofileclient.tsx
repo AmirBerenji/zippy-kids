@@ -248,7 +248,7 @@ export default function NurseProfileClient(prop: Props) {
             </div>
             <div>
               <h3 className="font-medium">Hourly Price</h3>
-              <p className="text-gray-600">{nurse.hourly_rate}($)</p>
+              <p className="text-gray-600">{nurse.hourly_rate}</p>
             </div>
             <div className="w-full">
               <h3 className="font-medium">Available Days:</h3>
