@@ -159,6 +159,21 @@ export default function NannyProfile(prop: Props) {
       const languages = await getLanguages();
       setLanguages(languages || []);
 
+      var lang = languages?.find((l: Languages) => l.code === "en");
+      setSelectedLanguages(
+        lang
+          ? [
+              {
+                id: String(lang.id),
+                code: lang.code,
+                name: lang.name,
+                fullName: "",
+                specialization: "",
+              },
+            ]
+          : [],
+      );
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -285,15 +300,11 @@ export default function NannyProfile(prop: Props) {
   };
 
   const submitToAPI = async (nannyData: Nanny) => {
-    console.log("Submitting the following data to API:", nannyData);
-
     if (isEditMode && formData.id) {
-      console.log("Updating existing nurse profile with ID:", formData.id);
       const req = await updateNuresProfile(formData.id, nannyData);
 
       return req;
     } else {
-      console.log("Creating new nurse profile");
       const req = await addNuresProfile(nannyData);
       return req;
     }
@@ -321,8 +332,6 @@ export default function NannyProfile(prop: Props) {
       toast.remove(id);
       toast.success("Saved successfully!", { title: "you'r profile is saved" });
 
-      console.log("API response:", result);
-      console.log("Nurse profile saved with ID:", result.id);
       router.push(
         `/services/nurse-care/${result.id}/profile?userid=${prop.userInfo.id}`,
       );
@@ -386,7 +395,7 @@ export default function NannyProfile(prop: Props) {
       <div className="max-w-7xl mx-auto ">
         <form onSubmit={handleSubmit} className="">
           <div className="mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">
+            <h2 className="text-lg font-semibold text-gray-800 ">
               {isEditMode ? "Update" : "Create"} Nanny Profile
             </h2>
             {isEditMode && (
@@ -420,16 +429,16 @@ export default function NannyProfile(prop: Props) {
 
           {/* Language Selection Section */}
           <div className="mb-6">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className=" text-gray-700 font-medium mb-2 hidden  ">
               Select languages you can speak *
             </label>
-            <span className="text-[#ff9a5a] text-xs inline-flex items-center">
+            <span className="text-[#ff9a5a] text-xs items-center hidden">
               <ShieldAlert size={16} className="mr-1" />
               Based on your language selected we show your information in nanny
               list
             </span>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-3 mb-4 mt-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-3 mb-4 mt-3  ">
               {listLanguages.map((lang) => {
                 const langId = String(lang.id);
                 const langCode = lang.code || "";
@@ -437,7 +446,7 @@ export default function NannyProfile(prop: Props) {
                 return (
                   <label
                     key={lang.id}
-                    className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-3 rounded transition-colors"
+                    className="flex hidden items-center space-x-2 cursor-pointer hover:bg-gray-50 p-3 rounded transition-colors"
                   >
                     <input
                       type="checkbox"
@@ -445,7 +454,7 @@ export default function NannyProfile(prop: Props) {
                       value={langId}
                       className="w-4 h-4 text-[#ff9a5a] border-gray-300 rounded focus:ring-[#fdb68a] focus:ring-2"
                       checked={selectedLanguages.some(
-                        (selected) => selected.id === langId,
+                        (selected) => selected.code === langId,
                       )}
                       onChange={(e) => {
                         handleLanguageChange(
@@ -466,29 +475,29 @@ export default function NannyProfile(prop: Props) {
 
             {selectedLanguages.length > 0 && (
               <div className="space-y-4">
-                <h3 className="text-sm font-medium text-gray-700 mb-3">
+                <h3 className="text-sm font-medium text-gray-700 mb-3 hidden">
                   Enter details for each selected language:
                 </h3>
-                <div className="space-y-6">
+                <div className="space-y-6 ">
                   {selectedLanguages.map((lang) => (
                     <div
                       key={lang.id}
-                      className="border border-gray-200 rounded-lg p-4"
+                      className="border-0 border-gray-200 rounded-lg p-0"
                     >
                       <div className="flex items-center justify-between mb-4">
-                        <h4 className="text-sm font-medium text-gray-800">
+                        <h4 className="text-sm font-medium text-gray-800 hidden">
                           {lang.name} Details
                         </h4>
                         <button
                           type="button"
                           onClick={() => removeLanguage(lang.id)}
-                          className="text-red-500 hover:text-red-700 transition-colors"
+                          className="text-red-500 hover:text-red-700 transition-colors hidden"
                         >
                           <X size={16} />
                         </button>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-600 mb-1">
                             Full Name *
@@ -537,7 +546,7 @@ export default function NannyProfile(prop: Props) {
           </div>
 
           {/* Other Form Fields */}
-          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
             <div>
               <label
                 htmlFor="gender"
@@ -666,14 +675,7 @@ export default function NannyProfile(prop: Props) {
               >
                 Hourly Rate*
               </label>
-              <label
-                htmlFor="hourly_rate"
-                className="block text-xs text-orange-500 mb-1"
-              >
-                Note: Please specify your hourly rate in your currency. This
-                will help parents understand your pricing and make informed
-                decisions when booking your services.
-              </label>
+
               <input
                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent"
                 id="hourly_rate"
@@ -683,6 +685,14 @@ export default function NannyProfile(prop: Props) {
                 onChange={handleInputChange}
                 required
               />
+              <label
+                htmlFor="hourly_rate"
+                className="block text-xs text-orange-500 mb-1"
+              >
+                Note: Please specify your hourly rate in your currency. This
+                will help parents understand your pricing and make informed
+                decisions when booking your services.
+              </label>
             </div>
 
             <div>
