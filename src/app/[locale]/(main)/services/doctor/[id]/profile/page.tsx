@@ -4,11 +4,13 @@ import { addReview, checkReview, getReviews } from "@/action/reviewApiAction";
 import ComingSoonPage from "@/app/component/general/commingsoon";
 import LoadingPage from "@/app/component/general/Loading";
 import StarRating from "@/app/component/general/StarRating";
+import { useToast } from "@/app/component/toast/ToastProvider";
 import { Review, ReviewsData, ReviewSubmission } from "@/model/review";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function DoctorProfilepage() {
+  const toast = useToast();
   const { id } = useParams();
   const [doctor, setDoctor] = useState<any>();
   const [loading, setLoading] = useState(true);
@@ -57,8 +59,10 @@ export default function DoctorProfilepage() {
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const id = toast.info("Submitting your review...");
     if (newReview.rating === 0 || newReview.comment.trim() === "") {
-      alert("Please provide both rating and comment");
+      toast.remove(id);
+      toast.error("Please provide both rating and comment");
       return;
     }
 
@@ -87,10 +91,14 @@ export default function DoctorProfilepage() {
       // setReviews([review, ...reviews]);
       setNewReview({ rating: 0, comment: "" });
 
-      alert("Review submitted successfully!");
+      toast.remove(id);
+      toast.success("Review submitted successfully!", {
+        title: "Thank you for your feedback!",
+      });
+      // alert("Review submitted successfully!");
     } catch (error) {
       console.error("Error submitting review:", error);
-      alert("Failed to submit review");
+      toast.error("Failed to submit review");
     } finally {
       setIsSubmitting(false);
     }

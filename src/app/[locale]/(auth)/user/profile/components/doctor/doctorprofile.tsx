@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { ShieldAlert, X, Loader2, Check } from "lucide-react";
 import { Doctor, DoctorTranslation, DoctorFormData } from "@/model/doctor";
 import LoadingPage from "@/app/component/general/Loading";
+import { useToast } from "@/app/component/toast/ToastProvider";
 
 interface DoctorSelectedLanguage {
   id: string;
@@ -26,6 +27,7 @@ interface DoctorSelectedLanguage {
 }
 
 export default function DoctorProfile() {
+  const toast = useToast();
   const [listLocation, setLocation] = useState<Location[]>([]);
   const [listLanguages, setLanguages] = useState<Languages[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<
@@ -54,7 +56,7 @@ export default function DoctorProfile() {
 
   const populateFormWithExistingData = (
     doctorData: any,
-    languages: Languages[]
+    languages: Languages[],
   ) => {
     if (!doctorData) {
       setLoading(false);
@@ -114,8 +116,8 @@ export default function DoctorProfile() {
         })
         .filter(
           (
-            lang: DoctorSelectedLanguage | null
-          ): lang is DoctorSelectedLanguage => lang !== null
+            lang: DoctorSelectedLanguage | null,
+          ): lang is DoctorSelectedLanguage => lang !== null,
         );
 
       setSelectedLanguages(mappedLanguages);
@@ -134,6 +136,22 @@ export default function DoctorProfile() {
 
       setLocation(locations || []);
       setLanguages(languages || []);
+      var lang = languages?.find((l: Languages) => l.code === "en");
+      setSelectedLanguages(
+        lang
+          ? [
+              {
+                id: String(lang.id),
+                code: lang.code,
+                name: lang.name,
+                address: "",
+                bio: "",
+                doctorName: "",
+                education: "",
+              },
+            ]
+          : [],
+      );
 
       // Then fetch doctor data using the API
       try {
@@ -157,7 +175,7 @@ export default function DoctorProfile() {
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -170,7 +188,7 @@ export default function DoctorProfile() {
     langId: string,
     langCode: string,
     langName: string,
-    isChecked: boolean
+    isChecked: boolean,
   ) => {
     if (isChecked) {
       setSelectedLanguages((prev) => [
@@ -193,12 +211,12 @@ export default function DoctorProfile() {
   const handleLanguageDetailChange = (
     langId: string,
     field: "doctorName" | "bio" | "education" | "address",
-    value: string
+    value: string,
   ) => {
     setSelectedLanguages((prev) =>
       prev.map((lang) =>
-        lang.id === langId ? { ...lang, [field]: value } : lang
-      )
+        lang.id === langId ? { ...lang, [field]: value } : lang,
+      ),
     );
   };
 
@@ -211,7 +229,9 @@ export default function DoctorProfile() {
     if (!formData.phone) return "Phone is required";
     if (!formData.specialization) return "Specialization is required";
     if (!formData.experience_years) return "Experience years is required";
-    if (!formData.license_number) {formData.license_number ="-"};
+    if (!formData.license_number) {
+      formData.license_number = "-";
+    }
     if (!formData.location_id) return "Location is required";
     if (!formData.status) return "Status is required";
     if (selectedLanguages.length === 0)
@@ -244,7 +264,7 @@ export default function DoctorProfile() {
           education: lang.education.trim(),
           address: lang.address.trim(),
         };
-      }
+      },
     );
 
     const doctorData: Doctor = {
@@ -285,7 +305,7 @@ export default function DoctorProfile() {
     }
 
     setIsSubmitting(true);
-
+    const id = toast.info("Saving your data...");
     try {
       const doctorData = mapFormDataToDoctorModel();
       const result = await submitToAPI(doctorData);
@@ -294,21 +314,25 @@ export default function DoctorProfile() {
         setDoctorId(result.id);
         setIsEditMode(true);
       }
+      toast.remove(id);
+      toast.success("Saved successfully!", { title: "you'r profile is saved" });
 
-      setSubmitSuccess(true);
+      // setSubmitSuccess(true);
 
-      setTimeout(() => {
-        setSubmitSuccess(false);
-      }, 3000);
+      // setTimeout(() => {
+      //   setSubmitSuccess(false);
+      // }, 3000);
     } catch (error) {
+      toast.remove(id);
+      toast.error("Something went wrong. Please try again.");
       console.error("Error submitting form:", error);
-      setSubmitError(
-        error instanceof Error
-          ? error.message
-          : `An error occurred while ${
-              isEditMode ? "updating" : "saving"
-            } your profile`
-      );
+      // setSubmitError(
+      //   error instanceof Error
+      //     ? error.message
+      //     : `An error occurred while ${
+      //         isEditMode ? "updating" : "saving"
+      //       } your profile`,
+      // );
     } finally {
       setIsSubmitting(false);
     }
@@ -374,16 +398,16 @@ export default function DoctorProfile() {
 
           {/* Language Selection Section */}
           <div className="mb-6">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className=" text-gray-700 font-medium mb-2 hidden">
               Select languages you can speak *
             </label>
-            <span className="text-[#ff9a5a] text-xs inline-flex items-center">
+            <span className="text-[#ff9a5a] text-xs  items-center hidden">
               <ShieldAlert size={16} className="mr-1" />
               Based on your language selected we show your information in doctor
               list
             </span>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-3 mb-4 mt-3">
+            <div className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-3 mb-4 mt-3 hidden">
               {listLanguages.map((lang) => {
                 const langId = String(lang.id);
                 const langCode = lang.code || "";
@@ -399,14 +423,14 @@ export default function DoctorProfile() {
                       value={langId}
                       className="w-4 h-4 text-[#ff9a5a] border-gray-300 rounded focus:ring-[#fdb68a] focus:ring-2"
                       checked={selectedLanguages.some(
-                        (selected) => selected.id === langId
+                        (selected) => selected.id === langId,
                       )}
                       onChange={(e) => {
                         handleLanguageChange(
                           langId,
                           langCode,
                           lang.name || "",
-                          e.target.checked
+                          e.target.checked,
                         );
                       }}
                     />
@@ -420,16 +444,16 @@ export default function DoctorProfile() {
 
             {selectedLanguages.length > 0 && (
               <div className="space-y-4">
-                <h3 className="text-sm font-medium text-gray-700 mb-3">
+                <h3 className="text-sm font-medium text-gray-700 mb-3 hidden">
                   Enter details for each selected language:
                 </h3>
                 <div className="space-y-6">
                   {selectedLanguages.map((lang) => (
                     <div
                       key={lang.id}
-                      className="border border-gray-200 rounded-lg p-4"
+                      className="border-0 border-gray-200 rounded-lg p-0"
                     >
-                      <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center justify-between mb-4 hidden">
                         <h4 className="text-sm font-medium text-gray-800">
                           {lang.name} Details
                         </h4>
@@ -454,7 +478,7 @@ export default function DoctorProfile() {
                               handleLanguageDetailChange(
                                 lang.id,
                                 "doctorName",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             placeholder={`Name in ${lang.name}`}
@@ -474,7 +498,7 @@ export default function DoctorProfile() {
                               handleLanguageDetailChange(
                                 lang.id,
                                 "education",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             placeholder={`Education in ${lang.name}`}
@@ -493,7 +517,7 @@ export default function DoctorProfile() {
                               handleLanguageDetailChange(
                                 lang.id,
                                 "bio",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             placeholder={`Bio in ${lang.name}`}
@@ -514,7 +538,7 @@ export default function DoctorProfile() {
                               handleLanguageDetailChange(
                                 lang.id,
                                 "address",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             placeholder={`Address in ${lang.name}`}
@@ -690,7 +714,6 @@ export default function DoctorProfile() {
                 <>{isEditMode ? "Update Profile" : "Save Profile"}</>
               )}
             </button>
-
           </div>
         </form>
       </div>

@@ -26,13 +26,13 @@ export default function Doctorpage() {
       }
     };
     getProfileInfo();
-    const fetchNurses = async () => {
+    const fetchDoctor = async () => {
       const data = await getDoctorList("");
       console.log("Doctors data:", data);
       setDoctors(data || []);
       setLoading(false);
     };
-    fetchNurses();
+    fetchDoctor();
   }, []);
 
   if (loading) {
@@ -59,8 +59,6 @@ export default function Doctorpage() {
                 isRegistered={register}
                 reviewsCount={0}
                 averageRating={0}
-                
-                  
               />
             </>
           ))}
