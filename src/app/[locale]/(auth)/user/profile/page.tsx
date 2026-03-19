@@ -20,16 +20,14 @@ async function getDataFromBarrer() {
 
 export default function ProfilePage() {
   const [userData, setUserData] = useState<Profile>();
-  const [activeTab, setActiveTab] = useState("account");
+  const [activeTab, setActiveTab] = useState("technicalInfo");
   const [nurseData, setNurseData] = useState<Nanny>();
   const [selectedChildId, setSelectedChildId] = useState<number | null>(null);
 
-const handleEditChild = (childId: number) => {
-  setSelectedChildId(childId);
-  setActiveTab("parenttechnicalInfo");
-}
-
-
+  const handleEditChild = (childId: number) => {
+    setSelectedChildId(childId);
+    setActiveTab("parenttechnicalInfo");
+  };
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -42,6 +40,10 @@ const handleEditChild = (childId: number) => {
         setNurseData(nurseInfo);
         if (!nurseInfo && profileData?.roles == "parent") {
           setActiveTab("parenttechnicalInfo");
+        } else if (!nurseInfo && profileData?.roles == "doctor") {
+          setActiveTab("doctortechnicalInfo");
+        } else {
+          setActiveTab("technicalInfo");
         }
       } catch (err) {
         console.error("Profile fetch error:", err);
@@ -73,7 +75,7 @@ const handleEditChild = (childId: number) => {
           ) : activeTab === "parenttechnicalInfo" ? (
             <ChildProfile selectedChildId={selectedChildId} />
           ) : activeTab === "parentchildList" ? (
-            <ChildList  onEditChild={handleEditChild}  />
+            <ChildList onEditChild={handleEditChild} />
           ) : (
             <>By</>
           )}
