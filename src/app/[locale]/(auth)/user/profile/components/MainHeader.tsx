@@ -2,6 +2,7 @@
 import { useUserContext } from "@/app/context/UserContext";
 import { Profile } from "@/model/auth";
 import React, { useEffect, useState } from "react";
+import TopUserDropdown from "./general/TopUserDropdown";
 
 interface Props {
   user: Profile;
@@ -13,15 +14,19 @@ export default function MainHeader({ user }: { user: any }) {
   const [profileImage1, setProfileImage] = useState<string>("");
   useEffect(() => {
     if (user?.photo) {
-      setProfileImage("https://zippy.elrincondsabor.com/storage/app/public/"+user.photo);
+      setProfileImage(
+        "https://zippy.elrincondsabor.com/storage/app/public/" + user.photo,
+      );
     } else {
-      setProfileImage("https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg");
+      setProfileImage(
+        "https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg",
+      );
     }
   }, [user?.photo]);
 
   return (
     <header className="flex items-center justify-between h-14 px-6 border-b border-gray-200 text-sm text-[#1f2a56]">
-      <div>Profile</div>
+      <div>Your Profile </div>
       <div className="flex items-center gap-6">
         {/* <button
           aria-label="Notifications"
@@ -41,9 +46,8 @@ export default function MainHeader({ user }: { user: any }) {
             width="32"
           />
           <span className="text-sm text-[#1f2a56] font-semibold">
-            {user?.name}
+            <TopUserDropdown profile={user} />
           </span>
-          <i className="fas fa-chevron-down text-xs text-gray-400"></i>
         </div>
       </div>
     </header>
