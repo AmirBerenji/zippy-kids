@@ -71,7 +71,7 @@ export default function ProfilePage() {
           ) : activeTab === "technicalInfo" ? (
             <NurseProfile userInfo={userData!} nurseInfo={nurseData} />
           ) : activeTab === "doctortechnicalInfo" ? (
-            <DoctorProfile />
+            <DoctorProfile userInfo={userData!} />
           ) : activeTab === "parenttechnicalInfo" ? (
             <ChildProfile selectedChildId={selectedChildId} />
           ) : activeTab === "parentchildList" ? (
