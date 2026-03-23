@@ -14,6 +14,7 @@ interface Props {
   reviewsCount?: number;
   averageRating?: number;
   specialization?: string;
+    userid?: number;
 }
 
 export default function DoctorCard(prop: Props) {
@@ -29,7 +30,7 @@ export default function DoctorCard(prop: Props) {
     hover:shadow-[#ff9a5a]/40 
     transition-shadow duration-300 bg-white my-3  "
     >
-      <Link href={`/services/nurse-care/${prop.id}/profile`}>
+      <Link href={`/services/nurse-care/${prop.id}/profile?userid=${prop.userid}`}>
         <img
           alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"
           className="rounded-lg mb-4 w-50 h-50 object-cover m-auto"
@@ -63,7 +64,7 @@ export default function DoctorCard(prop: Props) {
         />
         {prop.isRegistered ? (
           <Link
-            href={`/services/doctor/${prop.id}/profile`}
+            href={`/services/doctor/${prop.id}/profile?userid=${prop.userid}`}
             className="bg-[#ff9a5a] text-white px-4 py-2 rounded-lg mt-0 hover:bg-[#ff7a3a] transition-colors"
           >
             More Info

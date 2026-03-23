@@ -16,6 +16,7 @@ export default function Doctorpage() {
   const [doctors, setDoctors] = useState<DoctorDetails[]>([]);
   const [register, setRegister] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -23,6 +24,9 @@ export default function Doctorpage() {
       const userData = await getDataFromBarrer();
       if (!userData) {
         setRegister(false);
+      }else
+      {
+        setUserData(userData);
       }
     };
     getProfileInfo();
@@ -59,6 +63,7 @@ export default function Doctorpage() {
                 isRegistered={register}
                 reviewsCount={0}
                 averageRating={0}
+                userid={userData?.id}
               />
             </>
           ))}
