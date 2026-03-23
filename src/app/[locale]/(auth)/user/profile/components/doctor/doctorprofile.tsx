@@ -15,6 +15,7 @@ import { ShieldAlert, X, Loader2, Check } from "lucide-react";
 import { Doctor, DoctorTranslation, DoctorFormData } from "@/model/doctor";
 import LoadingPage from "@/app/component/general/Loading";
 import { useToast } from "@/app/component/toast/ToastProvider";
+import { useRouter } from "next/navigation";
 
 interface DoctorSelectedLanguage {
   id: string;
@@ -25,8 +26,12 @@ interface DoctorSelectedLanguage {
   education: string;
   address: string;
 }
+interface Props {
+  userInfo: Profile;
+  docInfo?: Doctor;
+}
 
-export default function DoctorProfile() {
+export default function DoctorProfile(prop: Props) {
   const toast = useToast();
   const [listLocation, setLocation] = useState<Location[]>([]);
   const [listLanguages, setLanguages] = useState<Languages[]>([]);
@@ -39,6 +44,7 @@ export default function DoctorProfile() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [doctorId, setDoctorId] = useState<number | null>(null);
+  const router = useRouter();
 
   const [formData, setFormData] = useState<DoctorFormData>({
     email: "",
@@ -316,6 +322,10 @@ export default function DoctorProfile() {
       }
       toast.remove(id);
       toast.success("Saved successfully!", { title: "you'r profile is saved" });
+
+      router.push(
+        `/services/doctor/${result.id}/profile?userid=${prop.userInfo.id}`,
+      );
 
       // setSubmitSuccess(true);
 
