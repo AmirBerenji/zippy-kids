@@ -209,8 +209,10 @@ export default function DoctorProfileClient(props: Props) {
         <div className="flex flex-col items-center ">
           <img
             src={
-              "https://zippy.elrincondsabor.com/storage/app/public/" +
               doctor.image
+          ? "https://zippy.elrincondsabor.com/storage/app/public/" +
+            doctor.image
+          : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
             }
             alt={doctor.translations[0].name}
             className="w-48 h-48  object-cover mb-4 rounded-lg shadow-md"
