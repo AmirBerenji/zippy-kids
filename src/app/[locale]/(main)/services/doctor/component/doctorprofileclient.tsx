@@ -66,9 +66,9 @@ export default function DoctorProfileClient(props: Props) {
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const id = toast.info("Submitting your review...");
+    const toastid = toast.info("Submitting your review...");
     if (newReview.rating === 0 || newReview.comment.trim() === "") {
-      toast.remove(id);
+      toast.remove(toastid);
       toast.error("Please provide both rating and comment");
       return;
     }
@@ -98,7 +98,7 @@ export default function DoctorProfileClient(props: Props) {
       // setReviews([review, ...reviews]);
       setNewReview({ rating: 0, comment: "" });
 
-      toast.remove(id);
+      toast.remove(toastid);
       toast.success("Review submitted successfully!", {
         title: "Thank you for your feedback!",
       });
@@ -210,9 +210,9 @@ export default function DoctorProfileClient(props: Props) {
           <img
             src={
               doctor.image
-          ? "https://zippy.elrincondsabor.com/storage/app/public/" +
-            doctor.image
-          : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
+                ? "https://zippy.elrincondsabor.com/storage/app/public/" +
+                  doctor.image
+                : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
             }
             alt={doctor.translations[0].name}
             className="w-48 h-48  object-cover mb-4 rounded-lg shadow-md"

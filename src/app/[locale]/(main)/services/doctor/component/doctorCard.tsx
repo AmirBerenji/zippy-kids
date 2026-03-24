@@ -14,14 +14,14 @@ interface Props {
   reviewsCount?: number;
   averageRating?: number;
   specialization?: string;
-    userid?: number;
+  userid?: number;
 }
 
 export default function DoctorCard(prop: Props) {
   const [isLoading, setLoading] = useState(true);
 
   // If not registered, apply blur class
-  const blurClass = prop.isRegistered ? "" : " blur-xs select-none";
+  const blurClass = ""; //prop.isRegistered ? "" : " blur-xs select-none";
 
   return (
     <div
@@ -30,7 +30,9 @@ export default function DoctorCard(prop: Props) {
     hover:shadow-[#ff9a5a]/40 
     transition-shadow duration-300 bg-white my-3  "
     >
-      <Link href={`/services/nurse-care/${prop.id}/profile?userid=${prop.userid}`}>
+      <Link
+        href={`/services/nurse-care/${prop.id}/profile?userid=${prop.userid}`}
+      >
         <img
           alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"
           className="rounded-lg mb-4 w-50 h-50 object-cover m-auto"
