@@ -323,6 +323,9 @@ export default function DoctorProfile(prop: Props) {
       toast.remove(id);
       toast.success("Saved successfully!", { title: "you'r profile is saved" });
 
+      console.log("API response DEBUG:", result);
+      console.log("UserInfo DEBUG:", prop.userInfo);
+
       router.push(
         `/services/doctor/${result.id}/profile?userid=${prop.userInfo.id}`,
       );
