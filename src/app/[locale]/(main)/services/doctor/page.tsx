@@ -61,8 +61,8 @@ export default function Doctorpage() {
                 }
                 email={doctor.email}
                 isRegistered={register}
-                reviewsCount={0}
-                averageRating={0}
+                reviewsCount={doctor.reviews_count}
+                averageRating={doctor.average_rating}
                 userid={userData?.id}
               />
             </>

@@ -64,6 +64,8 @@ export interface DoctorDetails {
   translations: DoctorTranslationResponse[];
   created_at: string;
   updated_at: string;
+  average_rating: number;
+  reviews_count: number;
 }
 
 export interface DoctorUser {
