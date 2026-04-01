@@ -66,7 +66,7 @@ export default function LoginForm() {
         </label>
         <a
           className="text-sm text-[#4f5c69] hover:underline"
-          href={`/${locale}/forgot-password`}
+          href={`/${locale}/user/forgot-password`}
         >
           {t("forgotPassword")}
         </a>
