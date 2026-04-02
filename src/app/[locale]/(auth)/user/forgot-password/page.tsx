@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
+import ForgotForm from "./ForgotForm";
 
 export default function Loginpage() {
   const locale = useLocale();
@@ -23,19 +24,10 @@ export default function Loginpage() {
            <img src="/assets/images/logo.png" className="w-12  m-auto" />
            </Link>
             <h1 className="text-3xl font-bold text-[#2f3e4e] mb-6 text-center">
-              {t("header")}
+              Forgot Password
             </h1>
-            <div>Forgot part</div>
-            <p className="mt-6 text-center text-sm text-[#4f5c69]">
-              {t("dontHaveAccount")}
-
-              <Link
-                href={`/${locale}/user/signup`}
-                className="text-[#2f3e4e] font-semibold hover:underline"
-              >
-                {t("signup")}
-              </Link>
-            </p>
+            <ForgotForm />
+            
           </div>
         </main>
       </div>
