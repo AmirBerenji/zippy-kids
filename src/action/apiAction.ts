@@ -203,3 +203,40 @@ export async function updateProfileImage(input: FormData | File) {
     throw error;
   }
 }
+
+export async function forgotPassword(formdata: FormData) {
+  const email = formdata.get("email") as string;  
+  if (typeof email == "undefined" || !email) {
+    return { message: "Please fill all data!!!", success: false };
+  } 
+  const result = new Validation().validateEmail(email);
+
+  if (result) {
+    const req = await agent.Account.forgotPassword(formdata);
+    if (req.success == false) {
+      return { message: req.message, success: false };
+    }
+    return { message: "Password reset link sent to your email", success: true };
+  }
+  return { message: "Your email format is not true", success: false };
+
+}
+
+export async function changePassword(formdata: FormData) {
+  const new_password = formdata.get("new_password") as string;
+  const confirm_new_password = formdata.get("confirm_new_password") as string;
+  if (
+    (typeof new_password == "undefined" && !new_password) ||
+    (typeof confirm_new_password == "undefined" && !confirm_new_password)
+  ) {
+    return { message: "Please fill all data!!!", success: false };
+  }
+  if (new_password !== confirm_new_password) {
+    return { message: "New password and confirm new password do not match!!!", success: false };
+  } 
+  const req = await agent.Account.changePassword(formdata);
+  if (req.success == false) {
+    return { message: req.message, success: false };
+  }
+  return { message: "Password changed successfully", success: true };
+}
