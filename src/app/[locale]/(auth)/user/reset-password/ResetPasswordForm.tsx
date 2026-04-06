@@ -1,11 +1,11 @@
 "use client";
-import { changePassword, login } from "@/action/apiAction";
+import { login, resetPassword } from "@/action/apiAction";
 import ErrorMessage from "@/app/component/general/ErrorMessage";
 import LoadingPage from "@/app/component/general/Loading";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useState } from "react";
 
-export default function ChangePasswordForm() {
+export default function ResetPasswordForm() {
   const t = useTranslations("SignIn");
   const locale = useLocale();
 
@@ -17,10 +17,10 @@ export default function ChangePasswordForm() {
     setLoading(true);
 
     const formData = new FormData(event.currentTarget);
-    const result = await changePassword(formData);
+    const result = await resetPassword(formData);
 
     console.log("Result", result);
-    if (result.success === false) {
+    if (!result.success) {
       setMessage(result.message);
     }
     setLoading(false);
@@ -29,39 +29,61 @@ export default function ChangePasswordForm() {
     <form onSubmit={handleSubmit} className="space-y-6" method="POST">
       {isLoading ? <LoadingPage /> : <></>}
       <div>
-        <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
-          Current password
+        <label className="block text-xs  text-orange-500 mb-2  ">
+          please enter your email, code and new password to reset your password
         </label>
-        <input
-          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
-          id="current_password"
-          name="current_password"
-          placeholder="Current password"
-          type="password"
-        />
       </div>
       <div>
         <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
-          New password
+          {t("email")}
         </label>
         <input
           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
-          id="password"
-          name="password"
-          placeholder="New password"
-          type="password"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          type="email"
         />
       </div>
 
       <div>
         <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
-          Confirm new password
+          Code
+        </label>
+        <input
+          autoComplete="code"
+          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+          id="code"
+          name="code"
+          placeholder="Enter the 6-digit code sent to your email"
+          type="text"
+          maxLength={6}
+          minLength={6}
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
+          Password
+        </label>
+        <input
+          autoComplete="false"
+          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+          id="password"
+          name="password"
+          placeholder="Enter your new password"
+          type="password"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
+          Confirm password
         </label>
         <input
           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
           id="password_confirmation"
           name="password_confirmation"
-          placeholder="Confirm new password"
+          placeholder="Confirm your new password"
           type="password"
         />
       </div>
@@ -71,7 +93,7 @@ export default function ChangePasswordForm() {
         className="w-full bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 rounded-xl transition"
         type="submit"
       >
-        Change Password
+        Reset password
       </button>
     </form>
   );

@@ -1,8 +1,9 @@
 "use client";
-import { login } from "@/action/apiAction";
+import { forgotPassword, login } from "@/action/apiAction";
 import ErrorMessage from "@/app/component/general/ErrorMessage";
 import LoadingPage from "@/app/component/general/Loading";
 import { useLocale, useTranslations } from "next-intl";
+import { redirect } from "next/dist/server/api-utils";
 import React, { useState } from "react";
 
 export default function ForgotForm() {
@@ -17,11 +18,12 @@ export default function ForgotForm() {
     setLoading(true);
 
     const formData = new FormData(event.currentTarget);
-    const result = await login(formData);
+    const result = await forgotPassword(formData);
 
     console.log("Result", result);
-    if (result.error) {
+    if (!result.success) {
       setMessage(result.message);
+      setLoading(false);
     }
     setLoading(false);
   };
@@ -42,7 +44,7 @@ export default function ForgotForm() {
         />
       </div>
       <ErrorMessage message={message} />
-      
+
       <button
         className="w-full bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 rounded-xl transition"
         type="submit"
