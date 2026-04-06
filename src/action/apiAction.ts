@@ -203,3 +203,73 @@ export async function updateProfileImage(input: FormData | File) {
     throw error;
   }
 }
+
+export async function forgotPassword(formdata: FormData) {
+  const email = formdata.get("email") as string;
+  if (typeof email == "undefined" || !email) {
+    return { message: "Please fill all data!!!", success: false };
+  }
+  const result = new Validation().validateEmail(email);
+
+  if (result) {
+    const req = await agent.Account.forgotPassword(formdata);
+    if (req.success == false) {
+      return { message: req.message, success: false };
+    }
+    redirect("/user/reset-password");
+  }
+  return { message: "Your email format is not true", success: false };
+}
+
+export async function resetPassword(formdata: FormData) {
+  const email = formdata.get("email") as string;
+  const password = formdata.get("password") as string;
+  const password_confirmation = formdata.get("password_confirmation") as string;
+  if (
+    (typeof email == "undefined" && !email) ||
+    (typeof password == "undefined" && !password) ||
+    (typeof password_confirmation == "undefined" && !password_confirmation)
+  ) {
+    return { message: "Please fill all data!!!", success: false };
+  }
+  if (password !== password_confirmation) {
+    return {
+      message: "Password and confirm password do not match!!!",
+      success: false,
+    };
+  }
+  const result = new Validation().validateEmail(email);
+
+  if (result) {
+    const req = await agent.Account.resetpassword(formdata);
+    if (req.success == false) {
+      return { message: req.message, success: false };
+    }
+    redirect("/user/login");
+  }
+  return { message: "Your email format is not true", success: false };
+}
+
+export async function changePassword(formdata: FormData) {
+  const current_password = formdata.get("current_password") as string;
+  const password = formdata.get("password") as string;
+  const password_confirmation = formdata.get("password_confirmation") as string;
+  if (
+    (typeof current_password == "undefined" && !current_password) ||
+    (typeof password == "undefined" && !password) ||
+    (typeof password_confirmation == "undefined" && !password_confirmation)
+  ) {
+    return { message: "Please fill all data!!!", success: false };
+  }
+  if (password !== password_confirmation) {
+    return {
+      message: "New password and confirm new password do not match!!!",
+      success: false,
+    };
+  }
+  const req = await agent.Account.changePassword(formdata);
+  if (req.success == false) {
+    return { message: req.message, success: false };
+  }
+  redirect("/user/login");
+}
