@@ -12,6 +12,8 @@ import { Nanny } from "@/model/nany";
 import DoctorProfile from "./components/doctor/doctorprofile";
 import ChildProfile from "./components/parent/childprofile";
 import ChildList from "./components/parent/childlist";
+import { getDoctorByUserId } from "@/action/doctorApiAction";
+import { Doctor } from "@/model/doctor";
 
 async function getDataFromBarrer() {
   const req = await getProfile();
@@ -22,6 +24,7 @@ export default function ProfilePage() {
   const [userData, setUserData] = useState<Profile>();
   const [activeTab, setActiveTab] = useState("technicalInfo");
   const [nurseData, setNurseData] = useState<Nanny>();
+  const [doctorData, setDoctorData] = useState<Doctor>();
   const [selectedChildId, setSelectedChildId] = useState<number | null>(null);
 
   const handleEditChild = (childId: number) => {
@@ -32,13 +35,16 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const [profileData, nurseInfo] = await Promise.all([
+        const [profileData, nurseInfo, doctorInfo] = await Promise.all([
           getProfile(),
           getNuresByUserId(),
+          getDoctorByUserId(),
         ]);
         setUserData(profileData);
         setNurseData(nurseInfo);
-        if (!nurseInfo && profileData?.roles == "parent") {
+        setDoctorData(doctorInfo);
+
+        if (!nurseInfo &&  profileData?.roles == "parent") {
           setActiveTab("parenttechnicalInfo");
         } else if (!nurseInfo && profileData?.roles == "doctor") {
           setActiveTab("doctortechnicalInfo");
@@ -55,7 +61,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      {!nurseData && userData?.roles != "parent" && <DashboardTopMessage />}
+      {!nurseData && !doctorData && userData?.roles != "parent" && <DashboardTopMessage />}
 
       <section className="flex flex-col md:flex-row p-4 sm:p-6 md:p-8 mb-12 gap-6 md:gap-8">
         <LeftProfileSide userInfo={userData!} />

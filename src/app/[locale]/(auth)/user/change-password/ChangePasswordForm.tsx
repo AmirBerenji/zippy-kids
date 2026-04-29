@@ -1,11 +1,11 @@
 "use client";
-import { login } from "@/action/apiAction";
+import { changePassword, login } from "@/action/apiAction";
 import ErrorMessage from "@/app/component/general/ErrorMessage";
 import LoadingPage from "@/app/component/general/Loading";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useState } from "react";
 
-export default function LoginForm() {
+export default function ChangePasswordForm() {
   const t = useTranslations("SignIn");
   const locale = useLocale();
 
@@ -17,10 +17,10 @@ export default function LoginForm() {
     setLoading(true);
 
     const formData = new FormData(event.currentTarget);
-    const result = await login(formData);
+    const result = await changePassword(formData);
 
     console.log("Result", result);
-    if (result.error) {
+    if (result.success === false) {
       setMessage(result.message);
     }
     setLoading(false);
@@ -30,52 +30,48 @@ export default function LoginForm() {
       {isLoading ? <LoadingPage /> : <></>}
       <div>
         <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
-          {t("email")}
+          Current password
         </label>
         <input
-          autoComplete="email"
           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
-          id="email"
-          name="email"
-          placeholder="you@example.com"
-          type="email"
+          id="current_password"
+          name="current_password"
+          placeholder="Current password"
+          type="password"
         />
       </div>
       <div>
         <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
-          {t("password")}
+          New password
         </label>
         <input
-          autoComplete="current-password"
           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
           id="password"
           name="password"
-          placeholder={t("placeholder")}
+          placeholder="New password"
+          type="password"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-[#2f3e4e] mb-2">
+          Confirm new password
+        </label>
+        <input
+          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fdb68a] focus:border-transparent transition"
+          id="password_confirmation"
+          name="password_confirmation"
+          placeholder="Confirm new password"
           type="password"
         />
       </div>
       <ErrorMessage message={message} />
-      <div className="flex items-center justify-between">
-        <label className="inline-flex items-center text-sm text-gray-400">
-          <input
-            className="form-checkbox h-5 w-5 text-[#4f5c69] checked:border-orange-500"
-            name="remember"
-            type="checkbox"
-          />
-          <span className="ml-2 text-[#4f5c69]">{t("rememberMe")}</span>
-        </label>
-        <a
-          className="text-sm text-[#4f5c69] hover:underline"
-          href={`/${locale}/user/forgot-password`}
-        >
-          {t("forgotPassword")}
-        </a>
-      </div>
+
       <button
         className="w-full bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 rounded-xl transition"
         type="submit"
       >
-        {t("signinbtn")}
+        Change Password
       </button>
     </form>
   );

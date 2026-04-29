@@ -145,6 +145,12 @@ const Account = {
     requests.put<Profile>("user/update", profile),
   updateProfileImage: (image: FormData) =>
     requests.postForm<Profile>("user/photo", image),
+  forgotPassword: (formdata: FormData) =>
+    requests.post("user/forgot-password", formdata),
+  resetpassword: (formdata: FormData) =>
+    requests.post("user/reset-password", formdata),
+  changePassword: (formdata: FormData) =>
+    requests.post("user/change-password", formdata),
 };
 
 const Location = {

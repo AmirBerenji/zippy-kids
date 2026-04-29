@@ -26,7 +26,7 @@ export default function MainHeader({ user }: { user: any }) {
 
   return (
     <header className="flex items-center justify-between h-14 px-6 border-b border-gray-200 text-sm text-[#1f2a56]">
-      <div>Your Profile </div>
+      <div  className="text-gray-400 " >Welcome, <span >{user?.name || "User"}</span></div>
       <div className="flex items-center gap-6">
         {/* <button
           aria-label="Notifications"
