@@ -31,7 +31,8 @@ export default function DoctorCard(prop: Props) {
     transition-shadow duration-300 bg-white my-3  "
     >
       <Link
-        href={`/services/nurse-care/${prop.id}/profile?userid=${prop.userid}`}
+      
+        href={prop.isRegistered ? `/services/doctor/${prop.id}/profile?userid=${prop.userid}` : `/notregister`}
       >
         <img
           alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"

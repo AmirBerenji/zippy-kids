@@ -34,7 +34,7 @@ export default function NurseCard(prop: Props) {
 
 
    {prop.isRegistered ? (
-          <Link href={`/services/nurse-care/${prop.id}/profile?userid=${prop.userid}`}>
+          <Link href={prop.isRegistered ? `/services/nurse-care/${prop.id}/profile?userid=${prop.userid}` : `/notregister`}>
         <img
           alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"
           className="rounded-lg mb-4 w-50 h-50 object-cover m-auto"
