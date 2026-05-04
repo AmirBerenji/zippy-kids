@@ -48,10 +48,17 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 
   const fetchChildData = async () => {
     try {
+      const lat = localStorage.getItem("user_lat");
+      const lng = localStorage.getItem("user_lng");
+      console.log("User location from localStorage:", { lat, lng }); // Debug log
       setLoading(true);
       setError(null);
       console.log("Calling getchildByToken with:", childId); // Debug log
-      const childInfo = await getchildByToken(childId);
+      const childInfo = await getchildByToken(
+        childId,
+        lat?.toString(),
+        lng?.toString(),
+      );
       console.log("Received child data:", childInfo); // Debug log
       setChild(childInfo);
     } catch (err) {
@@ -166,6 +173,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
               <User size={48} className="text-white" />
             )}
           </div>
+
           <div className="text-center md:text-left">
             <h1 className="text-3xl font-bold">
               {child.name} {child.last_name}
