@@ -203,8 +203,12 @@ const DoctorApi = {
 const ChildApi = {
   checkChildId: (childId: string) =>
     requests.get<boolean>(`childes/checkregister/${childId}`),
-  getchildByToken: (childId: string) =>
-    requests.get<Child>(`childes/getchildbytoken/${childId}`),
+  getchildByToken: (childId: string, lat?: string, lng?: string) => {
+    const params = new URLSearchParams({ childtoken: childId });
+    if (lat) params.append("lat", lat);
+    if (lng) params.append("lng", lng);
+    return requests.get<Child>(`childes/getchildbytoken?${params.toString()}`);
+  },
   addChildProfile: (profile: FormData) =>
     requests.post<ChildFormData>("childes", profile),
   getchildByuser: () => requests.get<Child[]>(`childes`),
