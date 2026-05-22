@@ -57,7 +57,7 @@ export default function Doctorpage() {
                 image={
                   doctor?.image
                     ? `https://zippy.elrincondsabor.com/storage/app/public/${doctor?.image}`
-                    : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
+                    : "/assets/images/service/doctor-placeholder.jpg"
                 }
                 email={doctor.email}
                 isRegistered={register}
