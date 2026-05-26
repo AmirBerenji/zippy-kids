@@ -36,7 +36,7 @@ export default function DoctorCard(prop: Props) {
       >
         <img
           alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"
-          className="rounded-lg mb-4 w-50 h-50 object-cover m-auto"
+          className="rounded-lg mb-4 w-50 h-50 object-cover object-top m-auto"
           height="300"
           loading="lazy"
           src={prop.image}
