@@ -126,6 +126,8 @@ export default function ChildrenForm({
       if (formData.gender) formPayload.append("gender", formData.gender);
       if (formData.uuid) formPayload.append("uuid", formData.uuid);
       if (formData.image) formPayload.append("image", formData.image);
+      if (formData.description)
+        formPayload.append("description", formData.description);
 
       // ↓ Key difference: call different API based on mode
       const response = isEditMode
