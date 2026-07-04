@@ -31,8 +31,11 @@ export default function DoctorCard(prop: Props) {
     transition-shadow duration-300 bg-white my-3  "
     >
       <Link
-      
-        href={prop.isRegistered ? `/services/doctor/${prop.id}/profile?userid=${prop.userid}` : `/notregister`}
+        href={
+          prop.isRegistered
+            ? `/services/doctor/${prop.id}/profile?userid=${prop.userid}`
+            : `/notregister`
+        }
       >
         <img
           alt="Friendly female nurse with stethoscope smiling and interacting with children in a bright clinic room"
@@ -57,7 +60,14 @@ export default function DoctorCard(prop: Props) {
         Email: <span className={`${blurClass}`}>{prop.email} </span>
       </p>
 
-      <p className="text-[#2f3e4e] text-left">Bio: {prop.description}</p>
+      <p className="text-[#2f3e4e] text-left">
+        Bio:{" "}
+        {prop.description
+          ? prop.description.length > 40
+            ? `${prop.description.slice(0, 40)}...`
+            : prop.description
+          : ""}
+      </p>
 
       <p className="w-full items-center  justify-between flex mt-3 ">
         <StarRating

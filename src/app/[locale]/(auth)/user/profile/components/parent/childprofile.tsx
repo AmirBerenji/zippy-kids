@@ -24,6 +24,7 @@ const EMPTY_FORM: ChildFormData = {
   gender: "",
   uuid: "",
   image: null,
+  description: "",
 };
 
 export default function ChildrenForm({
@@ -69,6 +70,7 @@ export default function ChildrenForm({
           gender: child.gender ?? "",
           uuid: child.uuid ?? "",
           image: null, // can't prefill file input
+          description: child.description ?? "",
         });
         if (child.image_url) setImagePreview(child.image_url);
       } catch {
@@ -83,7 +85,7 @@ export default function ChildrenForm({
 
   // ─── Handlers (unchanged from your original) ──────────────────────────────
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement|HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -124,6 +126,8 @@ export default function ChildrenForm({
       if (formData.gender) formPayload.append("gender", formData.gender);
       if (formData.uuid) formPayload.append("uuid", formData.uuid);
       if (formData.image) formPayload.append("image", formData.image);
+      if (formData.description)
+        formPayload.append("description", formData.description);
 
       // ↓ Key difference: call different API based on mode
       const response = isEditMode
@@ -346,6 +350,24 @@ export default function ChildrenForm({
               placeholder="Enter tag id"
             />
           </div>
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Description <span className="text-xs text-orange-500">(Optional)</span>
+          </label>
+          <p className="text-xs text-gray-500 mb-2">
+            Add sensitive information about your child (allergies, medical conditions, etc.)
+          </p>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+            rows={5}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-y"
+            placeholder="Enter description"
+          />
         </div>
 
         {/* Submit */}

@@ -10,6 +10,7 @@ export interface ChildFormData {
   gender: string;
   uuid: string;
   image: File | null;
+  description: string;
 }
 
 export interface childMessage {
@@ -30,4 +31,5 @@ export interface Child {
   user: Profile;
   phone: string;
   image: File | null;
+  description: string;
 }
