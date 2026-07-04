@@ -1,6 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Phone, MapPin, Droplets, User, Calendar } from "lucide-react";
+import {
+  Phone,
+  MapPin,
+  Droplets,
+  User,
+  Calendar,
+  FileText,
+} from "lucide-react";
 import { Child } from "@/model/child";
 import { getchildByToken } from "@/action/parentApiAction";
 import LoadingPage from "@/app/component/general/Loading";
@@ -208,6 +215,18 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                 </label>
                 <p className="text-lg font-medium text-gray-700">
                   {child.user.name}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-3">
+              <FileText className="text-[#ff9a5a] mt-1" size={20} />
+              <div>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Sensetive information
+                </label>
+                <p className="text-xs font-medium text-gray-700 whitespace-pre-line">
+                  {child.description?.replace(/\r\n|\r/g, "\n") ||
+                    "No description available."}
                 </p>
               </div>
             </div>
