@@ -169,10 +169,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           <div className="w-24 h-24 bg-slate-600 rounded-full flex items-center justify-center border-4 border-slate-700 mb-4 md:mb-0">
             {child.image ? (
               <img
-                src={
-                  "https://zippy.elrincondsabor.com/storage/app/public/" +
-                  child.image
-                }
+                src={"https://zippy.elrincondsabor.com/storage/" + child.image}
                 alt="Child"
                 className="w-full h-full object-cover rounded-full"
               />

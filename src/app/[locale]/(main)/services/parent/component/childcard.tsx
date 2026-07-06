@@ -15,7 +15,7 @@ interface Props {
 export default function childCard(prop: Props) {
   const [isLoading, setLoading] = useState(true);
   const router = useRouter();
-console.log("childCard", prop.child);
+  console.log("childCard", prop.child);
   return (
     <div
       className="rounded-lg shadow-md p-3 flex flex-col lg:mx-2 md:mx-2
@@ -31,8 +31,7 @@ console.log("childCard", prop.child);
           loading="lazy"
           src={
             prop.child?.image
-              ? "https://zippy.elrincondsabor.com/storage/app/public/" +
-                prop.child.image
+              ? "https://zippy.elrincondsabor.com/storage/" + prop.child.image
               : "/assets/images/kids-sample.jpg"
           }
           width="400"
