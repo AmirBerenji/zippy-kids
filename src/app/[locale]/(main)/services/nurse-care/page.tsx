@@ -49,7 +49,7 @@ export default function Nursepage() {
               key={nurse.id}
               image={
                 nurse?.user?.photo
-                  ? `https://zippy.elrincondsabor.com/storage/app/public/${nurse.user.photo}`
+                  ? `https://zippy.elrincondsabor.com/storage/${nurse.user.photo}`
                   : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
               }
               title={nurse.translations[0].full_name || "Nurse Name"}

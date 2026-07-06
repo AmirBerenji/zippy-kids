@@ -210,8 +210,7 @@ export default function DoctorProfileClient(props: Props) {
           <img
             src={
               doctor.image
-                ? "https://zippy.elrincondsabor.com/storage/app/public/" +
-                  doctor.image
+                ? "https://zippy.elrincondsabor.com/storage/" + doctor.image
                 : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
             }
             alt={doctor.translations[0].name}
