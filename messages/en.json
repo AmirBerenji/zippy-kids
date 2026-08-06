@@ -90,6 +90,156 @@
       "sendMessageBtn": "Send Message"
     }
   },
+  "Subscription": {
+    "header": "Subscribe to",
+    "body": "Choose the plan that fits your family. Change or cancel it whenever you want.",
+    "billingCycle": "Billing cycle",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "yearlyBadge": "Pay yearly and get 2 months free",
+    "mostPopular": "Most popular",
+    "free": "Free",
+    "perMonth": "/ month",
+    "noCardNeeded": "No card needed",
+    "billedMonthly": "Billed monthly",
+    "billedYearly": "Billed {amount} per year",
+    "savingsNote": "You save {amount} a year",
+    "choosePlan": "Choose plan",
+    "getStarted": "Get started",
+    "selected": "Selected",
+    "subscribe": "Subscribe",
+    "continue": "Continue",
+    "includedTitle": "Included in every plan",
+    "included": {
+      "verified": {
+        "title": "Verified providers",
+        "description": "Every professional is checked before joining."
+      },
+      "multilingual": {
+        "title": "Three languages",
+        "description": "Use KidooHub in Armenian, Russian, or English."
+      },
+      "support": {
+        "title": "Real human support",
+        "description": "Our team answers you, not a bot."
+      },
+      "cancel": {
+        "title": "Cancel any time",
+        "description": "No lock-in — change or stop your plan whenever."
+      }
+    },
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "description": "Everything you need to explore KidooHub.",
+        "features": [
+          "Browse all verified providers",
+          "1 child profile",
+          "Standard search and filters",
+          "Community events calendar"
+        ]
+      },
+      "family": {
+        "name": "Family",
+        "description": "For parents who book care regularly.",
+        "features": [
+          "Everything in Starter",
+          "Unlimited child profiles",
+          "Direct booking and messaging",
+          "Reduced 2% service fee",
+          "Priority customer support"
+        ]
+      },
+      "premium": {
+        "name": "Premium",
+        "description": "Full support for busy families.",
+        "features": [
+          "Everything in Family",
+          "0% service fee on bookings",
+          "24/7 pediatric chat",
+          "Priority home visit scheduling",
+          "Early access to exclusive events"
+        ]
+      }
+    },
+    "Checkout": {
+      "header": "Complete your subscription with",
+      "body": "Enter your card details to activate your plan. You can cancel any time.",
+      "backToPlans": "Back to plans",
+      "cardDetails": "Card Details",
+      "cardNumber": "Card Number",
+      "cardHolder": "Name on Card",
+      "cardHolderPlaceholder": "ANNA SARGSYAN",
+      "expiry": "Expiry Date",
+      "cvc": "CVC",
+      "cvcHint": "3 digits on the back of your card.",
+      "orderSummary": "Order Summary",
+      "plan": "Plan",
+      "billingCycle": "Billing",
+      "pricePerMonth": "Price per month",
+      "savings": "Yearly saving",
+      "chargedToday": "Charged today",
+      "renewsMonthly": "Renews every month until you cancel.",
+      "renewsYearly": "Renews every year until you cancel.",
+      "securePayment": "Secure payment",
+      "securityNote": "Your card is processed by our payment provider. KidooHub never stores your card number.",
+      "cancelNote": "Cancel any time from your profile.",
+      "payNow": "Pay Now",
+      "errorCardNumber": "Please enter a valid card number.",
+      "errorCardHolder": "Please enter the name printed on your card.",
+      "errorExpiry": "Please enter a valid expiry date.",
+      "errorCvc": "Please enter a valid CVC.",
+      "errorGeneric": "The payment could not be completed. Please try again.",
+      "apiPending": "Payment gateway is not connected yet."
+    },
+    "termsNote": "By subscribing you agree to our",
+    "termsLink": "Terms & Policies",
+    "errorSelect": "Please choose a plan first."
+  },
+  "Payment": {
+    "header": "Checkout with",
+    "body": "Review your booking, choose how you would like to pay, and confirm. Your payment is processed securely.",
+    "bookingDetails": "Booking Details",
+    "date": "Date",
+    "time": "Start Time",
+    "duration": "Duration",
+    "hoursSuffix": "hours",
+    "decreaseHours": "Decrease hours",
+    "increaseHours": "Increase hours",
+    "payerDetails": "Your Details",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Your full name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "phonePlaceholder": "+374 00 000000",
+    "note": "Note for the provider (optional)",
+    "notePlaceholder": "Anything the provider should know...",
+    "paymentMethod": "Payment Method",
+    "card": "Credit / Debit Card",
+    "cardDescription": "Visa, Mastercard, ArCa. You will be redirected to your bank's secure page.",
+    "idram": "Idram",
+    "idramDescription": "Pay with your Idram wallet.",
+    "cash": "Cash on Service",
+    "cashDescription": "Pay the provider directly when the service is delivered.",
+    "orderSummary": "Order Summary",
+    "hourlyRate": "Hourly rate",
+    "subtotal": "Subtotal",
+    "serviceFee": "Service fee",
+    "total": "Total",
+    "securePayment": "Secure payment",
+    "securePaymentNote": "Card details are entered on your bank's page — KidooHub never stores them.",
+    "cancellationNote": "Free cancellation within 24 hours of booking.",
+    "termsLink": "Terms & Policies",
+    "payNow": "Pay Now",
+    "confirmBooking": "Confirm Booking",
+    "errorDate": "Please choose a date.",
+    "errorTime": "Please choose a start time.",
+    "errorFullName": "Please enter your full name.",
+    "errorEmail": "Please enter a valid email address.",
+    "errorPhone": "Please enter your phone number.",
+    "errorGeneric": "We could not start the payment. Please try again.",
+    "apiPending": "Payment gateway is not connected yet."
+  },
   "MainPage": {
     "AboutUs": {
       "aboutUs": "About Us",
