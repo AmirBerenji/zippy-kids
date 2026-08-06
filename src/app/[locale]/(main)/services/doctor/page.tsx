@@ -24,8 +24,7 @@ export default function Doctorpage() {
       const userData = await getDataFromBarrer();
       if (!userData) {
         setRegister(false);
-      }else
-      {
+      } else {
         setUserData(userData);
       }
     };
@@ -56,8 +55,8 @@ export default function Doctorpage() {
                 specialization={doctor.specialization}
                 image={
                   doctor?.image
-                    ? `https://zippy.elrincondsabor.com/storage/app/public/${doctor?.image}`
-                    : "https://www.cumbria.ac.uk/study/courses/undergraduate/childrens-nursing/ezgif.com-gif-maker-(13).webp"
+                    ? `https://zippy.elrincondsabor.com/storage/${doctor?.image}`
+                    : "/assets/images/service/doctor-placeholder.jpg"
                 }
                 email={doctor.email}
                 isRegistered={register}

@@ -1,6 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Phone, MapPin, Droplets, User, Calendar } from "lucide-react";
+import {
+  Phone,
+  MapPin,
+  Droplets,
+  User,
+  Calendar,
+  FileText,
+} from "lucide-react";
 import { Child } from "@/model/child";
 import { getchildByToken } from "@/action/parentApiAction";
 import LoadingPage from "@/app/component/general/Loading";
@@ -48,10 +55,17 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 
   const fetchChildData = async () => {
     try {
+      const lat = localStorage.getItem("user_lat");
+      const lng = localStorage.getItem("user_lng");
+      console.log("User location from localStorage:", { lat, lng }); // Debug log
       setLoading(true);
       setError(null);
       console.log("Calling getchildByToken with:", childId); // Debug log
-      const childInfo = await getchildByToken(childId);
+      const childInfo = await getchildByToken(
+        childId,
+        lat?.toString(),
+        lng?.toString(),
+      );
       console.log("Received child data:", childInfo); // Debug log
       setChild(childInfo);
     } catch (err) {
@@ -155,10 +169,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           <div className="w-24 h-24 bg-slate-600 rounded-full flex items-center justify-center border-4 border-slate-700 mb-4 md:mb-0">
             {child.image ? (
               <img
-                src={
-                  "https://zippy.elrincondsabor.com/storage/app/public/" +
-                  child.image
-                }
+                src={"https://zippy.elrincondsabor.com/storage/" + child.image}
                 alt="Child"
                 className="w-full h-full object-cover rounded-full"
               />
@@ -166,6 +177,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
               <User size={48} className="text-white" />
             )}
           </div>
+
           <div className="text-center md:text-left">
             <h1 className="text-3xl font-bold">
               {child.name} {child.last_name}
@@ -200,6 +212,18 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                 </label>
                 <p className="text-lg font-medium text-gray-700">
                   {child.user.name}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-3">
+              <FileText className="text-[#ff9a5a] mt-1" size={20} />
+              <div>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Sensetive information
+                </label>
+                <p className="text-xs font-medium text-gray-700 whitespace-pre-line">
+                  {child.description?.replace(/\r\n|\r/g, "\n") ||
+                    "No description available."}
                 </p>
               </div>
             </div>

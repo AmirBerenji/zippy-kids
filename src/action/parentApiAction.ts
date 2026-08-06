@@ -8,8 +8,8 @@ export async function checkChildId(childId: string) {
   return req?.data;
 }
 
-export async function getchildByToken(childId: string) {
-  const req = await agent.ChildApi.getchildByToken(childId);
+export async function getchildByToken(childId: string, lat?: string, lng?: string) {
+  const req = await agent.ChildApi.getchildByToken(childId, lat, lng);
   return req?.data;
 }
 

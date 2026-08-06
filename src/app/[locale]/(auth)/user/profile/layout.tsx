@@ -30,7 +30,7 @@ export default async function LocaleLayout({
       <UserProvider
         initialImage={
           userData?.photo
-            ? `https://zippy.elrincondsabor.com/storage/app/public/${userData.photo}`
+            ? `https://zippy.elrincondsabor.com/storage/${userData.photo}`
             : "https://storage.googleapis.com/a1aa/image/ba44c489-de91-426d-20e1-3e0d56e98f5f.jpg"
         }
       >

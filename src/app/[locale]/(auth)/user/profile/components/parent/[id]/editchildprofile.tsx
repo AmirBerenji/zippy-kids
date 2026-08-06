@@ -15,6 +15,7 @@ export default function EditChildrenForm() {
     gender: "",
     uuid: localStorage.getItem("childTagId") ?? "",
     image: null,
+    description: "",
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -109,6 +110,7 @@ export default function EditChildrenForm() {
           gender: "",
           uuid: "",
           image: null,
+          description: "",
         });
         setImagePreview(null);
         localStorage.removeItem("childTagId");
