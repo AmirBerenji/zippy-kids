@@ -86,6 +86,17 @@ export default function NavbarTopSide() {
             {t("services")}
           </Link>
 
+          {/* Shop is hidden from the menu for now. The pages stay live at
+              /{locale}/shop — uncomment to put the link back. */}
+          {/* <Link
+            href={`/${locale}/shop`}
+            className={`relative ${
+              isActive("/shop") ? "text-[#ff9a5a]" : "hover:text-[#ff9a5a]"
+            }`}
+          >
+            {t("shop")}
+          </Link> */}
+
           <Link
             href={`/${locale}/contact`}
             className={`relative ${

@@ -1,9 +1,10 @@
 "use client";
 
-import { getNurseListPage } from "@/action/nurseApiAction";
+import { getDoctorListPage } from "@/action/doctorApiAction";
 import StarRating from "@/app/component/general/StarRating";
-import { NannyDetails, NannyPagination } from "@/model/nany";
-import { ExternalLink, Plus, RefreshCw } from "lucide-react";
+import { DoctorDetails } from "@/model/doctor";
+import { Pagination as PaginationModel } from "@/model/general";
+import { ExternalLink, RefreshCw } from "lucide-react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -15,24 +16,15 @@ import {
   TableMessage,
 } from "../components/adminTableParts";
 
-/** The API stores the rate as free text — "1500" and "5000 AMD/hour" both occur. */
-function formatRate(rate?: string | null): string {
-  if (!rate) return "—";
-  const trimmed = rate.trim();
-  return /^\d+$/.test(trimmed)
-    ? `${new Intl.NumberFormat("en-US").format(Number(trimmed))} AMD`
-    : trimmed;
+function doctorName(doctor: DoctorDetails): string {
+  return doctor.name || doctor.translations?.[0]?.name || doctor.user?.name || "—";
 }
 
-function fullName(nurse: NannyDetails): string {
-  return nurse.translations?.[0]?.full_name || nurse.user?.name || "—";
-}
-
-export default function AdminNurseListPage() {
+export default function AdminDoctorListPage() {
   const locale = useLocale();
 
-  const [nurses, setNurses] = useState<NannyDetails[]>([]);
-  const [pagination, setPagination] = useState<NannyPagination | null>(null);
+  const [doctors, setDoctors] = useState<DoctorDetails[]>([]);
+  const [pagination, setPagination] = useState<PaginationModel | null>(null);
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const [isLoading, setLoading] = useState(true);
@@ -43,19 +35,19 @@ export default function AdminNurseListPage() {
     setError("");
 
     try {
-      const data = await getNurseListPage(targetPage);
-      if (!data?.nannies) {
-        setError("The nurse list could not be loaded. Please try again.");
-        setNurses([]);
+      const response = await getDoctorListPage(targetPage);
+      if (!Array.isArray(response?.data)) {
+        setError("The doctor list could not be loaded. Please try again.");
+        setDoctors([]);
         return;
       }
 
-      setNurses(data.nannies);
-      setPagination(data.pagination ?? null);
+      setDoctors(response.data);
+      setPagination(response.pagination ?? null);
     } catch (err) {
-      console.error("Error loading nurses:", err);
-      setError("The nurse list could not be loaded. Please try again.");
-      setNurses([]);
+      console.error("Error loading doctors:", err);
+      setError("The doctor list could not be loaded. Please try again.");
+      setDoctors([]);
     } finally {
       setLoading(false);
     }
@@ -68,64 +60,55 @@ export default function AdminNurseListPage() {
   // Searching filters the page already fetched — the endpoint has no `q` yet.
   const visible = useMemo(() => {
     const needle = query.trim().toLowerCase();
-    if (!needle) return nurses;
+    if (!needle) return doctors;
 
-    return nurses.filter((nurse) =>
+    return doctors.filter((doctor) =>
       [
-        fullName(nurse),
-        nurse.user?.email,
-        nurse.user?.phone,
-        nurse.translations?.[0]?.specialization,
-        nurse.location?.city,
+        doctorName(doctor),
+        doctor.email,
+        doctor.phone,
+        doctor.specialization,
+        doctor.license_number,
+        doctor.location?.city,
       ]
         .filter(Boolean)
         .some((field) => String(field).toLowerCase().includes(needle)),
     );
-  }, [nurses, query]);
+  }, [doctors, query]);
 
-  const verified = nurses.filter((nurse) => nurse.is_verified).length;
+  const active = doctors.filter((doctor) => doctor.status === "active").length;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-[#2f3e4e]">Nurses</h1>
+          <h1 className="text-2xl font-bold text-[#2f3e4e]">Doctors</h1>
           <p className="text-sm text-gray-500 mt-1">
-            {pagination?.total ?? nurses.length} registered ·{" "}
-            {verified} verified on this page
+            {pagination?.total ?? doctors.length} registered · {active} active on
+            this page
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={() => load(page)}
-            disabled={isLoading}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-300 bg-white text-[#2f3e4e] text-sm font-semibold hover:bg-gray-50 disabled:opacity-60 transition"
-          >
-            <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />
-            Refresh
-          </button>
-
-          <Link
-            href={`/${locale}/admin/nurse/addNurse`}
-            className="inline-flex items-center gap-2 bg-[#ff9a5a] hover:bg-orange-500 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-md transition"
-          >
-            <Plus className="w-4 h-4" />
-            Add nurse
-          </Link>
-        </div>
+        <button
+          type="button"
+          onClick={() => load(page)}
+          disabled={isLoading}
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-300 bg-white text-[#2f3e4e] text-sm font-semibold hover:bg-gray-50 disabled:opacity-60 transition self-start"
+        >
+          <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />
+          Refresh
+        </button>
       </div>
 
       <SearchBox
         value={query}
         onChange={setQuery}
-        placeholder="Search name, email, phone, specialization..."
+        placeholder="Search name, email, phone, specialization, licence..."
       />
 
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
         {isLoading ? (
-          <TableMessage>Loading nurses…</TableMessage>
+          <TableMessage>Loading doctors…</TableMessage>
         ) : error ? (
           <TableMessage tone="error">
             {error}
@@ -139,7 +122,7 @@ export default function AdminNurseListPage() {
           </TableMessage>
         ) : visible.length === 0 ? (
           <TableMessage>
-            {query ? "No nurse matches your search." : "No nurses yet."}
+            {query ? "No doctor matches your search." : "No doctors yet."}
           </TableMessage>
         ) : (
           <>
@@ -147,11 +130,12 @@ export default function AdminNurseListPage() {
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 text-left text-gray-500">
                   <tr>
-                    <th className="px-4 py-3 font-semibold">Nurse</th>
+                    <th className="px-4 py-3 font-semibold">Doctor</th>
                     <th className="px-4 py-3 font-semibold">Contact</th>
                     <th className="px-4 py-3 font-semibold">Specialization</th>
                     <th className="px-4 py-3 font-semibold">Experience</th>
-                    <th className="px-4 py-3 font-semibold">Rate</th>
+                    <th className="px-4 py-3 font-semibold">Location</th>
+                    <th className="px-4 py-3 font-semibold">Licence</th>
                     <th className="px-4 py-3 font-semibold">Rating</th>
                     <th className="px-4 py-3 font-semibold">Status</th>
                     <th className="px-4 py-3 font-semibold text-right">
@@ -160,24 +144,21 @@ export default function AdminNurseListPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {visible.map((nurse) => (
-                    <tr key={nurse.id} className="hover:bg-gray-50 transition">
+                  {visible.map((doctor) => (
+                    <tr key={doctor.id} className="hover:bg-gray-50 transition">
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3 min-w-0">
                           <Avatar
-                            src={nurse.user?.photo}
-                            name={fullName(nurse)}
+                            src={doctor.image}
+                            name={doctorName(doctor)}
                           />
                           <div className="min-w-0">
                             <p className="font-semibold text-[#2f3e4e] truncate">
-                              {fullName(nurse)}
+                              {doctorName(doctor)}
                             </p>
-                            <p className="text-xs text-gray-400">
-                              #{nurse.id}
-                              {nurse.gender ? ` · ${nurse.gender}` : ""}
-                              {nurse.languages?.length
-                                ? ` · ${nurse.languages.map((l) => l.name).join(", ")}`
-                                : ""}
+                            <p className="text-xs text-gray-400 truncate">
+                              #{doctor.id}
+                              {doctor.education ? ` · ${doctor.education}` : ""}
                             </p>
                           </div>
                         </div>
@@ -185,39 +166,41 @@ export default function AdminNurseListPage() {
 
                       <td className="px-4 py-3">
                         <p className="text-[#2f3e4e] truncate max-w-56">
-                          {nurse.user?.email || "—"}
+                          {doctor.email || "—"}
                         </p>
                         <p className="text-xs text-gray-400">
-                          {nurse.user?.phone || "—"}
+                          {doctor.phone || "—"}
                         </p>
                       </td>
 
                       <td className="px-4 py-3">
                         <p
-                          className="text-gray-600 line-clamp-2 max-w-64"
-                          title={
-                            nurse.translations?.[0]?.specialization ?? undefined
-                          }
+                          className="text-gray-600 line-clamp-2 max-w-56"
+                          title={doctor.specialization ?? undefined}
                         >
-                          {nurse.translations?.[0]?.specialization || "—"}
+                          {doctor.specialization || "—"}
                         </p>
                       </td>
 
                       <td className="px-4 py-3 whitespace-nowrap text-[#2f3e4e]">
-                        {nurse.years_experience != null
-                          ? `${nurse.years_experience} yrs`
+                        {doctor.experience_years != null
+                          ? `${doctor.experience_years} yrs`
                           : "—"}
                       </td>
 
-                      <td className="px-4 py-3 whitespace-nowrap font-semibold text-[#2f3e4e]">
-                        {formatRate(nurse.hourly_rate)}
+                      <td className="px-4 py-3 text-gray-600">
+                        {doctor.location?.city || "—"}
+                      </td>
+
+                      <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
+                        {doctor.license_number || "—"}
                       </td>
 
                       <td className="px-4 py-3">
-                        {nurse.reviews_count > 0 ? (
+                        {doctor.reviews_count > 0 ? (
                           <StarRating
-                            rating={nurse.average_rating}
-                            reviewCount={nurse.reviews_count}
+                            rating={doctor.average_rating}
+                            reviewCount={doctor.reviews_count}
                             size="sm"
                           />
                         ) : (
@@ -227,14 +210,14 @@ export default function AdminNurseListPage() {
 
                       <td className="px-4 py-3">
                         <StatusPill
-                          label={nurse.is_verified ? "Verified" : "Pending"}
-                          tone={nurse.is_verified ? "green" : "orange"}
+                          label={doctor.status === "active" ? "Active" : "Inactive"}
+                          tone={doctor.status === "active" ? "green" : "grey"}
                         />
                       </td>
 
                       <td className="px-4 py-3 text-right">
                         <Link
-                          href={`/${locale}/services/nurse-care/${nurse.id}/profile`}
+                          href={`/${locale}/services/doctor/${doctor.id}/profile`}
                           target="_blank"
                           className="inline-flex items-center gap-1.5 text-[#ff9a5a] font-semibold hover:underline whitespace-nowrap"
                         >
