@@ -8,6 +8,17 @@ import React from "react";
 interface Props {
   selected: PaymentMethod;
   onSelect: (method: PaymentMethod) => void;
+  /**
+   * Wording for flows that are not a provider booking — the shop, for example,
+   * calls `cash` "cash on delivery". Anything left out falls back to the
+   * booking copy in the `Payment` namespace.
+   */
+  labels?: {
+    title?: string;
+    methods?: Partial<
+      Record<PaymentMethod, { title: string; description: string }>
+    >;
+  };
 }
 
 const METHODS: {
@@ -36,18 +47,19 @@ const METHODS: {
   },
 ];
 
-export default function PaymentMethods({ selected, onSelect }: Props) {
+export default function PaymentMethods({ selected, onSelect, labels }: Props) {
   const t = useTranslations("Payment");
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
       <h2 className="text-xl font-bold text-[#2f3e4e] mb-6">
-        {t("paymentMethod")}
+        {labels?.title ?? t("paymentMethod")}
       </h2>
 
       <div className="space-y-3">
         {METHODS.map(({ key, icon: Icon, labelKey, descriptionKey }) => {
           const isActive = selected === key;
+          const override = labels?.methods?.[key];
           return (
             <label
               key={key}
@@ -72,10 +84,10 @@ export default function PaymentMethods({ selected, onSelect }: Props) {
               />
               <span className="flex-1">
                 <span className="block font-semibold text-[#2f3e4e]">
-                  {t(labelKey)}
+                  {override?.title ?? t(labelKey)}
                 </span>
                 <span className="block text-sm text-gray-500 mt-1">
-                  {t(descriptionKey)}
+                  {override?.description ?? t(descriptionKey)}
                 </span>
               </span>
             </label>

@@ -5,9 +5,11 @@ import {
   MIN_HOURS,
   ProviderType,
 } from "@/model/payment";
+import { MAX_QUANTITY, MIN_QUANTITY } from "@/model/product";
 import React from "react";
 import PaymentHeader from "./components/header";
 import PaymentClient from "./components/paymentClient";
+import ProductOrderClient from "./components/productOrderClient";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -50,12 +52,40 @@ function buildBookingDraft(params: SearchParams): BookingDraft {
   };
 }
 
+/**
+ * One checkout route, two kinds of order:
+ *
+ *   /payment?type=product&productId=3&qty=2   a shop purchase
+ *   /payment?providerType=nurse&...           a provider booking (the default)
+ *
+ * Only the id and the quantity arrive from the shop — the product itself, and
+ * with it the price, is resolved from the catalogue inside the client.
+ */
 export default async function PaymentPage({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
+
+  if (readParam(params, "type") === "product") {
+    const quantity = Number(readParam(params, "qty"));
+
+    return (
+      <>
+        <PaymentHeader />
+        <ProductOrderClient
+          productId={Number(readParam(params, "productId")) || 0}
+          quantity={
+            Number.isFinite(quantity) && quantity > 0
+              ? Math.min(Math.max(quantity, MIN_QUANTITY), MAX_QUANTITY)
+              : MIN_QUANTITY
+          }
+        />
+      </>
+    );
+  }
+
   const booking = buildBookingDraft(params);
 
   return (

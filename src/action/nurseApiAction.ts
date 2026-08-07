@@ -1,7 +1,7 @@
 "use server";
 
 import agent from "@/api/agent";
-import { Nanny } from "@/model/nany";
+import { Nanny, NannyListData } from "@/model/nany";
 
 export async function getLocation() {
   const req = await agent.Location.getLocations();
@@ -18,6 +18,14 @@ export async function addNuresProfile(profile: Nanny) {
 }
 export async function getNuresList(value: string) {
   const req = await agent.Nurse.getNurseList(value);
+  return req?.data;
+}
+
+/** Same call as `getNuresList`, typed and keeping the `pagination` block. */
+export async function getNurseListPage(
+  page: number,
+): Promise<NannyListData | undefined> {
+  const req = await agent.Nurse.getNurseList(`page=${page}`);
   return req?.data;
 }
 export async function getNuresById(id: number) {
